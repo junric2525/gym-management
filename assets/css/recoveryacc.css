@@ -1,0 +1,238 @@
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+body { 
+    font-family: 'Segoe UI', sans-serif; 
+    line-height: 1.6;
+    background: #f9fafb; 
+    color: #333; 
+}
+
+a { 
+    text-decoration: none; 
+}
+
+/* Header */
+.header { 
+    background: linear-gradient(90deg, #111, #f97316); 
+    padding: 15px 0; 
+    position: sticky; 
+    top: 0; 
+    z-index: 100; 
+    width: 100%;
+}
+
+.header-flex { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    max-width: 1200px;  
+    margin: 0 auto; 
+    padding: 0 20px;
+}
+
+.logo { 
+    display: flex; 
+    align-items: center; 
+}
+
+.logo-img { 
+    width: 45px; 
+    height: 45px; 
+    border-radius: 50%; 
+    margin-right: 10px; 
+    transition: transform 0.3s; 
+}
+
+.logo-img:hover { 
+    transform: scale(1.2); 
+}
+
+.logo-text { 
+    color: #fff; 
+    font-weight: bold; 
+    font-size: 20px; 
+}
+
+.nav-desktop {
+  display: none; /* hide desktop nav on mobile */
+}
+
+/* Desktop nav links/buttons */
+.nav-desktop a,
+.nav-desktop button {
+    color: #fff; 
+    margin: 0 10px; 
+    background: transparent; 
+    border: none; 
+    cursor: pointer;
+    font-weight: 500; 
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+    font: inherit;
+}
+
+.nav-desktop a:hover, 
+.nav-desktop button:hover { 
+    color: #ffd580;
+}
+
+/* Hamburger button (mobile) */
+.menu-btn { 
+    background: none;
+    border: none; 
+    color: #fff; 
+    font-size: 22px; 
+    cursor: pointer;
+    display: block; /* default mobile first */
+}
+
+/* Mobile nav dropdown */
+.nav-mobile {
+    display: none;             
+    background: #222;
+    flex-direction: column;
+    transition: max-height 0.4s ease;
+    position: relative;        
+    z-index: 99;               
+}
+
+.nav-mobile.show {
+    display: flex;             
+    max-height: 500px;         
+}
+
+/* Mobile links/buttons */
+.nav-mobile a,
+.nav-mobile button {
+    color: white;
+    padding: 10px 15px;
+    text-align: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Media Queries: Desktop view */
+@media (min-width: 769px) {
+    .nav-desktop { display: flex; }       /* show desktop nav */
+    .menu-btn { display: none; }          /* hide burger */
+    .nav-mobile { display: none !important; } /* hide mobile menu */
+}
+
+
+main.main-content {
+  flex: 1; /* pushes footer down if you add one */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.recovery-container {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  width: 350px;
+  text-align: center;
+}
+
+.recovery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.recovery-header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #111;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #555;
+}
+
+label {
+  display: block;
+  margin: 12px 0 6px;
+  text-align: left;
+  font-size: 14px;
+  color: #333;
+}
+
+input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.recover-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  background: #f97316;
+  border: none;
+  color: white;
+  font-size: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.recover-btn:hover {
+  background: #ea580c;
+}
+
+
+/* Footer */
+.footer { 
+    background: #111;
+    color: #ccc; 
+    padding: 60px 20px 20px; 
+}
+
+.footer-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 25px; 
+}
+
+.footer h3, .footer h4 { 
+    color: white; 
+    margin-bottom: 15px;
+ }
+
+.footer a { 
+    display: block; 
+    color: #ccc; 
+    margin-bottom: 8px; 
+    transition: 0.3s; 
+}
+
+.footer a:hover { 
+    color: #f97316; 
+}
+.footer-bottom {
+     text-align: center; 
+     margin-top: 20px;
+      font-size: 14px; 
+      border-top: 1px solid #333; 
+      padding-top: 15px; 
+}

@@ -1,0 +1,362 @@
+/*Reset + Base*/
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+}
+
+body { 
+  font-family: 'Segoe UI', sans-serif; 
+  line-height: 1.6;
+  background: #f9fafb; 
+  color: #333; 
+  
+}
+
+a { 
+  text-decoration: none; 
+}
+
+
+/* Header*/
+.header { 
+  background: linear-gradient(90deg, #111, #f97316); 
+  padding: 15px 0; 
+  position: sticky; 
+  top: 0; 
+  z-index: 100; 
+  width: 100%;
+}
+
+.header-flex { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  max-width: 1200px;  
+  margin: 0 auto; 
+  padding: 0 20px;
+}
+
+
+/*Logo*/
+.logo { 
+  display: flex; 
+  align-items: center; 
+}
+
+.logo-img { 
+  width: 45px; 
+  height: 45px; 
+  border-radius: 50%; 
+  margin-right: 10px; 
+  transition: transform 0.3s; 
+}
+
+.logo-img:hover { 
+  transform: scale(1.2); 
+}
+
+.logo-text { 
+  color: #fff; 
+  font-weight: bold; 
+  font-size: 20px; 
+}
+
+
+/* Desktop nav */
+.nav-desktop {
+  display: none; /* hidden on mobile */
+
+}
+
+.nav-desktop a {
+  color: #fff; 
+  margin-left: 20px; 
+  font-weight: 500%; 
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Give spacing between About Us and Profile */
+.nav-desktop .profile-dropdown {
+  margin-left: 30px; /* adjust value as you like */
+}
+
+
+.nav-desktop a:hover { color: #ffd580; }
+
+/* Mobile burger (profile icon) */
+.menu-btn { 
+  background: none;
+  border: none; 
+  color: #fff; 
+  font-size: 22px; 
+  cursor: pointer;
+  display: block;  
+}
+
+/* Mobile dropdown */
+.nav-mobile {
+  display: none;             
+  background: #222;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.nav-mobile.show { 
+  display: flex; 
+}
+
+.nav-mobile a {
+  color: #fff;
+  padding: 12px 20px;
+  border-bottom: 1px solid #333;
+}
+
+.nav-mobile a:hover { background: #333; }
+
+/* Desktop only */
+@media (min-width: 769px) {
+  .nav-desktop { display: flex; }  /* show nav inline */
+  .menu-btn { display: none; }     /* hide burger */
+  .nav-mobile { display: none !important; }
+}
+
+/* Profile dropdown */
+.profile-dropdown {
+  position: relative;
+}
+
+.profile-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.profile-btn:hover { color: #ffd580; }
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: #222;
+  border-radius: 6px;
+  min-width: 160px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  flex-direction: column;
+  z-index: 999;
+}
+
+.dropdown-menu a {
+  color: #fff;
+  padding: 10px 15px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-menu a:hover {
+  background: #333;
+}
+
+.profile-dropdown.show .dropdown-menu {
+  display: flex;
+}
+
+
+/*MEDIA QUERIES*/
+@media (min-width: 769px) {
+  .nav-desktop { display: flex; }   /* show desktop nav */
+  .menutab-btn { display: inline-block; } /* show profile on desktop */
+  .menu-btn { display: none; }      /* hide burger on desktop */
+  .nav-mobile { display: none !important; } /* always hide mobile menu */
+}
+
+/* Burger Menu inside profile container */
+.burger-menu-container {
+  position: relative; /* important for alignment */
+  display: flex; 
+  justify-content: flex-end;
+}
+
+.burger-btn {
+  background: #f97316;
+  border: none;
+  color: #fff;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.burger-btn:hover {
+  background: #ea580c;
+}
+
+/* Dropdown menu for burger button */
+.burger-nav {
+  display: none;
+  position: absolute;
+  top: 100%; /* appear directly below the button */
+  right: 0;
+  left: auto;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  min-width: 220px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  flex-direction: column;
+  z-index: 100;
+}
+
+.burger-nav a {
+  padding: 12px 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #333;
+  font-weight: 500;
+  border-bottom: 1px solid #eee;
+}
+
+.burger-nav a:last-child {
+  border-bottom: none;
+}
+
+.burger-nav a:hover {
+  background: #f97316;
+  color: #fff;
+}
+
+/* Show menu when active */
+.burger-nav.show {
+  display: flex;
+}
+
+/* Profile Card */
+.profile-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 20px;
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+/* Profile Info */
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #f97316;
+  object-fit: cover;
+}
+
+.profile-info .info p {
+  margin: 6px 0;
+  font-size: 16px;
+}
+
+/* Membership Details */
+.membership-details {
+  background: #f9f9f9;
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.membership-details h3 {
+  color: #f97316;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.membership-details p {
+  margin: 5px 0;
+}
+
+/* Edit Profile Button */
+.btn-edit {
+  background: #f97316;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-edit:hover {
+  background: #ea580c;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: black;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  padding: 10px;
+  z-index: 1000;
+}
+
+.dropdown-menu.show {
+  display: block; /* only toggle this */
+}
+
+
+
+/* Footer */
+.footer { 
+    background: #111;
+    color: #ccc; 
+    padding: 60px 20px 20px; 
+}
+
+.footer-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 25px; 
+}
+
+.footer h3, .footer h4 { 
+    color: white; 
+    margin-bottom: 15px;
+ }
+
+.footer a { 
+    display: block; 
+    color: #ccc; 
+    margin-bottom: 8px; 
+    transition: 0.3s; 
+}
+
+.footer a:hover { 
+    color: #f97316; 
+}
+.footer-bottom {
+     text-align: center; 
+     margin-top: 20px;
+      font-size: 14px; 
+      border-top: 1px solid #333; 
+      padding-top: 15px; 
+}

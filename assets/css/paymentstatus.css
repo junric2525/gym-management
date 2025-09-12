@@ -1,0 +1,252 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* BODY */
+body {
+  background: #f5f5f5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+.header { 
+  background: linear-gradient(90deg, #111, #f97316); 
+  padding: 15px 30px; 
+  position: sticky; 
+  top: 0; 
+  z-index: 100; 
+  width: 100%;
+}
+
+.header-flex { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  max-width: 1200px;  
+  margin: 0 auto; 
+  padding: 0 20px;
+}
+
+/* Logo */
+.logo { 
+  display: flex; 
+  align-items: center; 
+  gap: 10px;
+}
+
+.logo-img { 
+  width: 45px; 
+  height: 45px; 
+  border-radius: 50%; 
+  transition: transform 0.3s; 
+}
+
+.logo-img:hover { 
+  transform: scale(1.2); 
+}
+
+.logo-text { 
+  color: #fff; 
+  font-weight: bold; 
+  font-size: 20px; 
+}
+
+/* Profile Dropdown */
+.profile-dropdown {
+  position: relative;
+}
+
+.profile-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.profile-btn:hover { 
+  color: #ffd580; 
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: #222;
+  border-radius: 6px;
+  min-width: 160px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  flex-direction: column;
+  z-index: 999;
+}
+
+.dropdown-menu a {
+  color: #fff;
+  padding: 10px 15px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-menu a:hover {
+  background: #333;
+}
+
+.profile-dropdown.show .dropdown-menu {
+  display: flex;
+}
+
+/*DASHBOARD LAYOUT*/
+.dashboard-container {
+  display: flex;
+  flex: 1;          /* allows it to expand */
+  min-height: 0;    /* prevents overflow issue */
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background: linear-gradient(90deg, #111, #f97316);
+  color: #fff;
+  padding-top: 20px;
+  min-height: calc(100vh - 60px);
+}
+
+.sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar li {
+  transition: 0.2s;
+}
+
+/* Sidebar links */
+.sidebar li a {
+  display: block;          
+  padding: 15px 20px;
+  color: #fff;             
+  text-decoration: none;   
+  transition: background 0.3s;
+}
+
+/* Hover + Active */
+.sidebar li a:hover,
+.sidebar li.active a,
+.sidebar li a.active {
+  background: #e39b16;     
+  font-weight: bold;
+}
+
+/* MAIN CONTENT*/
+.main-content {
+  flex: 1;
+  padding: 30px;
+  overflow-x: auto;
+  background: #f5f5f5;
+}
+
+/* Search Bar */
+.table-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+}
+
+.search-bar {
+  display: flex;
+  gap: 10px;
+}
+
+.search-bar input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.search-bar button {
+  background: #f97316;
+  border: none;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+/* Table Container */
+.table-container {
+  max-width: 800px;   /* control table width */
+  margin: 0 auto;     /* center horizontally */
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Payment Table */
+.payment-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.payment-table th, 
+.payment-table td {
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.payment-table th {
+  background: #ddd;
+}
+
+/*FOOTER*/
+.footer { 
+    background: #111;
+    color: #ccc; 
+    padding: 60px 20px 20px; 
+    margin-top: auto;   /* pushes footer to bottom */
+}
+
+.footer-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 25px; 
+}
+
+.footer h3, 
+.footer h4 { 
+    color: white; 
+    margin-bottom: 15px;
+}
+
+.footer a { 
+    display: block; 
+    color: #ccc; 
+    margin-bottom: 8px; 
+    transition: 0.3s; 
+}
+
+.footer a:hover { 
+    color: #f97316; 
+}
+
+.footer-bottom {
+     text-align: center; 
+     margin-top: 20px;
+     font-size: 14px; 
+     border-top: 1px solid #333; 
+     padding-top: 15px; 
+} 

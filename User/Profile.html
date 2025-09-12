@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gym Member Profile</title>
+  <link rel="stylesheet" href="../assets/css/profile.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+     <!-- Header -->
+  <header class="header">
+    <div class="container header-flex">
+
+      <!-- Logo -->
+      <div class="logo">
+        <img src="../assets/img/logo.png" alt="Logo" class="logo-img" />
+        <h1 class="logo-text">Charles Gym</h1>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <nav class="nav-desktop">
+        <a href="User.html"><i class="fas fa-home"></i> Home</a>
+        <a href="User.html#services"><i class="fas fa-dumbbell"></i> Services</a>
+        <a href="MemberRegister.html"><i class="fas fa-id-card"></i> Membership Registration</a>
+        <a href="User.html#about"><i class="fas fa-info-circle"></i> About Us</a>
+
+        <!-- Profile Dropdown -->
+        <div class="profile-dropdown">
+          <button class="profile-btn">
+            <i class="fas fa-user"></i> <i class="fas fa-caret-down"></i>
+          </button>
+          <div class="dropdown-menu">
+            <a href="Profile.html"><i class="fas fa-user"></i> Profile</a>
+            <a href="../Guest/Index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button onclick="toggleMenu()" class="menu-btn">
+        <i class="fas fa-user"></i>
+      </button>
+
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobileMenu" class="nav-mobile">
+      <a href="User.html"><i class="fas fa-home"></i> Home</a>
+      <a href="User.html#services"><i class="fas fa-dumbbell"></i> Services</a>
+      <a href="MemberRegister.html"><i class="fas fa-id-card"></i> Membership Registration</a>
+      <a href="User.html#about"><i class="fas fa-info-circle"></i> About Us</a>
+      <a href="Profile.html"><i class="fas fa-user"></i> Profile</a>
+      <a href="../Guest/Index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </header>
+
+<main class="profile-container" id="profile"> 
+  
+  <div class="profile-card">
+    <h1>My Profile</h1>
+
+        <div class="burger-menu-container">
+        <button id="burgerBtn" class="burger-btn">
+          <i class="fas fa-bars"></i> Menu
+        </button>
+        <nav id="burgerNav" class="burger-nav">
+          <a href="Subscription.html"><i class="fas fa-credit-card"></i> Subscription</a>
+          <a href="Renewal.html"><i class="fas fa-sync-alt"></i> Renewal</a>
+          <a href="CoachAppointment.html"><i class="fas fa-calendar-check"></i> Coach Appointment</a>
+          <a href="Gymevalchoice.html"><i class="fas fa-dumbbell"></i> Gym Evaluation</a>
+          <a href="Invoice.html"><i class="fas fa-file-invoice"></i> Invoice</a>
+        </nav>
+      </div>
+
+        
+        <div class="profile-info">
+      <img src="../assets/img/maurice.jpg" alt="Profile Picture" class="profile-pic">
+      <div class="info">
+        <p><strong>Name:</strong> <span id="profileName"></span></p>
+        <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+        <p><strong>Contact:</strong> <span id="profileContact"></span></p>
+        <p><strong>Date of Birth:</strong> <span id="profileDob"></span></p>
+        <p><strong>Address:</strong> <span id="profileAddress"></span></p>
+      </div>
+    </div>
+
+
+    <div class="membership-details">
+      <h3>Membership Details</h3>
+      <p><strong>Start Date:</strong> 2025-01-01</p>
+      <p><strong>Expiry Date:</strong> 2025-12-31</p>
+      <p><strong>Status:</strong> Active</p>
+    </div>
+
+    <button id="editProfileBtn" class="btn-edit"><i class="fas fa-edit"></i> Edit Profile</button>
+  </div>
+</main>
+
+
+  
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-about">
+        <h3>CHARLES GYM</h3>
+        <p>World-class fitness training in a supportive and motivating environment.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <a href="#home">Home</a>
+        <a href="#about">About Us</a>
+        <a href="#services">Services</a>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact Us</h4>
+        <p>📍 Unit 21, Landsdale Tower, QC</p>
+        <p>📞 (555) 123-4567</p>
+        <p>✉ charlesgym@gmail.com</p>
+      </div>
+    </div>
+    <div class="footer-bottom">© <span id="footerYear"></span> Charles Gym. All rights reserved.</div>
+  </footer>
+
+  <script src="../assets/js/profile.js"></script>
+</body>
+</html>

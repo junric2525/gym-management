@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Performance Analytics - Charles Gym</title>
+  <link rel="stylesheet" href="../assets/css/performanceanalytics.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+ <!-- Header -->
+  <header class="header">
+    <div class="container header-flex">
+      <div class="logo">
+        <img src="../assets/img/logo.png" alt="Logo" class="logo-img" />
+        <h1 class="logo-text">Charles Gym</h1>
+      </div>
+
+      <!-- Profile Dropdown -->
+      <div class="profile-dropdown">
+        <button class="profile-btn">
+          <i class="fas fa-user"></i> <i class="fas fa-caret-down"></i>
+        </button>
+        <div class="dropdown-menu">
+          <a href="AdminDashboard.html"><i class="fas fa-home"></i> Home</a>
+          <a href="../Guest/Index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+  <aside class="sidebar">
+    <ul>
+      <li><a href="Attendance.html">Attendance monitoring</a></li>
+      <li><a href="MemberManage.html">Membership management</a></li>
+      <li><a href="paymentstatus.html">Payment Status</a></li>
+      <li><a href="coach-staff.html">Coach/staff management</a></li>
+      <li><a href="UpdatingPromo.html">Updating Event/Promo</a></li>
+      <li class="active"><a href="analytics.html">Performance Analytics</a></li>
+      <!-- <li><a href="report.html">Generating report</a></li> -->
+    </ul>
+  </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+      <div class="toolbar">
+        <div class="btn-group">
+          <button class="tab-btn active">Coach</button>
+          <button class="tab-btn" onclick="window.location.href='performanceanalcoach.html'">Gym</button>
+        </div>
+        <div class="search-bar">
+          <input type="text" id="searchInput" placeholder="Search feedback...">
+          <button onclick="searchFeedback()"><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="staff-table-container">
+        <h2>Performance Analytics</h2>
+        <table class="staff-table" id="feedbackTable">
+          <thead>
+            <tr>
+              <th>Member ID</th>
+              <th>Stars</th>
+              <th>Feedback</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>01230001</td>
+              <td>5</td>
+              <td>I like the ambiance</td>
+              <td>12/8/2025</td>
+            </tr>
+            <tr>
+              <td>01250003</td>
+              <td>5</td>
+              <td>It is a good environment</td>
+              <td>12/8/2025</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+
+
+  <footer class="footer">
+  <div class="footer-grid">
+
+    <!-- About / Brand -->
+    <div class="footer-brand">
+      <h3>CHARLES GYM</h3>
+      <p>World-class fitness training in a supportive and motivating environment.</p>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <a href="#">Home</a>
+      <a href="#">About Us</a>
+      <a href="#">Services</a>
+    </div>
+
+    <!-- Contact Info -->
+    <div class="footer-contact">
+      <h4>Contact Us</h4>
+      <p>📍 Unit 21, Landsdale Tower, QC</p>
+      <p>📞 (555) 123-4567</p>
+      <p>✉️ charlesgym@gmail.com</p>
+    </div>
+
+  </div>
+
+  <!-- Footer Bottom -->
+  <div class="footer-bottom">
+    © Charles Gym. All rights reserved.
+  </div>
+</footer>
+  <script src="../assets/js/performanceanalytics.js"></script>
+</body>
+</html>

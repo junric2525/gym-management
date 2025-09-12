@@ -1,0 +1,261 @@
+/* Reset + Base */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+body { 
+    font-family: 'Segoe UI', sans-serif; 
+    line-height: 1.6;
+    background: #f9fafb; 
+    color: #333; 
+}
+
+a { 
+    text-decoration: none; 
+}
+
+/* Header */
+.header { 
+    background: linear-gradient(90deg, #111, #f97316); 
+    padding: 15px 0; 
+    position: sticky; 
+    top: 0; 
+    z-index: 100; 
+    width: 100%;
+}
+
+.header-flex { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    max-width: 1200px;  
+    margin: 0 auto; 
+    padding: 0 20px;
+}
+
+.logo { 
+    display: flex; 
+    align-items: center; 
+}
+
+.logo-img { 
+    width: 45px; 
+    height: 45px; 
+    border-radius: 50%; 
+    margin-right: 10px; 
+    transition: transform 0.3s; 
+}
+
+.logo-img:hover { 
+    transform: scale(1.2); 
+}
+
+.logo-text { 
+    color: #fff; 
+    font-weight: bold; 
+    font-size: 20px; 
+}
+
+.nav-desktop {
+  display: none; /* hide desktop nav on mobile */
+}
+
+/* Desktop nav links/buttons */
+.nav-desktop a,
+.nav-desktop button {
+    color: #fff; 
+    margin: 0 10px; 
+    background: transparent; 
+    border: none; 
+    cursor: pointer;
+    font-weight: 500; 
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+    font: inherit;
+}
+
+.nav-desktop a:hover, 
+.nav-desktop button:hover { 
+    color: #ffd580;
+}
+
+/* Hamburger button (mobile) */
+.menu-btn { 
+    background: none;
+    border: none; 
+    color: #fff; 
+    font-size: 22px; 
+    cursor: pointer;
+    display: block; /* default mobile first */
+}
+
+/* Mobile nav dropdown */
+.nav-mobile {
+    display: none;             
+    background: #222;
+    flex-direction: column;
+    transition: max-height 0.4s ease;
+    position: relative;        
+    z-index: 99;               
+}
+
+.nav-mobile.show {
+    display: flex;             
+    max-height: 500px;         
+}
+
+/* Mobile links/buttons */
+.nav-mobile a,
+.nav-mobile button {
+    color: white;
+    padding: 10px 15px;
+    text-align: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Media Queries: Desktop view */
+@media (min-width: 769px) {
+    .nav-desktop { display: flex; }       /* show desktop nav */
+    .menu-btn { display: none; }          /* hide burger */
+    .nav-mobile { display: none !important; } /* hide mobile menu */
+}
+
+
+
+.signin-container {
+  display: flex;
+  width: 700px;
+  max-width: 95%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+
+  /* Center horizontally and vertically */
+  position: relative;  /* or absolute/fixed if you want overlay effect */
+  margin: 50px auto;   /* horizontal centering */
+
+}
+
+/* Left side */
+.signin-left {
+  flex: 1;
+  background: linear-gradient(180deg, #111, #f97316);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  text-align: center;
+}
+
+.signin-left img {
+  width: 220px;
+  margin-bottom: 20px;
+}
+
+.signin-left h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.signin-left p {
+  font-size: 18px;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+/* Right side */
+.signin-right {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.signin-right input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.signin-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  background: black;
+  color: white;
+  transition: 0.3s;
+}
+
+.signin-btn:hover {
+  background: #d96210;
+}
+
+/* Footer */
+.footer { 
+    background: #111;
+    color: #ccc; 
+    padding: 60px 20px 20px; 
+}
+
+.footer-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 25px; 
+}
+
+.footer h3, .footer h4 { 
+    color: white; 
+    margin-bottom: 15px;
+ }
+
+.footer a { 
+    display: block; 
+    color: #ccc; 
+    margin-bottom: 8px; 
+    transition: 0.3s; 
+}
+
+.footer a:hover { 
+    color: #f97316; 
+}
+.footer-bottom {
+     text-align: center; 
+     margin-top: 20px;
+      font-size: 14px; 
+      border-top: 1px solid #333; 
+      padding-top: 15px; 
+}
