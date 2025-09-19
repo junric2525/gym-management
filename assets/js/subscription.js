@@ -41,7 +41,14 @@ gcashForm.addEventListener("submit", (e) => {
 
   const referenceNumber = referenceInput.value.trim();
   if (referenceNumber === "") {
-    alert("⚠ Please enter a reference number.");
+    alert("⚠ Please enter a reference number."); 
+    return;
+  }
+
+   // Check if it's exactly 13 digits
+  const refPattern = /^\d{13}$/; 
+  if (!refPattern.test(referenceNumber)) {
+    alert("⚠ Reference number must be exactly 13 digits.");
     return;
   }
 

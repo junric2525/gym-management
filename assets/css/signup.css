@@ -4,6 +4,7 @@
     padding: 0; 
     box-sizing: border-box; 
 }
+
 body { 
     font-family: 'Segoe UI', sans-serif; 
     line-height: 1.6;
@@ -14,213 +15,514 @@ body {
 a { 
     text-decoration: none; 
 }
+
 /* Header */
 .header { 
-  background: linear-gradient(90deg, #111, #f97316); 
-  padding: 15px 0; 
-  position: sticky; 
-  top: 0; 
-  z-index: 100; 
-  width: 100%;
+    background: linear-gradient(90deg, #111, #f97316); 
+    padding: 15px 0; 
+    position: sticky; 
+    top: 0; 
+    z-index: 100; 
+    width: 100%;
 }
 
 .header-flex { 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  max-width: 1200px;     /* keeps content centered */
-  margin: 0 auto; 
-  padding: 0 20px;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    max-width: 1200px;  
+    margin: 0 auto; 
+    padding: 0 20px;
 }
 
 .logo { 
-  display: flex; 
-  align-items: center; 
+    display: flex; 
+    align-items: center; 
 }
 
 .logo-img { 
-  width: 45px; 
-  height: 45px; 
-  border-radius: 50%; 
-  margin-right: 10px; 
-  transition: transform 0.3s; 
+    width: 45px; 
+    height: 45px; 
+    border-radius: 50%; 
+    margin-right: 10px; 
+    transition: transform 0.3s; 
 }
 
 .logo-img:hover { 
-  transform: scale(1.2); 
+    transform: scale(1.2); 
 }
 
 .logo-text { 
-  color: #fff; 
-  font-weight: bold; 
-  font-size: 20px; 
+    color: #fff; 
+    font-weight: bold; 
+    font-size: 20px; 
 }
 
 .nav-desktop {
   display: none; /* hide desktop nav on mobile */
 }
 
-/* Desktop nav */
+/* Desktop nav links/buttons */
 .nav-desktop a,
 .nav-desktop button {
-  color: #fff; 
-  margin: 0 10px; 
-  background: transparent; 
-  border: none; 
-  cursor: pointer;
-  font-weight: 500; 
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 0;
-  font: inherit;
+    color: #fff; 
+    margin: 0 10px; 
+    background: transparent; 
+    border: none; 
+    cursor: pointer;
+    font-weight: 500; 
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+    font: inherit;
 }
 
 .nav-desktop a:hover, 
 .nav-desktop button:hover { 
-  color: #ffd580;
+    color: #ffd580;
 }
 
-/* Hamburger button - mobile */
+/* Hamburger button (mobile) */
 .menu-btn { 
-  background: none;
-  border: none; 
-  color: #fff; 
-  font-size: 22px; 
-  cursor: pointer;
-  display: block; /* mobile first */
+    background: none;
+    border: none; 
+    color: #fff; 
+    font-size: 22px; 
+    cursor: pointer;
+    display: block; /* default mobile first */
 }
 
 /* Mobile nav dropdown */
 .nav-mobile {
-  display: none;             
-  background: #222;
-  flex-direction: column;
-  position: absolute;
-  top: 100%;
-  right: 0;
-  width: 200px;
-  z-index: 99;
+    display: none;             
+    background: #222;
+    flex-direction: column;
+    transition: max-height 0.4s ease;
+    position: relative;        
+    z-index: 99;               
 }
 
 .nav-mobile.show {
-  display: flex;             
+    display: flex;             
+    max-height: 500px;         
 }
 
+/* Mobile links/buttons */
 .nav-mobile a,
 .nav-mobile button {
-  color: white;
-  padding: 10px 15px;
-  text-align: left;
-  border: none;
-  background: none;
-  cursor: pointer;
-  width: 100%;
-  box-sizing: border-box;
+    color: white;
+    padding: 10px 15px;
+    text-align: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* Media Queries */
+/* Media Queries: Desktop view */
 @media (min-width: 769px) {
-  .nav-desktop { display: flex; }       
-  .menu-btn { display: none; }          
-  .nav-mobile { display: none !important; } 
+    .nav-desktop { display: flex; }       /* show desktop nav */
+    .menu-btn { display: none; }          /* hide burger */
+    .nav-mobile { display: none !important; } /* hide mobile menu */
 }
 
-
-
-/* Container */
 .signup-container {
-  width: 100%;
-  max-width: 450px;
-  padding: 20px;
-  margin: 30px auto 40px; /* pushes below header */
-  flex: 1;                 /* allow centering */
   display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative; /* added so close-btn positions correctly */
+  justify-content: center; /* horizontal center */
+  align-items: center;     /* vertical center */
+  min-height: calc(100vh - 60px); /* full viewport minus header height */
+  padding: 0 20px;        /* optional horizontal padding */
+  background: #f4f6f9;    
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
+.signup-card {
+  position: relative;
+  background: #fff;
+  padding: 35px;
+  border-radius: 12px;
+  max-width: 480px;
+  width: 100%;
+  border: 2px solid #ccc;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Close Button */
 .close-btn {
   position: absolute;
-  top: 40px;
+  top: 10px;
   right: 10px;
+  background: #fff;           /* ensures it’s visible over the card */
+  border: 1px solid #ccc;     /* optional: border around the button */
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  line-height: 28px;
+  text-align: center;
+  cursor: pointer;
+  color: #666;
+  z-index: 11;                /* above the signup-card */
+}
+.close-btn:hover {
+  color: #f97316;
+  border-color: #f97316;      /* hover border effect */
+}
+
+
+
+.signup-card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .logo-img { width: 35px; height: 35px; }
+  .logo-text { font-size: 18px; }
+  .nav-mobile { width: 100%; }
+}
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
   background: none;
   border: none;
   font-size: 24px;
   cursor: pointer;
+  color: #666;
+  z-index: 1;
+}
+.close-btn:hover {
+  color: #f97316;
 }
 
-/* Card */
-.signup-card {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-}
-
-/* Title */
-.signup-card h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: #111;
-}
-
-/* Form */
+/* Form Layout */
 .form-row {
   display: flex;
-  gap: 1rem;
+  gap: 15px;
 }
 
 .form-group {
   flex: 1;
   display: flex;
   flex-direction: column;
+  margin-bottom: 15px;
 }
 
-label {
-  font-weight: 600;
-  margin-bottom: 5px;
-  color: #000;
-}
-
-input {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
-}
-
-/* Button */
-.submit-btn {
-  margin-top: 1rem;
-  background: #f97316;
-  color: #fff;
-  padding: 12px;
-  font-size: 16px;
+.form-group label { 
+  margin-bottom: 6px;
   font-weight: bold;
-  border: none;
+  font-size: 14px;
+  color: #333;
+  display: flex;
+  align-items: center;
+}
+
+/* Inputs */
+.form-group input {
+  padding: 12px;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s;
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   width: 100%;
 }
 
-.submit-btn:hover {
-  background: #e65c00;
+.form-group input:focus {
+  border-color: #e65c00;
+  box-shadow: 0 0 6px rgba(247, 179, 140, 0.3);
+  outline: none;
 }
 
-/* Error message */
+.password-container {
+  position: relative;
+}
+
+.password-container input {
+  width: 100%;
+  padding-right: 40px; /* space for eye icon */
+}
+
+/* Eye icon (show/hide password) */
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888; /* default color */
+  font-size: 16px;
+  z-index: 10; /* stays above input */
+  transition: color 0.2s ease;
+}
+
+.toggle-password:hover {
+  color: #f97316; /* change color on hover */
+}
+
+/* Optional: active color if password is visible */
+.toggle-password.active {
+  color: #f97316; /* password visible */
+}
+
+
+
+/* Info Button (Blue Circle "i") */
+.info-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #f97316;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: default; /* hover only, no click needed */
+  margin-left: 6px;
+  position: relative; /* needed for tooltip positioning */
+}
+
+/* Tooltip */
+.tooltip {
+  visibility: hidden; /* hide by default */
+  opacity: 0;
+  position: absolute;
+  bottom: 125%; /* show above button */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 100;
+  transition: opacity 0.2s ease;
+  pointer-events: none; /* allow mouse to pass through */
+}
+
+/* Tooltip Arrow */
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%; /* arrow at bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+}
+
+/* Show tooltip on hover */
+.info-btn:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+/* Error Messages */
 .error-msg {
   font-size: 12px;
   color: red;
-  margin-top: 4px;
+  margin-top: 5px;
 }
-
 .hidden {
   display: none;
 }
+
+/* Container for the checkbox */
+.form-group.checkbox {
+  margin-bottom: 1rem;
+}
+
+/* Make the label a flex container */
+.form-group.checkbox label {
+  display: flex;
+  align-items: center; /* Vertically center the checkbox and text */
+  gap: 0.5rem;        /* Space between checkbox and text */
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: #4a5568;
+}
+
+/* Style the checkbox */
+.form-group.checkbox input[type="checkbox"] {
+  cursor: pointer;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid gainsboro;
+  border-radius: 4px;
+  appearance: none; /* Remove default styling */
+  position: relative;
+}
+
+/* Checked state */
+.form-group.checkbox input[type="checkbox"]:checked {
+  background-color: #f97316;
+  border-color: #f97316;
+}
+
+/* Checkmark */
+.form-group.checkbox input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 10px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Style the link inside the label */
+.form-group.checkbox a {
+  color: #f97316;
+  text-decoration: none;
+  margin-left: 2px; /* small spacing */
+}
+
+.form-group.checkbox a:hover {
+  text-decoration: underline;
+}
+
+
+/* Submit Button */
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  background: #f97316;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+.submit-btn:hover {
+  background: #e65c00;
+}
+.submit-btn:active {
+  transform: scale(0.98);
+}
+
+/* Modal Styles */
+.modal {
+  display: none; /* hidden by default */
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background: #fff;
+  margin: 8% auto;
+  padding: 25px;
+  border-radius: 10px;
+  max-width: 550px;
+  width: 90%;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content h2 {
+  margin-bottom: 15px;
+  font-size: 20px;
+  color: #333;
+}
+
+.modal-content p, 
+.modal-content ul {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.6;
+}
+
+/* Modal Close */
+.close-modal {
+  float: right;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #666;
+}
+.close-modal:hover {
+  color: #000;
+}
+
+/* Modal Footer with Terms Checkbox */
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 13px;
+}
+.modal-footer label {
+  margin-left: 5px;
+  font-size: 13px;
+  color: #333;
+}
+.modal-footer input {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+/* Modal Buttons */
+.modal-btn {
+  padding: 10px 20px;
+  background: #007bff;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+.modal-btn:hover {
+  background: #0056b3;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+  }
+  .signup-card {
+    padding: 25px;
+  }
+}
+
 
 /* Footer */
 .footer { 
@@ -256,4 +558,66 @@ input {
       font-size: 14px; 
       border-top: 1px solid #333; 
       padding-top: 15px; 
+}
+
+/* Mobile Responsive Enhancements */
+@media (max-width: 600px) {
+  /* Stack form rows vertically */
+  .form-row {
+    flex-direction: column;
+  }
+
+  /* Reduce padding on signup card */
+  .signup-card {
+    padding: 20px;
+    max-width: 95%;
+  }
+
+  /* Scale down header logo and text */
+  .logo-img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .logo-text {
+    font-size: 18px;
+  }
+
+  /* Adjust nav links in desktop nav if visible on tablets */
+  .nav-desktop a,
+  .nav-desktop button {
+    font-size: 14px;
+    margin: 0 5px;
+  }
+
+  /* Buttons full width */
+  .submit-btn {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  /* Info button smaller on mobile */
+  .info-btn {
+    width: 16px;
+    height: 16px;
+    font-size: 11px;
+  }
+
+  /* Tooltip adjustments for mobile */
+  .tooltip {
+    font-size: 11px;
+    max-width: 220px;
+    white-space: normal;
+    word-wrap: break-word;
+  }
+
+  /* Footer adjustments */
+  .footer-grid {
+    grid-template-columns: 1fr; /* stack footer sections */
+    gap: 15px;
+  }
+
+  .footer-bottom {
+    font-size: 13px;
+  }
 }

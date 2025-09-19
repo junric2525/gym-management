@@ -1,6 +1,6 @@
-// ===============================
+
 // Mobile Menu Toggle
-// ===============================
+
 const menuBtn = document.querySelector(".menu-btn");
 const mobileMenu = document.getElementById("mobileMenu");
 menuBtn.addEventListener("click", e => {
@@ -8,9 +8,9 @@ menuBtn.addEventListener("click", e => {
   mobileMenu.classList.toggle("show");
 });
 
-// ===============================
+
 // Profile Dropdown
-// ===============================
+
 const profileBtn = document.querySelector(".profile-btn");
 const profileDropdown = document.querySelector(".profile-dropdown");
 profileBtn.addEventListener("click", e => {
@@ -24,9 +24,8 @@ window.addEventListener("click", e => {
   if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) mobileMenu.classList.remove("show");
 });
 
-// ===============================
 // Medical/Medications Toggle
-// ===============================
+
 ['medicalConditions','medications'].forEach(name => {
   document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
     radio.addEventListener("change", function() {
@@ -43,9 +42,9 @@ window.addEventListener("click", e => {
   });
 });
 
-// ===============================
+
 // File Validation
-// ===============================
+
 const validIdUpload = document.getElementById("validIdUpload");
 validIdUpload.addEventListener("change", () => {
   const file = validIdUpload.files[0];
@@ -62,9 +61,9 @@ validIdUpload.addEventListener("change", () => {
   }
 });
 
-// ===============================
+
 // Registration & GCash Modal
-// ===============================
+
 const registrationForm = document.getElementById("registrationForm");
 const modal = document.getElementById("gcashModal");
 const openModalBtn = document.getElementById("openModalBtn");
@@ -129,9 +128,8 @@ gcashForm.addEventListener("submit", e => {
   });
 });
 
-// ===============================
 // Terms Modal
-// ===============================
+
 const termsModal = document.getElementById('termsModal');
 const closeTermsBtn = document.getElementById('closeTermsBtn');
 const termsLink = document.getElementById('termscondition');

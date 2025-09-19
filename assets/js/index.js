@@ -25,45 +25,26 @@ window.addEventListener('resize', () => {
   }
 });
 
+// Simulated promo data (this will later come from backend API or DB)
+const promoData = {
+  image: "assets/img/september-promo.jpg", // replace with backend-uploaded path
+  title: "🔥 September Gym Promo: 50% OFF Membership!"
+};
 
+// Function to update promo dynamically
+function updatePromo(promo) {
+  const promoImage = document.getElementById("promoImage");
+  const promoTitle = document.getElementById("promoTitle");
 
-const modal = document.getElementById('loginModal');
-const closeBtn = document.querySelector('.close-btn');
-
-// Grab all "Sign In" buttons (header, mobile menu, bottom)
-const openBtns = document.querySelectorAll('.btn-signin');
-
-// Function to open modal
-function openModal() {
-  modal.style.display = 'flex';
-  // close mobile menu if it's open
-  document.getElementById("mobileMenu").classList.remove("show");
-  document.getElementById("menuIcon").classList.add("fa-bars");
-  document.getElementById("menuIcon").classList.remove("fa-times");
+  if (promo.image) promoImage.src = promo.image;
+  if (promo.title) promoTitle.textContent = promo.title;
 }
 
-// Attach modal opening to all Sign In buttons
-openBtns.forEach(btn => {
-  btn.addEventListener('click', openModal);
+// Example: Load promo when page loads
+document.addEventListener("DOMContentLoaded", () => {
+  updatePromo(promoData);
 });
 
-// Close modal (X button)
-closeBtn.addEventListener('click', () => {
-  modal.style.display = 'none';
-});
 
-// Close modal (click outside the card)
-window.addEventListener('click', (e) => {
-  if (e.target === modal) {
-    modal.style.display = 'none';
-  }
-});
-
-  window.onload = function() {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("showLogin") === "true") {
-      document.getElementById("loginModal").style.display = "flex"; 
-    }
-  };
 
 

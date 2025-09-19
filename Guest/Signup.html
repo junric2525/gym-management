@@ -23,7 +23,7 @@
       <a href="Index.html#home"><i class="fas fa-home"></i> Home</a>
       <a href="Index.html#services"><i class="fas fa-dumbbell"></i> Services</a>
       <a href="Index.html#about"><i class="fas fa-info-circle"></i> About Us</a>
-      <button class="btn-signin" onclick="window.location.href='Index.html?showLogin=true'"><i class="fas fa-user"></i> Sign In</button>
+      <button class="btn-signin" onclick="window.location.href='Signin.html?showLogin=true'"><i class="fas fa-user"></i> Sign In</button>
       <button onclick="window.location.href='Signup.html'"><i class="fas fa-user-plus"></i> Sign Up</button>
     </nav>
 
@@ -38,54 +38,114 @@
     <a href="Index.html#home"><i class="fas fa-home"></i> Home</a>
     <a href="Index.html#services"><i class="fas fa-dumbbell"></i> Services</a>
     <a href="Index.html#about"><i class="fas fa-info-circle"></i> About Us</a>
-    <button class="btn-signin" onclick="window.location.href='index.html?showLogin=true'"><i class="fas fa-user"></i> Sign In</button>
+    <button class="btn-signin" onclick="window.location.href='Signin.html?showLogin=true'"><i class="fas fa-user"></i> Sign In</button>
     <button onclick="window.location.href='Signup.html'">
       <i class="fas fa-user-plus"></i> Sign Up
     </button>
   </div>
 </header>
 
-
   <div class="signup-container">
+  <div class="signup-card">
+    <!-- Close button -->
     <button class="close-btn" onclick="window.location.href='Index.html'">&times;</button>
-    <div class="signup-card">
-      <h2>Create Your Account</h2>
 
-      <!-- Backend Ready Form -->
-      <form id="signUpForm" action="signup_process.php" method="POST">
-        <div class="form-row">
-          <div class="form-group">
-            <label for="firstName">First Name:</label>
-            <input id="firstName" name="firstName" type="text" required />
-          </div>
-          <div class="form-group">
-            <label for="lastName">Last Name:</label>
-            <input id="lastName" name="lastName" type="text" required />
-          </div>
-        </div>
+    <h2>Create Your Account</h2>
 
+    <!-- Signup Form -->
+    <form id="signUpForm" action="../backend/signup.php" method="POST">
+      
+      <!-- Name Row -->
+      <div class="form-row">
         <div class="form-group">
-          <label for="signUpEmail">Email:</label>
-          <input id="signUpEmail" name="email" type="email" required />
+          <label for="firstName">First Name:</label>
+          <input id="firstName" name="firstName" type="text" required />
         </div>
-
         <div class="form-group">
-          <label for="signUpPassword">Password:</label>
+          <label for="lastName">Last Name:</label>
+          <input id="lastName" name="lastName" type="text" required />
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="signUpEmail">Email:</label>
+        <input id="signUpEmail" name="email" type="email" required />
+      </div>
+
+      <!-- Password with Info Button -->
+      <div class="form-group password-info">
+        <label for="signUpPassword">
+          Password:
+          <span class="info-btn">i
+            <span class="tooltip">
+                  At least 8 characters, 1 uppercase, 1 special symbol.<br><br>
+                  <strong>Tips for a strong password:</strong>
+                  <ul style="margin: 5px 0 0 15px; padding: 0; list-style-type: disc;">
+                    <li>Combine upper and lower case letters, numbers, and special characters (e.g., $, #, &amp;).</li>
+                    <li>Keep your password at least 8–12 characters long.</li>
+                    <li>Avoid consecutive characters (e.g., 12345, abcde, qwerty) or repeating characters (e.g., 11111).</li>
+                    <li>Avoid personal info like names, birthdays, or addresses.</li>
+                    <li>Avoid common or obvious words (e.g., password, name, username).</li>
+                    <li>Do not reuse passwords from other accounts.</li>
+                  </ul>
+                </span>
+          </span>
+        </label>
+        <div class="password-container">
           <input id="signUpPassword" name="password" type="password" required />
-          <p id="passwordMessage" class="error-msg hidden">
-            Password must be at least 8 characters and contain at least one special character and one upper case letter.
-          </p>
+          <i class="fa-solid fa-eye toggle-password" data-target="signUpPassword"></i>
         </div>
+        <p id="passwordMessage" class="error-msg hidden">
+          Password must be at least 8 characters and contain at least one special character and one uppercase letter.
+        </p>
+      </div>
 
-        <div class="form-group">
-          <label for="confirmPassword">Confirm Password:</label>
+      <!-- Confirm Password -->
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password:</label>
+        <div class="password-container">
           <input id="confirmPassword" name="confirmPassword" type="password" required />
+          <i class="fa-solid fa-eye toggle-password" data-target="confirmPassword"></i>
         </div>
+        <p id="confirmPasswordMessage" class="error-msg hidden">
+          Passwords do not match.
+        </p>
+      </div>
 
-        <button type="submit" class="submit-btn">Sign Up</button>
-      </form>
-    </div>
+      <!-- Agreement Checkbox -->
+      <div class="form-group checkbox">
+        <label>
+          <input name="agree" type="checkbox" required />
+          I agree to the <a href="#" id="openTerms">terms and conditions</a>.
+        </label>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="submit-btn">Sign Up</button>
+    </form>
   </div>
+</div>
+
+<!-- Terms & Conditions Modal -->
+<div id="termsModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2>Terms & Conditions</h2>
+    <p>Welcome to our platform. By creating an account, you agree to:</p>
+    <ul>
+      <li>Provide accurate information during signup.</li>
+      <li>Keep your password secure and confidential.</li>
+      <li>Not misuse our services in any way.</li>
+      <li>Follow community guidelines and policies.</li>
+    </ul>
+    <p>
+      Failure to comply may result in account suspension or termination. <br>
+      See more: <a href="Index.html#home">Terms and Conditions</a>.
+    </p>
+  </div>
+</div>
+
 
    <!-- Footer -->
   <footer class="footer">
@@ -104,9 +164,9 @@
       </div>
       <div class="footer-contact">
         <h4>Contact Us</h4>
-        <p>📍 Unit 21, Landsdale Tower, QC</p>
-        <p>📞 (555) 123-4567</p>
-        <p>✉ charlesgym@gmail.com</p>
+        <p><i class="fas fa-map"></i> Unit 21, Landsdale Tower, QC</p>
+        <p><i class="fas fa-phone"></i>  (555) 123-4567</p>
+        <p><i class="fa-brands fa-google"></i> charlesgym@gmail.com</p>
       </div>
     </div>
     <div class="footer-bottom">© <span id="footerYear"></span> Charles Gym. All rights reserved.</div>

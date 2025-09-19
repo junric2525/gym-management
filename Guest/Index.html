@@ -6,7 +6,7 @@
   <title>Charles Gym</title>
   <link rel="stylesheet" href="../assets/css/index.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous"></script> -->
+ 
 </head>
 
 <body>
@@ -21,12 +21,12 @@
         <h1 class="logo-text">Charles Gym</h1>
       </div>
 
-      <!-- Desktop Navigation -->
+      <!-- Desktop Navigation --> 
       <nav class="nav-desktop">
         <a href="Index.html#home"><i class="fas fa-home"></i> Home</a>
         <a href="Index.html#services"><i class="fas fa-dumbbell"></i> Services</a>
         <a href="Index.html#about"><i class="fas fa-info-circle"></i> About Us</a>
-        <button class="btn-signin"><i class="fas fa-user"></i> Sign In</button>
+        <button onclick="window.location.href='Signin.html'"><i class="fas fa-user"></i> Sign In</button>
         <button onclick="window.location.href='Signup.html'"><i class="fas fa-user-plus"></i> Sign Up</button>
       </nav>
 
@@ -42,7 +42,7 @@
       <a href="Index.html#home"><i class="fas fa-home"></i> Home</a>
       <a href="Index.html#services"><i class="fas fa-dumbbell"></i> Services</a>
       <a href="Index.html#about"><i class="fas fa-info-circle"></i> About Us</a>
-      <button class="btn-signin" onclick="window.location.href='Index.html?showLogin=true'"><i class="fas fa-user"></i> Sign In</button>
+      <button class="btn-signin" onclick="window.location.href='Signin.html?showLogin=true'"><i class="fas fa-user"></i> Sign In</button>
       <button onclick="window.location.href='Signup.html'"><i class="fas fa-user-plus"></i> Sign Up</button>
     </div>
   </header>
@@ -58,33 +58,48 @@
       </p>
       <div class="hero-buttons">
         <a href="#services" class="btn btn-primary">Explore Services</a>
-        <a href="#membership" class="btn btn-outline">Join Now</a>
+        
       </div>
     </div>
   </section>
 
-  <!-- Map Section -->
-  <section id="location" class="map">
-    <div class="container text-center">
-      <h2 class="section-title">📍 Find Us Here</h2>
+ <!-- Map + Promo Section -->
+<section id="location" class="map-promo">
+  <div class="container map-promo-flex">
+
+    <!-- Map -->
+    <div class="map-box text-center">
+      <h2 class="section-title"><i class="fas fa-map"></i> Find Us Here</h2>
       <iframe 
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.353434582472!2d121.02567507385491!3d14.635867785854643!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b7004e534ce3%3A0x2ecd59fd6ed6885e!2sCharles%20Hardcore%20Gym!5e0!3m2!1sen!2sph!4v1756716467717!5m2!1sen!2sph" 
-        width="600" 
-        height="450" 
+        width="100%" 
+        height="350" 
         style="border:0;" 
         allowfullscreen="" 
         loading="lazy" 
         referrerpolicy="no-referrer-when-downgrade">
       </iframe>
     </div>
-  </section>
+
+    <!-- Promo -->
+    <div class="promo-box text-center">
+      <h2 class="section-title"><i class="fas fa-bullhorn"></i> Latest Promo</h2>
+      <img id="promoImage" src="assets/img/default-promo.jpg" alt="Promo Event">
+      <h3 id="promoTitle">Special Gym Promo Coming Soon!</h3>
+    </div>
+
+  </div>
+</section>
+
+
+  
 
   <!-- Services Section -->
   <section id="services" class="services">
     <div class="container">
-      <h2 class="section-title text-center">💪 Our Services</h2>
+      <h2 class="section-title text-center"><i class="fas fa-dumbbell"></i> Our Services</h2>
       <div class="grid">
-        <div class="service-card">
+        <div class="service-card">  
           <i class="fas fa-dumbbell"></i>
           <h3>Strength Training</h3>
           <p>Professional weightlifting equipment and personal coaching sessions.</p>
@@ -106,7 +121,7 @@
   <!-- About Section -->
   <section id="about" class="about">
     <div class="container text-center">
-      <h2 class="section-title">🏋️ About Charles Gym</h2>
+      <h2 class="section-title"><i class="fas fa-address-card"></i> About Charles Gym</h2>
       <div class="about-card">
 
         <!-- Left side: Image -->
@@ -143,39 +158,15 @@
       </div>
       <div class="footer-contact">
         <h4>Contact Us</h4>
-        <p>📍 Unit 21, Landsdale Tower, QC</p>
-        <p>📞 (555) 123-4567</p>
-        <p>✉ charlesgym@gmail.com</p>
+        <p><i class="fas fa-map"></i> Unit 21, Landsdale Tower, QC</p>
+        <p><i class="fas fa-phone"></i>  (555) 123-4567</p>
+        <p><i class="fa-brands fa-google"></i> charlesgym@gmail.com</p>
       </div>
     </div>
     <div class="footer-bottom">© <span id="footerYear"></span> Charles Gym. All rights reserved.</div>
   </footer>
 
-  <!-- Sign In Modal Trigger -->
-  <!-- <button id="openLoginBtn" class="btn btn-signin">Sign In</button> -->
 
-  <!-- Sign In Modal -->
-  <div id="loginModal" class="modal">
-    <div class="login-card">
-
-      <!-- Close Button -->
-      <button class="close-btn">&times;</button>
-
-      <!-- Left side -->
-      <div class="login-left">
-        <img src="../assets/img/logo.png" alt="Logo" class="logo-img" />
-        <h1>Charles Gym</h1>
-        <h2>Log in</h2>
-      </div>
-
-      <!-- Right side -->
-      <div class="login-right">
-        <button class="btn btn-member" onclick="window.location.href='Signin.html'">Members</button>
-        <button class="btn btn-admin" onclick="window.location.href='SigninAdmin.html'">Admin</button>
-      </div>
-
-    </div>
-  </div>
 
   <script src="../assets/js/index.js"></script>
 </body>

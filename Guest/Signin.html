@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,20 +58,32 @@
   </div>
 
   <!-- Right side -->
-  <div class="signin-right">
-    <button class="close-btn" onclick="window.location.href='Index.html?showLogin=true'">&times;</button>
+<div class="signin-right">
+    <button class="close-btn" onclick="window.location.href='Index.html?showLogin=true'">
+      &times;
+    </button>
 
     <!-- Backend Ready Form -->
-    <form id="signinForm" action="signin_process.php" method="POST">
+    <form id="signinForm" action="../backend/signin.php" method="POST">
+      <!-- Email Input -->
       <input list="emailsList" type="email" name="email" placeholder="Enter your email" id="emailInput" required>
       <datalist id="emailsList"></datalist>
 
-      <input type="password" name="password" placeholder="Enter your password" id="passwordInput" required>
+      <!-- Password Input -->
+      <div class="password-container">
+        <input type="password" name="password" id="passwordInput" placeholder="Enter your password" required>
+        <i class="fa-solid fa-eye" id="togglePassword"></i>
+      </div>
 
+      <!-- Forgot Password -->
       <a href="RecoveryAcc.html">Forgot password?</a>
 
+      <!-- Submit Button -->
       <button type="submit" class="signin-btn" id="signinBtn">Sign In</button>
     </form>
+
+    <!-- Error Message -->
+    <p id="errorMsg" style="color: red;"></p>
   </div>
 </div>
 
@@ -91,9 +104,9 @@
       </div>
       <div class="footer-contact">
         <h4>Contact Us</h4>
-        <p>📍 Unit 21, Landsdale Tower, QC</p>
-        <p>📞 (555) 123-4567</p>
-        <p>✉ charlesgym@gmail.com</p>
+        <p><i class="fas fa-map"></i> Unit 21, Landsdale Tower, QC</p>
+        <p><i class="fas fa-phone"></i> (555) 123-4567</p>
+        <p><i class="fa-brands fa-google"></i> charlesgym@gmail.com</p>
       </div>
     </div>
     <div class="footer-bottom">© <span id="footerYear"></span> Charles Gym. All rights reserved.</div>

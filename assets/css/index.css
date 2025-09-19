@@ -5,20 +5,17 @@
     box-sizing: border-box; 
 }
 body { 
-    font-family: 'Segoe UI', sans-serif; 
-    line-height: 1.6;
-    background: #f9fafb; 
-    color: #333; 
+  font-family: 'Segoe UI', sans-serif; 
+  line-height: 1.6;
+  background-size: cover;
+  background-color: white;
+  color: #333; 
 }
 
 a { 
     text-decoration: none; 
 }
-.container { 
-    max-width: 1200px; 
-    margin: auto; 
-    padding: 0 20px; 
-}
+
 
 /* Header */
 .header { 
@@ -62,6 +59,10 @@ a {
   font-size: 20px; 
 }
 
+.nav-desktop {
+  display: none; /* hide desktop nav on mobile */
+}
+
 /* Desktop nav */
 .nav-desktop a,
 .nav-desktop button {
@@ -72,11 +73,9 @@ a {
   cursor: pointer;
   font-weight: 500; 
   text-decoration: none;
-
   display: inline-flex;
   align-items: center;
   gap: 5px;
-
   padding: 0;
   font: inherit;
 }
@@ -86,14 +85,14 @@ a {
   color: #ffd580;
 }
 
-/* Hamburger button - hidden on desktop */
+/* Hamburger button - mobile */
 .menu-btn { 
   background: none;
   border: none; 
   color: #fff; 
   font-size: 22px; 
-  display: none;  
   cursor: pointer;
+  display: block; /* mobile first */
 }
 
 /* Mobile nav dropdown */
@@ -101,17 +100,17 @@ a {
   display: none;             
   background: #222;
   flex-direction: column;
-  transition: max-height 0.4s ease;
-  position: relative;        
-  z-index: 99;               
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 200px;
+  z-index: 99;
 }
 
 .nav-mobile.show {
   display: flex;             
-  max-height: 500px;         
 }
 
-/* Mobile links/buttons */
 .nav-mobile a,
 .nav-mobile button {
   color: white;
@@ -124,119 +123,128 @@ a {
   box-sizing: border-box;
 }
 
+/* Media Queries */
 @media (min-width: 769px) {
-  .menu-btn { display: none; }   
-  .nav-mobile { display: none; } 
-  .nav-desktop { display: flex; }           
+  .nav-desktop { display: flex; }       
+  .menu-btn { display: none; }          
+  .nav-mobile { display: none !important; } 
 }
 
 
-/* Hero */
+
+/* HERO */
 .hero { 
-    padding: 100px 20px;
-    background: url('../img/gym1.jpg') no-repeat center/cover; 
-    color: white; 
-    text-align: center; 
-    position: relative; 
+  padding: 100px 20px;
+  background: url("../img/gym1.jpg") no-repeat center center fixed;
+  color: white; 
+  text-align: center; 
+  position: relative; 
 }
-
 .hero::after {
-     content: "";
-     position: absolute; 
-     inset: 0; 
-     background: rgba(0,0,0,0.6); 
+  content: "";
+  position: absolute; 
+  inset: 0; 
+  background: rgba(0,0,0,0.6); 
 }
-
 .hero .container {
-     position: relative;
-      z-index: 1; 
+  position: relative;
+  z-index: 1; 
 }
-
 .hero-title { 
-    font-size: 48px; 
-    font-weight: 700; 
-    margin-bottom: 15px; 
+  font-size: 48px; 
+  font-weight: 700; 
+  margin-bottom: 15px; 
 }
-
 .hero-title span { 
-    color: #f97316; 
+  color: #f97316; 
 }
-
 .hero-sub { 
-    font-size: 20px; 
-    margin-bottom: 20px; 
+  font-size: 20px; 
+  margin-bottom: 20px; 
 }
-
 .hero-desc { 
-    max-width: 700px;
-     margin: auto; 
-     margin-bottom: 25px; 
-    
- }
-
+  max-width: 700px;
+  margin: auto auto 25px; 
+}
 .hero-buttons .btn { 
-    padding: 12px 25px; 
-    border-radius: 30px; 
-    font-size: 16px; 
-    font-weight: bold; 
-    transition: 0.3s;
- }
-
+  padding: 12px 25px; 
+  border-radius: 30px; 
+  font-size: 16px; 
+  font-weight: bold; 
+  transition: 0.3s;
+}
 .btn-primary { 
-    background: #f97316; 
-    color: white; 
+  background: #f97316; 
+  color: white; 
 }
-
 .btn-primary:hover { 
-    background: #ea580c; 
+  background: #ea580c; 
 }
-
 .btn-outline { 
-    border: 2px solid white; 
-    color: white;
- }
-
+  border: 2px solid white; 
+  color: white;
+}
 .btn-outline:hover { 
-    background: white; 
-    color: black; 
+  background: white; 
+  color: black; 
 }
 
-/* Services */
+/*PROMO*/
+.promo {
+  padding: 60px 20px;
+  background: transparent;
+}
+.promo .promo-box {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+.promo img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  margin-bottom: 15px;
+}
+.promo h3 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+}
+
+/*SERVICES*/
 .services { 
-    padding: 80px 20px; 
-    background: #fff;
- }
-
+  padding: 80px 20px; 
+  background: transparent;
+}
 .services .grid { 
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-    gap: 25px; 
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+  gap: 25px; 
+}
+.service-card { 
+  background: white; 
+  padding: 100px; 
+  border-radius: 12px; 
+  text-align: center; 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
+  transition: 0.3s;
+
+}
+.service-card:hover { 
+  transform: translateY(-5px); 
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+.service-card i { 
+  font-size: 40px; 
+  color: #f97316; 
+  margin-bottom: 15px;
 }
 
-.service-card { 
-    background: #f9fafb; 
-    padding: 25px; 
-    border-radius: 12px; 
-    text-align: center; 
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
-    transition: 0.3s;
- }
-
-.service-card:hover { 
-    transform: translateY(-5px); 
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
- }
-
-.service-card i { 
-    font-size: 40px; 
-    color: #f97316; 
-    margin-bottom: 15px;
- }
-
-/* About */
+/*ABOUT*/
 .about { 
-    padding: 80px 20px; 
-    background: #f9fafb; 
+  padding: 80px 20px; 
+  background: transparent; 
 }
 .about-card {
   display: flex;
@@ -247,7 +255,6 @@ a {
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
-
 /* Left panel */
 .about-img {
   flex: 1;
@@ -260,7 +267,6 @@ a {
   text-align: center;
   color: #000;
 }
-
 .aboutimg img {
   width: 100%;         
   max-width: 400px;    
@@ -268,219 +274,106 @@ a {
   border-radius: 3%;
   margin-bottom: 20px;
 }
-
-
-
 /* Right panel */
 .aboutus {
   flex: 1.2;
-  background: white; 
+  background:white; 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 20px;
   padding: 40px;
-  
+}
+
+/*MAP + PROMO SIDE-BY-SIDE*/
+.map-promo {
+  padding: 60px 20px;
+  background:transparent;
+}
+.map-promo-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  align-items: flex-start;
+}
+.map-box, 
+.promo-box {
+  flex: 1 1 48%;
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.map-box iframe {
+  border-radius: 10px;
+  width: 100%;
+  height: 350px;
+}
+.promo-box img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+.promo-box h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
 }
 
 
 
-/* Map */
-.map { 
-    padding: 60px 20px; 
-    background: #fff; 
-}
-
-.map iframe { 
-    border-radius: 10px;
-     width: 100%;
- }
-
-/* Footer */
+/*FOOTER*/
 .footer { 
-    background: #111;
-    color: #ccc; 
-    padding: 60px 20px 20px; 
+  background: #111;
+  color: #ccc; 
+  padding: 60px 20px 20px; 
 }
-
 .footer-grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-    gap: 25px; 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+  gap: 25px; 
 }
-
-.footer h3, .footer h4 { 
-    color: white; 
-    margin-bottom: 15px;
- }
-
+.footer h3, 
+.footer h4 { 
+  color: white; 
+  margin-bottom: 15px;
+}
 .footer a { 
-    display: block; 
-    color: #ccc; 
-    margin-bottom: 8px; 
-    transition: 0.3s; 
+  display: block; 
+  color: #ccc; 
+  margin-bottom: 8px; 
+  transition: 0.3s; 
 }
-
 .footer a:hover { 
-    color: #f97316; 
+  color: #f97316; 
 }
 .footer-bottom {
-     text-align: center; 
-     margin-top: 20px;
-      font-size: 14px; 
-      border-top: 1px solid #333; 
-      padding-top: 15px; 
+  text-align: center; 
+  margin-top: 20px;
+  font-size: 14px; 
+  border-top: 1px solid #333; 
+  padding-top: 15px; 
 }
 
-/* Overlay */
-.modal {
-  display: none; /* hidden by default */
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-/* .modal {
-  display: none; 
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.6);
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-} */
-
-.modal.show {
-  display: flex; /* only show when .show is added */
-}
-
-
-/* Modal card */
-.login-card {
-  position: relative;
-  background: white;
-  width: 500px;
-  height: 300px;
-  max-width: 95%;
-  display: flex;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-}
-
-/* Left panel */
-.login-left {
-  flex: 1;
-  background: linear-gradient(90deg, #111, #f97316);
-  color: white;
-  text-align: center;
-  padding: 30px;
-}
-
-.login-left img{
-   width: 100px;
-  height: 100px;
-}
-
-/* Right panel */
-.login-right {
-  flex: 1;
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Close button */
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.close-btn:hover {
-  color: #f97316;
-}
-
-/* General button style */
-.login-right .btn {
-  width: 80%;
-  padding: 12px 20px;
-  margin: 10px 0;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-/* Member button */
-.btn-member {
-  background: #f97316; /* orange */
-  color: #fff;
-}
-
-.btn-member:hover {
-  background: #e65c00; /* darker orange */
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(249, 115, 22, 0.4);
-}
-
-/* Admin button */
-.btn-admin {
-  background: #111; /* dark */
-  color: #fff;
-}
-
-.btn-admin:hover {
-  background: #333;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-}
-
-#loginModal {
-  display: none; /* hidden by default */
-}
-
-
-
-
-/* Responsive */
+/*RESPONSIVE*/
 @media (max-width: 768px) {
-  .nav-desktop { 
-    display: none; 
-}
-  .menu-btn { 
-    display: block; 
-}
+  .nav-desktop { display: none; }
+  .menu-btn { display: block; }
   .nav-mobile {
     background: #222; 
     padding: 15px; 
-}
-  .nav-mobile a, .nav-mobile button { 
+  }
+  .nav-mobile a, 
+  .nav-mobile button { 
     display: block; 
     margin: 10px 0; 
     color: white; 
-}
+  }
 
+  /* Stack Map + Promo */
+  .map-promo-flex {
+    flex-direction: column;
+  }
 }

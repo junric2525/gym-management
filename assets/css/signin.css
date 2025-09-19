@@ -1,3 +1,4 @@
+
 /* Reset + Base */
 * { 
     margin: 0; 
@@ -130,99 +131,182 @@ a {
 }
 
 
-
+/* Container for both sides */
 .signin-container {
   display: flex;
-  width: 700px;
-  max-width: 95%;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #fff;
-  box-shadow: 0 5px 25px rgba(0,0,0,0.3);
-
-  /* Center horizontally and vertically */
-  position: relative;  /* or absolute/fixed if you want overlay effect */
-  margin: 50px auto;   /* horizontal centering */
-
+  justify-content: center;
+  align-items: stretch; /* 🔹 makes left & right equal height */
+  min-height: 100vh;
+  background: #f4f6f9;
+  padding: 20px;
+  margin-top: 40px;
 }
 
 /* Left side */
 .signin-left {
   flex: 1;
-  background: linear-gradient(180deg, #111, #f97316);
-  color: white;
+  max-width: 450px;
+  padding: 40px;
+  max-height: 400px;
+  background: linear-gradient(90deg, #111, #f97316); 
+  color: #fff;
+  border-radius: 12px 0 0 12px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  padding: 30px;
   text-align: center;
 }
-
-.signin-left img {
-  width: 220px;
-  margin-bottom: 20px;
-}
-
-.signin-left h2 {
-  margin: 0;
+.signin-left h1 {
   font-size: 28px;
-  font-weight: bold;
+  margin-bottom: 15px;
 }
-
 .signin-left p {
-  font-size: 18px;
-  margin-top: 10px;
-  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+.signin-left img {
+  max-width: 80%;
+  margin: 0 auto;
 }
 
 /* Right side */
 .signin-right {
   flex: 1;
+  max-width: 450px;
   padding: 40px;
-  display: flex;
+  max-height: 400px;
+  background: #fff;
+  border-radius: 0 12px 12px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-family: Arial, sans-serif;
+  position: relative;
+  display: flex;              /* 🔹 ensures equal stretch */
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  position: relative;
 }
 
+/* Close button */
 .close-btn {
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 12px;
+  right: 12px;
   background: none;
   border: none;
   font-size: 22px;
   cursor: pointer;
+  color: #666;
+}
+.close-btn:hover {
+  color: #000;
 }
 
-.signin-right input {
+/* Inputs */
+#signinForm input[type="email"],
+#signinForm input[type="password"] {
   width: 100%;
-  padding: 12px;
-  margin: 10px 0;
+  padding: 12px 40px 12px 12px; /* 🔹 space for eye icon */
+  margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+#signinForm input:focus {
+  border-color: #f97316;
+  outline: none;
 }
 
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-container input {
+  width: 100%;
+  padding: 12px 40px 12px 12px; /* room for eye */
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.password-container input:focus {
+  border-color: #f97316;
+  outline: none;
+}
+
+.password-container i {
+  position: absolute;
+  top: 50%;              /* center vertically */
+  right: 12px;           /* move away from border */
+  transform: translateY(-100%);
+  cursor: pointer;
+  color: #888;
+  font-size: 18px;       /* slightly larger for balance */
+  line-height: 1;        /* avoid vertical offset */
+}
+
+.password-container i:hover {
+  color: #f97316;
+}
+
+
+/* Forgot password */
+#signinForm a {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 20px;
+  color: #f97316;
+  text-decoration: none;
+}
+#signinForm a:hover {
+  text-decoration: underline;
+}
+
+/* Button */
 .signin-btn {
   width: 100%;
   padding: 12px;
-  margin-top: 20px;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
   background: #f97316;
   color: white;
-  transition: 0.3s;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.signin-btn:hover {
+  background: #e65c00;
 }
 
-.signin-btn:hover {
-  background: #d96210;
+/* Error message */
+#errorMsg {
+  margin-top: 15px;
+  font-size: 13px;
+  text-align: center;
+  color: red;
 }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .signin-container {
+    flex-direction: column;
+  }
+  .signin-left {
+    border-radius: 12px 12px 0 0;
+    max-width: 100%;
+  }
+  .signin-right {
+    border-radius: 0 0 12px 12px;
+    max-width: 100%;
+    margin-top: 20px;
+  }
+}
+
+
 
 /* Footer */
 .footer { 

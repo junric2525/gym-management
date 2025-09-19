@@ -56,7 +56,7 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
+   <!-- Hero Section -->
   <section id="home" class="hero">
     <div class="container text-center">
       <h1 class="hero-title">Welcome to <span>Charles Gym</span></h1>
@@ -67,28 +67,48 @@
       </p>
       <div class="hero-buttons">
         <a href="#services" class="btn btn-primary">Explore Services</a>
-        <a href="#membership" class="btn btn-outline">Join Now</a>
+        
       </div>
     </div>
   </section>
 
-  <!-- Map Section -->
-  <section id="location" class="map">
-    <div class="container text-center">
-      <h2 class="section-title">📍 Find Us Here</h2>
+ <!-- Map + Promo Section -->
+<section id="location" class="map-promo">
+  <div class="container map-promo-flex">
+
+    <!-- Map -->
+    <div class="map-box text-center">
+      <h2 class="section-title"><i class="fas fa-map"></i> Find Us Here</h2>
       <iframe 
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.353434582472!2d121.02567507385491!3d14.635867785854643!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b7004e534ce3%3A0x2ecd59fd6ed6885e!2sCharles%20Hardcore%20Gym!5e0!3m2!1sen!2sph!4v1756716467717!5m2!1sen!2sph" 
-        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        width="100%" 
+        height="350" 
+        style="border:0;" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade">
       </iframe>
     </div>
-  </section>
+
+    <!-- Promo -->
+    <div class="promo-box text-center">
+      <h2 class="section-title"><i class="fas fa-bullhorn"></i> Latest Promo</h2>
+      <img id="promoImage" src="assets/img/default-promo.jpg" alt="Promo Event">
+      <h3 id="promoTitle">Special Gym Promo Coming Soon!</h3>
+    </div>
+
+  </div>
+</section>
+
+
+  
 
   <!-- Services Section -->
   <section id="services" class="services">
     <div class="container">
-      <h2 class="section-title text-center">💪 Our Services</h2>
+      <h2 class="section-title text-center"><i class="fas fa-dumbbell"></i> Our Services</h2>
       <div class="grid">
-        <div class="service-card">
+        <div class="service-card">  
           <i class="fas fa-dumbbell"></i>
           <h3>Strength Training</h3>
           <p>Professional weightlifting equipment and personal coaching sessions.</p>
@@ -110,17 +130,17 @@
   <!-- About Section -->
   <section id="about" class="about">
     <div class="container text-center">
-      <h2 class="section-title">🏋️ About Charles Gym</h2>   
+      <h2 class="section-title"><i class="fas fa-address-card"></i> About Charles Gym</h2>
       <div class="about-card">
 
-        <!-- Left Side -->
+        <!-- Left side: Image -->
         <div class="about-img">
           <div class="aboutimg">
             <img src="../assets/img/aboutus.jpg" alt="About Us"/>
           </div>
         </div>
 
-        <!-- Right Side -->
+        <!-- Right side: Text -->
         <div class="aboutus">
           <p>
             Since 2010, Charles Gym has been transforming lives through fitness. 
@@ -147,13 +167,15 @@
       </div>
       <div class="footer-contact">
         <h4>Contact Us</h4>
-        <p>📍 Unit 21, Landsdale Tower, QC</p>
-        <p>📞 (555) 123-4567</p>
-        <p>✉ charlesgym@gmail.com</p>
+        <p><i class="fas fa-map"></i> Unit 21, Landsdale Tower, QC</p>
+        <p><i class="fas fa-phone"></i>  (555) 123-4567</p>
+        <p><i class="fa-brands fa-google"></i> charlesgym@gmail.com</p>
       </div>
     </div>
     <div class="footer-bottom">© <span id="footerYear"></span> Charles Gym. All rights reserved.</div>
   </footer>
+
+
 
   <script src="../assets/js/user.js"></script>
 </body>
