@@ -1,18 +1,42 @@
-// Handle close button (redirect back to sign-in page)
-document.getElementById("closeBtn").addEventListener("click", () => {
-  window.location.href = "http://127.0.0.1:5500/Guest/Signin.html"; // change this path if needed
-});
-
-// Handle form submit
-document.getElementById("recovery-form").addEventListener("submit", (e) => {
+// Handle form submit with AJAX
+document.getElementById("recovery-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const email = document.getElementById("email").value;
-  alert(`Recovery link has been sent to: ${email}`);
+  const submitBtn = e.target.querySelector("button[type=submit]");
 
-  // TODO: Add backend call here (e.g., fetch API to send recovery email)
+  // Disable button + show loading state
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Sending...";
+
+  try {
+    const response = await fetch("../backend/recoveryacc.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: "email=" + encodeURIComponent(email)
+    });
+
+   const result = await response.json(); // parse JSON instead of text
+
+    if (result.status === "success") {
+      alert(result.message); // show only the message
+      window.location.href = "../Guest/Signin.html"; // redirect after success
+    } else {
+      alert(result.message); // show error message
+    }
+
+  } catch (error) {
+    console.error("Error:", error);
+    alert("⚠ Something went wrong. Please try again.");
+  } finally {
+    // Re-enable button
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Recover Account";
+  }
 });
 
+
+// Toggle mobile menu
 function toggleMenu() {
   const mobileMenu = document.getElementById('mobileMenu'); // the dropdown menu
   const menuIcon = document.getElementById('menuIcon');     // the icon inside the button

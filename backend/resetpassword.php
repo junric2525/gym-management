@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include "db.php";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -6,33 +9,43 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $new_password = $_POST['new_password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
 
+    if (empty($token) || empty($new_password) || empty($confirm_password)) {
+        header("Location: ../Guest/resetpassword.php?token=$token&error=All fields are required");
+        exit();
+    }
+
     if ($new_password !== $confirm_password) {
-        die("⚠ Passwords do not match!");
+        header("Location: ../Guest/resetpassword.php?token=$token&error=Passwords do not match");
+        exit();
     }
 
     // Check if token exists and not expired
-    $stmt = $conn->prepare("SELECT id, reset_expires FROM users WHERE reset_token=?");
+    $stmt = $conn->prepare("SELECT id, reset_expiry FROM users WHERE reset_token=?");
     $stmt->bind_param("s", $token);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($row = $result->fetch_assoc()) {
-        $expires = strtotime($row['reset_expires']);
+        $expires = strtotime($row['reset_expiry']);
         if ($expires < time()) {
-            die("⚠ Token expired. Please request a new password reset.");
+            header("Location: ../Guest/resetpassword.php?error=Token expired. Please request a new password reset.");
+            exit();
         }
 
         // Hash new password
         $hashedPassword = password_hash($new_password, PASSWORD_DEFAULT);
 
         // Update user password and clear token
-        $update = $conn->prepare("UPDATE users SET password=?, reset_token=NULL, reset_expires=NULL WHERE id=?");
+        $update = $conn->prepare("UPDATE users SET password=?, reset_token=NULL, reset_expiry=NULL WHERE id=?");
         $update->bind_param("si", $hashedPassword, $row['id']);
         $update->execute();
 
-        echo "✅ Password reset successful! You can now <a href='Signin.html'>login</a>.";
+        // ✅ Redirect after success
+        header("Location: ../Guest/Signin.html?reset=success");
+        exit();
     } else {
-        echo "⚠ Invalid or used token.";
+        header("Location: ../Guest/resetpassword.php?error=Invalid or used token");
+        exit();
     }
 }
 ?>

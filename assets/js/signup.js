@@ -1,7 +1,6 @@
 
-  // ==========================
 // Mobile Menu Toggle
-// ==========================
+
 function toggleMenu() {
   const mobileMenu = document.getElementById("mobileMenu");
   const menuIcon = document.getElementById("menuIcon");
@@ -35,13 +34,8 @@ document.addEventListener("click", (e) => {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-
-
  
-
-  // ==========================
   // Password Show/Hide Toggle
-  // ==========================
  document.querySelectorAll(".toggle-password").forEach(icon => {
   icon.addEventListener("click", () => {
     const input = document.getElementById(icon.dataset.target);
@@ -58,9 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-  // ==========================
+
   // Password Strength Check
-  // ==========================
   const passwordInput = document.getElementById("signUpPassword");
   const passwordMessage = document.getElementById("passwordMessage");
   const confirmPasswordInput = document.getElementById("confirmPassword");
@@ -73,9 +66,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // ==========================
+ 
   // Confirm Password Validation
-  // ==========================
   confirmPasswordInput.addEventListener("input", () => {
     if (confirmPasswordInput.value !== passwordInput.value) {
       confirmPasswordInput.setCustomValidity("Passwords do not match");
@@ -87,9 +79,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   
-  // ==========================
+
   // Terms & Conditions Modal
-  // ==========================
   const modal = document.getElementById("termsModal");
   const openTerms = document.getElementById("openTerms");
   const closeModal = document.querySelector(".close-modal");
@@ -118,30 +109,68 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ==========================
-  // Final Form Validation
-  // ==========================
-  const signUpForm = document.getElementById("signUpForm");
-  if (signUpForm) {
-    signUpForm.addEventListener("submit", (e) => {
-      if (!strongPassword.test(passwordInput.value)) {
-        e.preventDefault();
-        passwordMessage.classList.remove("hidden");
-        passwordInput.focus();
-        return;
+// Final Form Validation + AJAX Submit
+const signUpForm = document.getElementById("signUpForm");
+const formMessage = document.getElementById("formMessage");
+
+if (signUpForm) {
+  signUpForm.addEventListener("submit", async (e) => {
+    e.preventDefault(); // prevent page reload
+
+    // Client-side validation
+    if (!strongPassword.test(passwordInput.value)) {
+      passwordMessage.classList.remove("hidden");
+      passwordInput.focus();
+      return;
+    }
+    if (confirmPasswordInput.value !== passwordInput.value) {
+      confirmPasswordInput.focus();
+      confirmPasswordInput.reportValidity();
+      return;
+    }
+    if (!signUpForm.querySelector("input[name='agree']").checked) {
+      alert("You must agree to the Terms & Conditions.");
+      return;
+    }
+
+    // Prepare data
+    const formData = new FormData(signUpForm);
+
+    try {
+      const response = await fetch(signUpForm.action, {
+        method: "POST",
+        body: formData
+      });
+      
+      const result = await response.json();
+
+    // Show message under form
+    formMessage.style.display = "block";
+
+    if (result.status === "success") {
+      formMessage.className = "form-message success";
+      formMessage.innerHTML = "✅ " + result.message;
+      signUpForm.reset();
+    } else {
+      formMessage.className = "form-message error";
+
+      if (Array.isArray(result.messages)) {
+        // Multiple error messages
+        formMessage.innerHTML = result.messages.map(m => "❌ " + m).join("<br>");
+      } else {
+        // Single error message
+        formMessage.innerHTML = "❌ " + result.message;
       }
-      if (confirmPasswordInput.value !== passwordInput.value) {
-        e.preventDefault();
-        confirmPasswordInput.focus();
-        confirmPasswordInput.reportValidity();
-        return;
-      }
-      if (!termsCheckbox.checked) {
-        e.preventDefault();
-        alert("You must agree to the Terms & Conditions.");
-        return;
-      }
-    });
-  }
+    }
+
+
+    } catch (error) {
+      formMessage.style.display = "block";
+      formMessage.className = "form-message error";
+      formMessage.textContent = "❌ Something went wrong. Please try again.";
+    }
+  });
+}
+
 
 });

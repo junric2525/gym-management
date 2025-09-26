@@ -1,13 +1,13 @@
 <?php
-// Enable detailed error reporting for development (disable in production)
+// Enable detailed error reporting (disable in production)
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include "db.php"; // Include your database connection
+include __DIR__ . "/db.php";
+include __DIR__ . "/send_emailverification.php"; // This now sends the magic link
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
     // Sanitize and trim input
     $firstName = trim($_POST['firstName'] ?? '');
     $lastName = trim($_POST['lastName'] ?? '');
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errors[] = "Passwords do not match!";
     }
 
-    // 4️⃣ Password strength: at least 8 chars, 1 uppercase, 1 special char
+    // 4️⃣ Password strength
     if (!preg_match('/^(?=.*[A-Z])(?=.*[!@#$%^&*()]).{8,}$/', $password)) {
         $errors[] = "Password must be at least 8 characters, contain 1 uppercase letter and 1 special character!";
     }
@@ -43,43 +43,75 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errors[] = "You must agree to the terms and conditions!";
     }
 
-    // 6️⃣ Check if email already exists
-    $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
+    // 6️⃣ Check if email already exists in either the main or pending table
+    $stmt = $conn->prepare("
+        SELECT id FROM users WHERE email = ? 
+        UNION 
+        SELECT id FROM pending_registrations WHERE email = ?
+    ");
+    $stmt->bind_param("ss", $email, $email);
     $stmt->execute();
     $stmt->store_result();
     if ($stmt->num_rows > 0) {
-        $errors[] = "This email is already registered!";
+        $errors[] = "This email is already registered or a verification email has been sent.";
     }
     $stmt->close();
 
-    // 7️⃣ If there are errors, display them
+    // 7️⃣ If there are errors, return JSON
     if (!empty($errors)) {
-        foreach ($errors as $err) {
-            echo "<p style='color:red;'>⚠ $err</p>";
-        }
-        echo "<p><a href='../Guest/Signup.html'>Go back to signup</a></p>";
+        header('Content-Type: application/json');
+        echo json_encode([
+            "status" => "error",
+            "messages" => $errors
+        ]);
         exit;
     }
 
-    // 8️⃣ Hash the password and insert user into the database
+    // 8️⃣ Hash the password
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $firstName, $lastName, $email, $hashedPassword);
+    // 9️⃣ Generate verification token + timestamp
+    $token = bin2hex(random_bytes(32));
+    $createdAt = date("Y-m-d H:i:s");
+
+    // 🔟 Insert registration data into a temporary table for verification
+    $stmt = $conn->prepare("
+        INSERT INTO pending_registrations (first_name, last_name, email, password, verify_token, token_created_at) 
+        VALUES (?, ?, ?, ?, ?, ?)
+    ");
+    $stmt->bind_param("ssssss", $firstName, $lastName, $email, $hashedPassword, $token, $createdAt);
 
     if ($stmt->execute()) {
-        // Successful registration
-        header("Location: ../Guest/Signin.html");
-        exit();
+        // Send verification email (magic link)
+        $result = sendVerificationEmail($email, $token);
+
+        header('Content-Type: application/json');
+        if ($result === true) {
+            echo json_encode([
+                "status" => "success",
+                "message" => "Registration successful! Please check your email to verify your account."
+            ]);
+        } else {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Failed to send verification email: $result"
+            ]);
+        }
     } else {
-        die("❌ Database error: " . $stmt->error);
+        header('Content-Type: application/json');
+        echo json_encode([
+            "status" => "error",
+            "message" => "Database error: " . $stmt->error
+        ]);
     }
 
     $stmt->close();
     $conn->close();
-
 } else {
-    echo "Invalid request!";
+    header('Content-Type: application/json');
+    echo json_encode([
+        "status" => "error",
+        "message" => "Invalid request!"
+    ]);
 }
 ?>
