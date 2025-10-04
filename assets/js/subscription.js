@@ -1,69 +1,37 @@
-// Get modal and buttons
-const modal = document.getElementById("gcashModal");
-const closeBtn = document.querySelector(".close-btn");
-const subscribeButtons = document.querySelectorAll(".btnsubscribe");
-const gcashForm = document.getElementById("gcashForm");
-const referenceInput = document.getElementById("referenceNumber");
+ // ----------------------------------------------------
+        // JAVASCRIPT FUNCTIONALITY (Embedded)
+        // ----------------------------------------------------
+        document.addEventListener('DOMContentLoaded', () => {
+            const radioButtons = document.querySelectorAll('input[name="billing-cycle"]');
+            const priceDisplay = document.getElementById('current-price');
+            const cycleLabel = document.getElementById('cycle-label');
+            const footerYear = document.getElementById('footerYear');
 
-// Track selected plan (temporary variable)
-let selectedPlan = "";
+            const prices = {
+                monthly: { value: '₱1000', label: 'per month' },
+                daily: { value: '₱130', label: 'per day' }
+            };
 
-// Open modal when any "Subscribe" button is clicked
-subscribeButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    const planCard = button.closest(".plan-card");
-    const planName = planCard.querySelector("h2").innerText;
-    const planPrice = planCard.querySelector(".price").innerText;
+            // Function to update the displayed price and label
+            function updateDisplay(cycle) {
+                priceDisplay.textContent = prices[cycle].value;
+                cycleLabel.textContent = prices[cycle].label;
+            }
 
-    // Save to temporary variable
-    selectedPlan = `${planName} - ${planPrice}`;
+            // Add event listener to each radio button
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', (event) => {
+                    const selectedCycle = event.target.value;
+                    updateDisplay(selectedCycle);
+                });
+            });
 
-    // Show modal
-    modal.style.display = "flex";
-  });
-});
+            // Initialize the display to the default checked state
+            const initialCycle = document.querySelector('input[name="billing-cycle"]:checked').value;
+            updateDisplay(initialCycle);
 
-// Close modal on (x) click
-closeBtn.addEventListener("click", () => {
-  modal.style.display = "none";
-});
-
-// Close modal when clicking outside content
-window.addEventListener("click", (e) => {
-  if (e.target === modal) {
-    modal.style.display = "none";
-  }
-});
-
-// Handle Reference Number Submission
-gcashForm.addEventListener("submit", (e) => {
-  e.preventDefault(); // prevent page reload
-
-  const referenceNumber = referenceInput.value.trim();
-  if (referenceNumber === "") {
-    alert("⚠ Please enter a reference number."); 
-    return;
-  }
-
-   // Check if it's exactly 13 digits
-  const refPattern = /^\d{13}$/; 
-  if (!refPattern.test(referenceNumber)) {
-    alert("⚠ Reference number must be exactly 13 digits.");
-    return;
-  }
-
-  // For now, just show confirmation
-  alert(`✅ Thank you! You subscribed to: ${selectedPlan}\nReference No: ${referenceNumber}`);
-
-  // (Later you will send this to PHP with fetch or form submit)
-  // Example with fetch (to be used when backend is ready):
-  // fetch("process_subscription.php", {
-  //   method: "POST",
-  //   headers: { "Content-Type": "application/x-www-form-urlencoded" },
-  //   body: `plan=${encodeURIComponent(selectedPlan)}&reference=${encodeURIComponent(referenceNumber)}`
-  // });
-
-  // Reset input & close modal
-  referenceInput.value = "";
-  modal.style.display = "none";
-});
+            // Set the current year for the footer
+            if (footerYear) {
+                footerYear.textContent = new Date().getFullYear();
+            }
+        });

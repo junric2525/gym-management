@@ -1,6 +1,4 @@
-
 // Mobile Menu Toggle
-
 const menuBtn = document.querySelector(".menu-btn");
 const mobileMenu = document.getElementById("mobileMenu");
 menuBtn.addEventListener("click", e => {
@@ -8,9 +6,7 @@ menuBtn.addEventListener("click", e => {
   mobileMenu.classList.toggle("show");
 });
 
-
 // Profile Dropdown
-
 const profileBtn = document.querySelector(".profile-btn");
 const profileDropdown = document.querySelector(".profile-dropdown");
 profileBtn.addEventListener("click", e => {
@@ -25,11 +21,12 @@ window.addEventListener("click", e => {
 });
 
 // Medical/Medications Toggle
-
 ['medicalConditions','medications'].forEach(name => {
   document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
     radio.addEventListener("change", function() {
-      const detailsInput = document.getElementById(name === 'medicalConditions' ? 'medicalDetails' : 'medicationsDetails');
+      const detailsInput = document.getElementById(
+        name === 'medicalConditions' ? 'medicalDetails' : 'medicationsDetails'
+      );
       if (this.value === "yes") {
         detailsInput.style.display = "block";
         detailsInput.required = true;
@@ -42,9 +39,7 @@ window.addEventListener("click", e => {
   });
 });
 
-
 // File Validation
-
 const validIdUpload = document.getElementById("validIdUpload");
 validIdUpload.addEventListener("change", () => {
   const file = validIdUpload.files[0];
@@ -61,75 +56,33 @@ validIdUpload.addEventListener("change", () => {
   }
 });
 
-
-// Registration & GCash Modal
-
+// --- FORM SUBMISSION VALIDATION ---
 const registrationForm = document.getElementById("registrationForm");
-const modal = document.getElementById("gcashModal");
-const openModalBtn = document.getElementById("openModalBtn");
-const closeModalBtn = document.getElementById("closeModalBtn");
-const gcashForm = document.getElementById("gcashForm");
-const refNumber = document.getElementById("refNumber");
-
-// Open GCash modal after form validation
-openModalBtn.addEventListener("click", () => {
+registrationForm.addEventListener("submit", (e) => {
   const medicalChecked = document.querySelector('input[name="medicalConditions"]:checked');
   const medicationsChecked = document.querySelector('input[name="medications"]:checked');
+  const gcashRef = document.querySelector('input[name="gcashReference"]').value.trim();
 
-  if (!medicalChecked) return alert("Please select Yes or No for Medical Conditions.");
-  if (!medicationsChecked) return alert("Please select Yes or No for Medications.");
-
-  if (registrationForm.checkValidity()) {
-    // Submit the registration form via PHP backend before opening modal
-    // Use AJAX to submit registration without leaving page
-    const formData = new FormData(registrationForm);
-    fetch(registrationForm.action, {
-      method: "POST",
-      body: formData
-    })
-    .then(response => response.text()) // or response.json() if PHP returns JSON
-    .then(data => {
-      // Registration successful, open GCash modal
-      modal.style.display = "flex";
-    })
-    .catch(err => {
-      console.error(err);
-      alert("Error submitting registration. Please try again.");
-    });
-  } else {
-    registrationForm.reportValidity();
+  if (!medicalChecked) {
+    e.preventDefault();
+    alert("Please select Yes or No for Medical Conditions.");
+    return;
   }
-});
+  if (!medicationsChecked) {
+    e.preventDefault();
+    alert("Please select Yes or No for Medications.");
+    return;
+  }
+  if (!/^\d{13}$/.test(gcashRef)) {
+    e.preventDefault();
+    alert("GCash Reference Number must be exactly 13 digits.");
+    return;
+  }
 
-// Close modal
-closeModalBtn.addEventListener("click", () => modal.style.display = "none");
-window.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
-
-// Submit GCash form to backend
-gcashForm.addEventListener("submit", e => {
-  e.preventDefault();
-  const ref = refNumber.value.trim();
-  if (!/^[0-9]{13}$/.test(ref)) return alert("Reference number must be exactly 13 digits (numbers only).");
-
-  const formData = new FormData(gcashForm);
-  fetch(gcashForm.action, {
-    method: "POST",
-    body: formData
-  })
-  .then(response => response.text()) // or response.json() if PHP returns JSON
-  .then(data => {
-    alert("Payment submitted successfully!");
-    modal.style.display = "none";
-    gcashForm.reset();
-  })
-  .catch(err => {
-    console.error(err);
-    alert("Error submitting payment. Please try again.");
-  });
+  // ✅ If all validations pass, form submits to register.php
 });
 
 // Terms Modal
-
 const termsModal = document.getElementById('termsModal');
 const closeTermsBtn = document.getElementById('closeTermsBtn');
 const termsLink = document.getElementById('termscondition');
@@ -139,4 +92,11 @@ termsLink.addEventListener('click', e => {
   termsModal.style.display = 'flex'; 
 });
 closeTermsBtn.addEventListener('click', () => termsModal.style.display = 'none');
-window.addEventListener('click', e => { if (e.target === termsModal) termsModal.style.display = 'none'; });
+window.addEventListener('click', e => { 
+  if (e.target === termsModal) termsModal.style.display = 'none'; 
+});
+
+// Set footer year
+document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+

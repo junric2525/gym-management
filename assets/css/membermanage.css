@@ -1,181 +1,173 @@
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
+:root {
+    /* Primary Brand Color: Bright Orange (used for headers, table header, and primary buttons) */
+    --primary-brand: #f97316;
+    /* Darker orange for hover states and high contrast text on light backgrounds */
+    --secondary-dark: #cc5500;
+    /* Backgrounds */
+    --bg-light: #f5f5f5;
+    --bg-white: #ffffff;
+    /* Sidebar Active State (subtle light background on dark sidebar) */
+    --sidebar-active: #e39b16; /* Very light orange/cream */
+    /* Status Colors */
+    --status-active: #4CAF50; /* Green */
+    --status-expired: #dc3545; /* Red */
+    --status-paused: #ffc107; /* Yellow/Amber */
 }
 
-/* Body */
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* BODY */
 body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+    background: #f5f5f5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
-/* Body */
-body {
-  background: #f5f5f5;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
-/* Header */
+/* HEADER */
 .header { 
-  background: linear-gradient(90deg, #111, #f97316); 
-  padding: 15px 30px; 
-  position: sticky; 
-  top: 0; 
-  z-index: 100; 
-  width: 100%;
+    background: linear-gradient(90deg, #111, #f97316); 
+    padding: 15px 30px; 
+    position: sticky; 
+    top: 0; 
+    z-index: 100; 
+    width: 100%;
 }
 
 .header-flex { 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  max-width: 1200px;  
-  margin: 0 auto; 
-  padding: 0 20px;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    max-width: 1200px;  
+    margin: 0 auto; 
+    padding: 0 20px;
 }
 
 /* Logo */
 .logo { 
-  display: flex; 
-  align-items: center; 
-  gap: 10px;
+    display: flex; 
+    align-items: center; 
+    gap: 10px;
 }
 
 .logo-img { 
-  width: 45px; 
-  height: 45px; 
-  border-radius: 50%; 
-  transition: transform 0.3s; 
+    width: 45px; 
+    height: 45px; 
+    border-radius: 50%; 
+    transition: transform 0.3s; 
 }
 
 .logo-img:hover { 
-  transform: scale(1.2); 
+    transform: scale(1.2); 
 }
 
 .logo-text { 
-  color: #fff; 
-  font-weight: bold; 
-  font-size: 20px; 
+    color: #fff; 
+    font-weight: bold; 
+    font-size: 20px; 
 }
 
 /* Profile Dropdown */
 .profile-dropdown {
-  position: relative;
+    position: relative;
 }
 
 .profile-btn {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .profile-btn:hover { 
-  color: #ffd580; 
+    color: #ffd580; 
 }
 
 .dropdown-menu {
-  display: none;
-  position: absolute;
-  right: 0;
-  top: 100%;
-  background: #222;
-  border-radius: 6px;
-  min-width: 160px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  flex-direction: column;
-  z-index: 999;
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: #222;
+    border-radius: 6px;
+    min-width: 160px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    flex-direction: column;
+    z-index: 999;
 }
 
 .dropdown-menu a {
-  color: #fff;
-  padding: 10px 15px;
-  text-decoration: none;
-  display: block;
+    color: #fff;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
 }
 
 .dropdown-menu a:hover {
-  background: #333;
+    background: #333;
 }
 
-/* Show dropdown when .show class added */
+/* Add a JS trigger to show this */
 .profile-dropdown.show .dropdown-menu {
-  display: flex;
+    display: flex;
 }
-
-
-/* Show dropdown when parent has .show */
-.profile-dropdown.show .dropdown-menu {
-  display: flex;
-}
-
-/* Dashboard Layout */
+/* --- DASHBOARD LAYOUT (Sidebar + Content) --- */
 .dashboard-container {
-  display: flex;
-  flex: 1;
+    display: flex;
+    flex: 1; 
+    min-height: calc(100vh - 75px); /* Ensures it fills remaining screen space */
 }
 
 /* Sidebar */
 .sidebar {
-  width: 250px;
-  background: linear-gradient(90deg, #111, #f97316);
-  color: #fff;
-  padding-top: 20px;
-  min-height: calc(100vh - 60px);
+    width: 250px;
+    background: linear-gradient(90deg, #111, #f97316);
+    color: #fff;
+    padding-top: 20px;
+    flex-shrink: 0;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
 }
 
 .sidebar ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .sidebar li {
-  transition: 0.2s;
+    transition: 0.2s;
 }
 
-/* Make link fill the li */
 .sidebar li a {
-  display: block;          
-  padding: 15px 20px;
-  color: #fff;             
-  text-decoration: none;   
-  transition: background 0.3s;
+    display: block;
+    padding: 15px 20px;
+    color: #fff;
+    text-decoration: none;
+    transition: background 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* Hover and active (works if active is on <li> OR <a>) */
+/* Hover + Active */
 .sidebar li a:hover,
-.sidebar li.active a,
-.sidebar li a.active {
-  background: #e39b16;     
-  font-weight: bold;
+.sidebar li.active a {
+    background: var(--sidebar-active);
+    font-weight: bold;
+     /* Contrast for active state */
 }
+
+
 
 
 /* Main Content */

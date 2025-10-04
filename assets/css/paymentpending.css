@@ -1,0 +1,343 @@
+/* -----------------------------
+   RESET & GLOBAL
+   ----------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* -----------------------------
+   HEADER
+   ----------------------------- */
+.header { 
+    background: linear-gradient(90deg, #111, #f97316); 
+    padding: 15px 30px; 
+    position: sticky; 
+    top: 0; 
+    z-index: 100; 
+    width: 100%;
+}
+
+.header-flex { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    max-width: 1200px;  
+    margin: 0 auto; 
+    padding: 0 20px;
+}
+
+.logo { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px;
+}
+.logo-img { 
+    width: 45px; 
+    height: 45px; 
+    border-radius: 50%; 
+    transition: transform 0.3s; 
+}
+
+.logo-img:hover { 
+    transform: scale(1.2); 
+}
+
+.logo-text { 
+    color: #fff; 
+    font-weight: bold; 
+    font-size: 20px; 
+}
+
+.profile-dropdown {
+    position: relative;
+}
+
+.profile-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.profile-btn:hover { 
+    color: #ffd580; 
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: #222;
+    border-radius: 6px;
+    min-width: 160px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    flex-direction: column;
+    z-index: 999;
+}
+
+.dropdown-menu a {
+    color: #fff;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-menu a:hover {
+    background: #333;
+}
+
+.profile-dropdown.show .dropdown-menu {
+    display: flex;
+}
+
+/* -----------------------------
+   DASHBOARD LAYOUT
+   ----------------------------- */
+.dashboard-container {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background: linear-gradient(90deg, #111, #f97316);
+    color: #fff;
+    padding-top: 20px;
+    min-height: 100%; 
+}
+
+.sidebar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar li a {
+    display: block;             
+    padding: 15px 20px;
+    color: #fff;               
+    text-decoration: none;      
+    transition: background 0.3s;
+}
+
+.sidebar li a:hover,
+.sidebar li.active a {
+    background: #e39b16;        
+    font-weight: bold;
+}
+
+/* -----------------------------
+   MAIN CONTENT
+   ----------------------------- */
+.main-content {
+    flex: 1;
+    padding: 30px; 
+    background: #f8f9fa; 
+    overflow-x: auto;
+}
+
+.main-content-header h1 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Table wrapper and search bar */
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px; 
+}
+
+.search-bar {
+    display: flex;
+    gap: 10px;
+}
+.search-bar input[type="text"] {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 250px;
+    transition: border-color 0.3s;
+}
+.search-bar button {
+    background-color: #f97316;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.search-bar button:hover {
+    background-color: #e56300;
+}
+
+/* General table styling */
+table {
+    width: 100%;
+    border-collapse: separate; 
+    border-spacing: 0;
+    background: #fff;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08); 
+    border-radius: 10px; 
+    overflow: hidden; 
+    text-align: left; 
+}
+
+th, td {
+    padding: 12px 18px; 
+    font-size: 14px;
+    vertical-align: middle;
+    border-bottom: 1px solid #e9ecef; 
+}
+
+th {
+    background: #f97316;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 600;
+    border-right: 1px solid rgba(255, 255, 255, 0.1); 
+}
+th:last-child {
+    border-right: none;
+}
+
+tr:nth-child(even) {
+    background: #fbfbfb;
+}
+
+tr:hover {
+    background: #f1f7ff; 
+    cursor: default;
+}
+
+/* Action buttons */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px; 
+}
+
+.action-buttons button {
+    font-size: 13px;
+    font-weight: 500; 
+    padding: 8px 15px; 
+    border-radius: 20px; 
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid transparent; 
+    display: inline-flex;
+    align-items: center;
+    gap: 6px; 
+}
+
+.btn-confirm, .btn-reject {
+    color: #fff;
+}
+
+.btn-confirm {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+.btn-confirm:hover {
+    background-color: #218838;
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+.btn-reject {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+.btn-reject:hover {
+    background-color: #c82333;
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+/* Empty State */
+.empty-state-container {
+    text-align: center;
+    padding: 60px 20px;
+    margin-top: 50px;
+    border: 2px dashed #ccc;
+    border-radius: 12px;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.empty-state-icon {
+    font-size: 4em;
+    color: #f97316;
+    margin-bottom: 15px;
+}
+
+.empty-state-title {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.empty-state-text {
+    font-size: 1.1em;
+    color: #777;
+    margin-bottom: 25px;
+}
+
+.btn-pending-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background-color: #f97316; 
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn-pending-link:hover {
+    background-color: #111;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .table-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .search-bar {
+        width: 100%;
+        margin-top: 15px;
+    }
+    .search-bar input {
+        flex-grow: 1;
+    }
+    .main-content {
+        padding: 15px;
+    }
+    .empty-state-text, .btn-pending-link {
+        padding-left: 0;
+        margin-left: auto; 
+        margin-right: auto;
+    }
+}

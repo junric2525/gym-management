@@ -1,20 +1,40 @@
+/* ---------------------------------------------------- */
+/* Global and Layout Styles */
+/* ---------------------------------------------------- */
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #f9fafb;
-  margin: 0;
-  padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f9fafb;
+    margin: 0;
+    padding: 0;
+    
+    /* Layout for Header, Content, Footer */
+    display: flex;
+    flex-direction: column; 
+    min-height: 100vh; 
 }
 
+/* Container for the Plan Card to center it within the main area */
+.pricing-container {
+    flex-grow: 1; 
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    padding: 20px;
+}
+
+/* ---------------------------------------------------- */
+/* Header Styles */
+/* ---------------------------------------------------- */
 .header {
-  background: linear-gradient(90deg, #111, #f97316);
-  padding: 15px;
-  color: #fff;
+    background: linear-gradient(90deg, #111, #f97316); /* Orange/Black Gradient */
+    padding: 15px;
+    color: #fff;
 }
 
 .header-flex {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .logo { display: flex; align-items: center; }
@@ -22,163 +42,152 @@ body {
 .logo-text { font-size: 20px; font-weight: bold; }
 
 .nav-desktop a {
-  color: #fff;
-  margin-left: 20px;
-  text-decoration: none;
+    color: #fff;
+    margin-left: 20px;
+    text-decoration: none;
 }
 
-.subscription-container {
-  max-width: 1200px;
-  margin: 40px auto;
-  text-align: center;
-}
-
-.plans {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 25px;
-  margin-top: 30px;
-}
-
+/* ---------------------------------------------------- */
+/* Plan Card Styles (Width Increased to 550px) */
+/* ---------------------------------------------------- */
 .plan-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  transition: transform 0.3s;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    /* Increased horizontal padding for a roomier feel */
+    padding: 40px 50px; 
+    text-align: center;
+    /* KEY CHANGE: Increased Width for a wider container */
+    width: 550px; 
 }
 
-.plan-card:hover {
-  transform: scale(1.05);
+h3 {
+    color: #333;
+    font-size: 1.8em;
+    margin-bottom: 20px;
 }
 
-.plan-card h2 {
-  margin-bottom: 10px;
-  color: #f97316;
+/* --- Price Display --- */
+#current-price {
+    font-size: 3.5em; /* Slightly larger price for impact */
+    font-weight: 700;
+    color: #f97316; 
+    margin: 10px 0 5px 0;
 }
 
-.plan-card .price {
-  font-size: 20px;
-  font-weight: bold;
-  margin: 10px 0 20px;
+.cycle-info {
+    color: #555;
+    font-size: 1.2em; /* Slightly larger cycle info */
+    margin-bottom: 30px;
 }
 
-.plan-card ul {
-  list-style: none;
-  padding: 0;
-  text-align: left;
+/* --- Features List --- */
+.features {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    text-align: left;
 }
 
-.plan-card li {
-  margin: 8px 0;
-  font-size: 15px;
+.features li {
+    padding: 10px 0; /* Increased vertical padding */
+    border-bottom: 1px solid #eee;
+    font-size: 1.1em;
+    color: #444;
 }
 
-.plan-card li i {
-  margin-right: 8px;
-  color: green;
+.features li:last-child {
+    border-bottom: none;
 }
 
-.plan-card li .fa-times {
-  color: red;
+/* --- Price Options (Radio Buttons) --- */
+.price-options {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #e9ecef;
+    border-radius: 8px;
+    padding: 12px; /* Slightly more padding */
+    margin-bottom: 20px;
 }
 
-.btnsubscribe {
-  background: #f97316;
-  color: #fff;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
-  margin-top: 15px;
-  cursor: pointer;
-  transition: background 0.3s;
+.price-options input[type="radio"] {
+    display: none; 
 }
 
-.btnsubscribe:hover {
-  background: #ea580c;
-}
-
-/* Premium Highlight */
-.plan-card.premium {
-  border: 2px solid #f97316;
-}
-
-/* Modal Background */
-.modal {
-  display: none; /* hidden by default */
-  position: fixed;
-  z-index: 1000;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-
-  /* keep flex properties here but inactive until JS sets display=flex */
-  justify-content: center;
-  align-items: center;
-}
-
-/* Modal Content */
-.modal-content {
-  background: #fff;
-  padding: 25px;
-  border-radius: 12px;
-  width: 350px;
-  text-align: center;
-  position: relative;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  
-}
-
-/* QR Image */
-.qr-img {
-  width: 200px;
-  margin-top: 15px;
-}
-
-/* Input Field */
-#gcashForm input {
-  width: 100%;
-  padding: 10px;
-  margin: 15px 0;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 16px;
-}
-
-/* Submit Button */
-.submit-btn {
-  background: #f97316;
-  color: #fff;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s;
-  width: 100%;
+.price-options label {
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #555;
+    transition: background-color 0.2s;
+    flex-grow: 1; 
+    text-align: center;
 }
 
 
 
-/* Close Button */
-.close-btn {
-  position: absolute;
-  top: 10px; right: 15px;
-  font-size: 22px;
-  font-weight: bold;
-  cursor: pointer;
-  color: #333;
+/* Style for the SELECTED radio button's label (Orange) */
+.price-options input[type="radio"]:checked + label {
+    background-color: #f97316; 
+    color: white;
+    box-shadow: 0 2px 5px rgba(249, 115, 22, 0.3);
 }
 
-.close-btn:hover {
-  color: #f97316;
+/* --- Payment Details / Input --- */
+.payment-details {
+    margin-top: 30px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
 }
 
-#modal-content {
-  display: none; /* hidden by default */
+.payment-details h4 {
+    color: #f97316; 
+    margin-top: 0;
+}
+
+#gcash-ref {
+    /* Set to 100% minus padding to fill the wider container */
+    width: 100%; 
+    box-sizing: border-box; /* Ensures padding doesn't push it wider than parent */
+    padding: 12px; /* Slightly more padding for better typing experience */
+    margin-top: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+#gcash-ref:focus {
+    border-color: #f97316; /* Highlight with Orange on focus */
+    outline: none;
+}
+
+/* --- Button (Orange) --- */
+.subscribe-button {
+    background-color: #f97316;
+    color: white;
+    border: none;
+    padding: 15px 25px; /* Slightly thicker button */
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.2em; /* Slightly larger text */
+    font-weight: 600;
+    transition: background-color 0.3s;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.subscribe-button:hover {
+    background-color: #ec6606; 
 }
 
 
- /* Footer */
+/* ---------------------------------------------------- */
+/* Footer Styles */
+/* ---------------------------------------------------- */
 .footer { 
     background: #111;
     color: #ccc; 
@@ -201,14 +210,15 @@ body {
     color: #ccc; 
     margin-bottom: 8px; 
     transition: 0.3s; 
+    text-decoration:none;
 }
 
 .footer a:hover { 
-    color: #f97316; 
+    color: #f97316; /* Orange on hover */
 }
 .footer-bottom {
-     text-align: center; 
-     margin-top: 20px;
+      text-align: center; 
+      margin-top: 20px;
       font-size: 14px; 
       border-top: 1px solid #333; 
       padding-top: 15px; 
