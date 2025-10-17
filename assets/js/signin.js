@@ -1,3 +1,7 @@
+// ======================================================================
+// 1. Element Selections
+// ======================================================================
+
 // --- Form elements ---
 const emailInput = document.getElementById('emailInput');
 const passwordInput = document.getElementById('passwordInput');
@@ -9,122 +13,137 @@ const errorMsg = document.getElementById('errorMsg'); // <p id="errorMsg"></p>
 // --- Menu Elements ---
 const mobileMenu = document.getElementById("mobileMenu");
 const menuIcon = document.getElementById("menuIcon");
-// Select the button using its class, as referenced in your HTML: <button class="menu-btn" ...>
+// Select the button using its class: <button class="menu-btn" ...>
 const menuBtn = document.querySelector(".menu-btn");
 
 
-// ----------------------------------------------------------------------
-// 1. Password show/hide toggle
-// ----------------------------------------------------------------------
+// ======================================================================
+// 2. Password Show/Hide Toggle
+// ======================================================================
 if (togglePassword && passwordInput) {
-  togglePassword.addEventListener("click", () => {
-    const isPassword = passwordInput.getAttribute("type") === "password";
-    passwordInput.setAttribute("type", isPassword ? "text" : "password");
-    togglePassword.classList.toggle("fa-eye");
-    togglePassword.classList.toggle("fa-eye-slash");
-    togglePassword.classList.toggle("active", !isPassword);
-  });
-}
+    togglePassword.addEventListener("click", () => {
+        const isPassword = passwordInput.getAttribute("type") === "password";
 
-// ----------------------------------------------------------------------
-// 2. Client-side validation + AJAX login
-// ----------------------------------------------------------------------
+        // 1. Toggle the input type
+        passwordInput.setAttribute("type", isPassword ? "text" : "password");
+
+        // 2. Corrected icon toggling logic:
+
+        if (isPassword) {
+            // It WAS password (hidden), so switch to text (show) and display fa-eye-slash
+            togglePassword.classList.replace("fa-eye", "fa-eye-slash");
+        } else {
+            // It WAS text (show), so switch back to password (hide) and display fa-eye
+            togglePassword.classList.replace("fa-eye-slash", "fa-eye");
+        }
+        
+        // 3. Keep the 'active' class logic as it was (it correctly activates when NOT password)
+        togglePassword.classList.toggle("active", !isPassword);
+    });
+}
+// ======================================================================
+// 3. Client-Side Validation + AJAX Login
+// ======================================================================
 if (signinForm) {
-  signinForm.addEventListener('submit', async (e) => {
-    e.preventDefault(); // Prevent normal form submission
+    signinForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Prevent normal form submission
 
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
 
-    // Simple validation
-    if (!email || !password) {
-      errorMsg.textContent = 'Please enter both your email and password!';
-      return;
-    }
+        // Reset error message
+        errorMsg.textContent = '';
 
-    // Optional: email format check
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-      errorMsg.textContent = 'Please enter a valid email address.';
-      return;
-    }
+        // Simple presence validation
+        if (!email || !password) {
+            errorMsg.textContent = 'Please enter both your email and password!';
+            return;
+        }
 
-    // Disable button while sending
-    signinBtn.disabled = true;
-    errorMsg.textContent = '';
+        // Email format check
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            errorMsg.textContent = 'Please enter a valid email address.';
+            return;
+        }
 
-    const formData = new URLSearchParams();
-    formData.append('email', email);
-    formData.append('password', password);
+        // Disable button and prepare data for submission
+        signinBtn.disabled = true;
 
-    try {
-      const response = await fetch('../backend/signin.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: formData
-      });
+        const formData = new URLSearchParams();
+        formData.append('email', email);
+        formData.append('password', password);
 
-      // Check for network or server errors that aren't JSON
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+        try {
+            const response = await fetch('../backend/signin.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: formData
+            });
 
-      const data = await response.json();
+            // Check for network or server errors that aren't JSON
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
 
-      if (data.success) {
-        window.location.href = data.redirect; // ✅ PHP decides where to go
-      } else {
-        errorMsg.textContent = data.message || 'Invalid credentials or login failed.';
-      }
-    } catch (err) {
-      console.error('AJAX or Fetch error:', err);
-      errorMsg.textContent = 'An unexpected network or server error occurred. Please try again.';
-    } finally {
-      signinBtn.disabled = false;
-    }
-  });
+            const data = await response.json();
+
+            if (data.success) {
+                // ✅ PHP decides where to go
+                window.location.href = data.redirect; 
+            } else {
+                errorMsg.textContent = data.message || 'Invalid credentials or login failed.';
+            }
+        } catch (err) {
+            console.error('AJAX or Fetch error:', err);
+            errorMsg.textContent = 'An unexpected network or server error occurred. Please try again.';
+        } finally {
+            signinBtn.disabled = false;
+        }
+    });
 }
 
-// ----------------------------------------------------------------------
-// 3. Mobile Menu Toggle Logic
-// ----------------------------------------------------------------------
+// ======================================================================
+// 4. Mobile Menu Toggle Logic (Function Definition)
+// ======================================================================
 function toggleMenu() {
-  // Check if the elements were successfully selected
-  if (mobileMenu && menuIcon) {
-    if (mobileMenu.classList.contains("show")) {
-      mobileMenu.classList.remove("show");
-      menuIcon.classList.replace("fa-times", "fa-bars");
-    } else {
-      mobileMenu.classList.add("show");
-      menuIcon.classList.replace("fa-bars", "fa-times");
-    }
-  }
+    // Check if the elements were successfully selected
+    if (mobileMenu && menuIcon) {
+        if (mobileMenu.classList.contains("show")) {
+            // Close menu
+            mobileMenu.classList.remove("show");
+            menuIcon.classList.replace("fa-times", "fa-bars");
+        } else {
+            // Open menu
+            mobileMenu.classList.add("show");
+            menuIcon.classList.replace("fa-bars", "fa-times");
+        }
+    }
 }
-// Note: The HTML already uses onclick="toggleMenu()", so an extra event listener here is redundant
-// but harmless if you prefer to rely on the JS setup for consistency.
+// Note: This function is expected to be called via an onclick attribute in the HTML.
 
-// ----------------------------------------------------------------------
-// 4. Close mobile menu when clicking outside
-// ----------------------------------------------------------------------
+// ======================================================================
+// 5. Close Mobile Menu When Clicking Outside
+// ======================================================================
 document.addEventListener("click", (e) => {
-  // Ensure mobileMenu is shown and necessary elements exist
-  if (
-    mobileMenu && mobileMenu.classList.contains("show") &&
-    menuBtn && // Ensures the button element exists
-    !mobileMenu.contains(e.target) &&
-    !menuBtn.contains(e.target)
-  ) {
-    mobileMenu.classList.remove("show");
-    // Only update the icon if it exists
-    if (menuIcon) {
-      menuIcon.classList.replace("fa-times", "fa-bars");
-    }
-  }
+    // Ensure mobileMenu is shown and necessary elements exist
+    if (
+        mobileMenu && mobileMenu.classList.contains("show") &&
+        menuBtn && // Ensures the button element exists
+        !mobileMenu.contains(e.target) && // Click is outside the menu
+        !menuBtn.contains(e.target)      // Click is outside the toggle button
+    ) {
+        mobileMenu.classList.remove("show");
+        // Only update the icon if it exists
+        if (menuIcon) {
+            menuIcon.classList.replace("fa-times", "fa-bars");
+        }
+    }
 });
 
-// ----------------------------------------------------------------------
-// 5. Footer Year Update
-// ----------------------------------------------------------------------
+// ======================================================================
+// 6. Footer Year Update
+// ======================================================================
 const footerYear = document.getElementById('footerYear');
 if (footerYear) {
     footerYear.textContent = new Date().getFullYear();

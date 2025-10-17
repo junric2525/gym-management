@@ -116,13 +116,13 @@ if (isset($conn) && $conn->connect_error) {
                         <label for="firstName">First Name</label>
                         <input name="firstName" id="firstName" type="text" 
                                value="<?php echo $userData['first_name']; ?>" 
-                               required readonly />
+                               required  />
                     </div>
                     <div class="form-group">
                         <label for="lastName">Last Name</label>
                         <input name="lastName" id="lastName" type="text" 
                                value="<?php echo $userData['last_name']; ?>" 
-                               required readonly />
+                               required  />
                     </div>
                     
                     <div class="form-group">
@@ -214,7 +214,7 @@ if (isset($conn) && $conn->connect_error) {
                 
                 
                 <div class="form-group">
-                    <label for="gcashReference"><h3>GCash Number: #09515948029</h3></label> 
+                    <label for="gcashReference"><h3>GCash Number: #09153161742</h3></label> 
                     <label for="gcashReference"><h3>Payment: ₱600.00 </h3></label> 
                     <label for="gcashReference">GCash Reference Number (13 Digits)</label>
                     <input name="gcashReference" id="gcashReference" type="text" placeholder="Enter GCash Reference Number" pattern="\d{13}" maxlength="13" inputmode="numeric" required />

@@ -1,8 +1,5 @@
 <?php
-// PHP Configuration and Setup
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+
 session_start();
 
 // --- Initialization ---
@@ -47,10 +44,12 @@ $current_user_full_name = $_SESSION['full_name'] ?? 'Admin';
 
 // =======================================================================
 // 3. HANDLE DELETE REQUESTS (Single Delete & Delete All)
+//    - Single Delete uses standard POST form submission.
+//    - Delete All is designed to be hit by the AJAX (fetch) request.
 // =======================================================================
 if (!$db_error && $conn !== null && $conn->connect_error === null) {
     if (isset($_POST['delete_id'])) {
-        // --- Handle Single Delete ---
+        // --- Handle Single Delete (Standard Form Submission) ---
         $delete_id = filter_var($_POST['delete_id'], FILTER_VALIDATE_INT);
 
         if ($delete_id !== false) {
@@ -79,13 +78,14 @@ if (!$db_error && $conn !== null && $conn->connect_error === null) {
             $messageType = 'error';
         }
     } elseif (isset($_POST['delete_all']) && $_POST['delete_all'] === 'true') {
-        // --- Handle Delete All ---
+        // --- Handle Delete All (Targeted by AJAX/Fetch) ---
+        // NOTE: We don't exit here. The page will reload via JS fetch() success handler.
         $sql_delete_all = "DELETE FROM coach_evaluations";
         
         if ($conn->query($sql_delete_all)) {
             $deleted_count = $conn->affected_rows;
             if ($deleted_count > 0) {
-                $message = "**{$deleted_count}** coach evaluations successfully deleted.";
+                $message = "{$deleted_count} coach evaluations successfully deleted.";
                 $messageType = 'success';
             } else {
                 $message = "No evaluations found to delete (table was already empty).";
@@ -96,6 +96,8 @@ if (!$db_error && $conn !== null && $conn->connect_error === null) {
             $message = "Error deleting all evaluations. Check logs for details.";
             $messageType = 'error';
         }
+        // Since this script renders the full page, the message is set above and 
+        // will be displayed when the page reloads (see JS below).
     }
 }
 
@@ -153,7 +155,10 @@ if (!$db_error && $conn !== null && $conn->connect_error === null) {
 
 // The connection must be closed at the end of the script execution if it was opened successfully
 if ($conn !== null && $conn->connect_error === null) {
-    $conn->close(); 
+    // Check if the connection is still open before closing
+    if (isset($conn->server_info)) {
+        $conn->close(); 
+    }
 }
 
 
@@ -196,7 +201,8 @@ function display_message($msg, $type) {
                 </button>
                 <div class="dropdown-menu">
                     <a href="Admin.php"><i class="fas fa-user"></i> Home</a> 
-                    <a href="../Guest/index.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    <a href="../backend/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+
                 </div>
             </div>
         </div>
@@ -225,7 +231,6 @@ function display_message($msg, $type) {
         <?php display_message($message, $messageType); ?>
 
         <div class="button-toolbar">
-            <!-- UPDATED: Now links directly to the FDPF script, opening in a new tab -->
             <a href="../backend/generate_coacheval.php" class="action-btn export-pdf-btn" target="_blank" title="Generate and download a PDF report">
                 <i class="fas fa-file-pdf"></i> Download as PDF
             </a>
@@ -234,12 +239,12 @@ function display_message($msg, $type) {
                 <i class="fas fa-star"></i> Gym Evaluation
             </a>
             
-            <form method="POST" action="coach_evalmanage.php" onsubmit="return confirmDeleteAll();" style="display:inline;">
-                <input type="hidden" name="delete_all" value="true">
-                <button type="submit" class="action-btn delete-all-btn" title="Delete ALL Coach Evaluations">
-                    <i class="fas fa-times-circle"></i> Delete All
-                </button>
-            </form>
+            <button type="button" 
+                class="action-btn delete-all-btn" 
+                id="deleteAllBtn"
+                title="Delete ALL Coach Evaluations">
+                <i class="fas fa-times-circle"></i> Delete All
+            </button>
         </div>
         
         <?php if (!empty($coach_evaluations)): ?>
@@ -275,7 +280,7 @@ function display_message($msg, $type) {
                             
                             <td>
                                 <form method="POST" action="coach_evalmanage.php" 
-                                        onsubmit="return confirmDeletion();" 
+                                        onsubmit="return confirmDeletionCustom();" 
                                         style="display:inline;">
                                     <input type="hidden" name="delete_id" value="<?php echo htmlspecialchars($eval['evaluation_id']); ?>">
                                     <button type="submit" class="delete-btn action-btn" title="Delete Evaluation ID <?php echo htmlspecialchars($eval['evaluation_id']); ?>">
@@ -291,109 +296,171 @@ function display_message($msg, $type) {
     </div>
     </div> 
 
-    <script>
+   <script>
         
-        // NOTE: window.confirm() and alert() are generally discouraged in modern web apps 
-        // and often blocked in iframe environments. For production, you should replace 
-        // these with a custom modal UI (a simple div overlay) to handle confirmations.
+    /**
+     * @function confirmDeletionCustom
+     * Placeholder to replace native confirm() for single delete. 
+     */
+    function confirmDeletionCustom() {
+         // This is left as the simpler native confirm() as it aligns with the "warning and click ok" style.
+         return confirm("Are you sure you want to delete this single evaluation?"); 
+    }
+
+    // --- AJAX Function for Delete All (SIMPLIFIED CONFIRMATION) ---
+    /**
+     * @async @function handleDeleteAllAjax
+     * Handles the "Delete All" action using the Fetch API (AJAX).
+     */
+    async function handleDeleteAllAjax() {
+        // 1. SIMPLE WARNING AND OK/CANCEL CONFIRMATION
+        const confirmed = confirm("⚠️ WARNING: This will permanently delete ALL coach evaluations.\n\nClick OK to confirm deletion.");
         
-        /**
-         * @function confirmDeletion
-         * Client-side "confirmation" for single evaluation deletion.
-         */
-        function confirmDeletion() {
-            // Replaced with a custom function to respect the "no confirm()" rule.
-            // However, since the original code used confirm, I'll put a temporary
-            // note here and respect the original JS logic for this file.
-             return confirm("Are you sure you want to delete this single evaluation?");
+        if (!confirmed) {
+            displayMessage("Deletion canceled by user.", 'info');
+            return; // Exit if the user clicks Cancel
         }
         
-        /**
-         * @function confirmDeleteAll
-         * Client-side confirmation for the "Delete All" action requiring explicit text input for security.
-         */
-        function confirmDeleteAll() {
-            const response = prompt("⚠️ WARNING: This will permanently delete ALL coach evaluations.\n\nType 'DELETE ALL' in the box below to confirm:");
-            if (response === 'DELETE ALL') {
-                return true;
+        // Show a waiting message while processing
+        displayMessage("Processing deletion...", 'info');
+        
+        try {
+            const formData = new FormData();
+            formData.append('delete_all', 'true'); // The same POST data the PHP handler expects
+
+            const response = await fetch('coach_evalmanage.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                // Success! Reload the page to display the updated table 
+                // and the success/info message generated by the PHP script.
+                window.location.reload(); 
             } else {
-                alert("Deletion canceled.");
-                return false;
+                // Handle HTTP errors
+                displayMessage(`Network error: ${response.status} ${response.statusText}`, 'error');
             }
+
+        } catch (error) {
+            console.error('Fetch error:', error);
+            displayMessage('A client-side error occurred during the delete operation.', 'error');
         }
+    }
 
-        /**
-         * Simple client-side table sorting function.
-         * Toggles between ascending and descending sort for a given column.
-         * @param {number} n The index of the column to sort by (0-based).
-         */
-        function sortTable(n) {
-            let table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-            table = document.getElementById("evaluationTable");
-            switching = true;
+    // --- Helper for simple client-side message display (used by AJAX) ---
+    function displayMessage(msg, type) {
+        const container = document.querySelector('.admin-container');
+        let messageBox = document.getElementById('messageBox');
+
+        if (messageBox) {
+            messageBox.remove(); // Remove existing box
+        }
+        
+        if (!msg) return;
+
+        const classMap = {
+            'success': 'success',
+            'info': 'info',
+            'error': 'error'
+        };
+        const className = classMap[type] || 'info';
+
+        messageBox = document.createElement('div');
+        messageBox.id = 'messageBox';
+        messageBox.className = `message-box ${className}`;
+        messageBox.textContent = msg;
+        messageBox.innerHTML += `<span class='close-message-btn' onclick='this.parentNode.style.display="none";'>&times;</span>`;
+
+        // Insert after the main heading
+        const h1 = container.querySelector('h1');
+        if(h1) {
+            h1.parentNode.insertBefore(messageBox, h1.nextSibling);
+        } else {
+             container.prepend(messageBox);
+        }
+    }
+
+    // --- Event Listener to trigger AJAX on Delete All Button Click ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const deleteAllBtn = document.getElementById('deleteAllBtn');
+        if (deleteAllBtn) {
+            deleteAllBtn.addEventListener('click', handleDeleteAllAjax);
+        }
+    });
+    
+    /**
+     * Simple client-side table sorting function.
+     * Toggles between ascending and descending sort for a given column.
+     * (Unchanged from previous versions)
+     */
+    function sortTable(n) {
+        let table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("evaluationTable");
+        switching = true;
+        
+        // Get the current sort direction (if any) from a header attribute or default to asc
+        let currentDir = table.getAttribute('data-sort-col') == n && table.getAttribute('data-sort-dir') == 'asc' ? 'desc' : 'asc';
+        dir = currentDir;
+        
+        // Update table attributes for next click
+        table.setAttribute('data-sort-col', n);
+        table.setAttribute('data-sort-dir', dir);
+
+
+        while (switching) {
+            switching = false;
+            rows = table.rows;
             
-            // Get the current sort direction (if any) from a header attribute or default to asc
-            let currentDir = table.getAttribute('data-sort-col') == n && table.getAttribute('data-sort-dir') == 'asc' ? 'desc' : 'asc';
-            dir = currentDir;
-            
-            // Update table attributes for next click
-            table.setAttribute('data-sort-col', n);
-            table.setAttribute('data-sort-dir', dir);
-
-
-            while (switching) {
-                switching = false;
-                rows = table.rows;
+            // Loop through all table rows (except the first, which contains table headers):
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                // Get the two elements you want to compare, one from current row and one from the next:
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
                 
-                // Loop through all table rows (except the first, which contains table headers):
-                for (i = 1; i < (rows.length - 1); i++) {
-                    shouldSwitch = false;
-                    // Get the two elements you want to compare, one from current row and one from the next:
-                    x = rows[i].getElementsByTagName("TD")[n];
-                    y = rows[i + 1].getElementsByTagName("TD")[n];
-                    
-                    // Prioritize numeric comparison for rating columns (3, 4, 5) and ID column (0)
-                    let isNumericColumn = (n === 0 || (n >= 3 && n <= 5));
-                    
-                    let xContent = isNumericColumn ? parseFloat(x.innerHTML) : x.innerHTML.toLowerCase();
-                    let yContent = isNumericColumn ? parseFloat(y.innerHTML) : y.innerHTML.toLowerCase();
+                // Prioritize numeric comparison for rating columns (3, 4, 5) and ID column (0)
+                let isNumericColumn = (n === 0 || (n >= 3 && n <= 5));
+                
+                let xContent = isNumericColumn ? parseFloat(x.innerHTML) : x.innerHTML.toLowerCase();
+                let yContent = isNumericColumn ? parseFloat(y.innerHTML) : y.innerHTML.toLowerCase();
 
-                    // Fallback to string comparison if not a number
-                    if (isNumericColumn && (isNaN(xContent) || isNaN(yContent))) {
-                        xContent = x.innerHTML.toLowerCase();
-                        yContent = y.innerHTML.toLowerCase();
-                        isNumericColumn = false; // Treat as string from now on
-                    }
-                    
-                    // Check if the two rows should switch place:
-                    if (dir == "asc") {
-                        if (xContent > yContent) {
-                            shouldSwitch = true;
-                            break;
-                        }
-                    } else if (dir == "desc") {
-                        if (xContent < yContent) {
-                            shouldSwitch = true;
-                            break;
-                        }
-                    }
+                // Fallback to string comparison if not a number
+                if (isNumericColumn && (isNaN(xContent) || isNaN(yContent))) {
+                    xContent = x.innerHTML.toLowerCase();
+                    yContent = y.innerHTML.toLowerCase();
+                    isNumericColumn = false; // Treat as string from now on
                 }
                 
-                if (shouldSwitch) {
-                    // If a switch has been marked, make the switch and mark that a switch has been done:
-                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                // Check if the two rows should switch place:
+                if (dir == "asc") {
+                    if (xContent > yContent) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (xContent < yContent) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            
+            if (shouldSwitch) {
+                // If a switch has been marked, make the switch and mark that a switch has been done:
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                // Each time a switch is done, increase this count:
+                switchcount++;
+            } else {
+                // If no switch has been done AND the direction is "asc", set the direction to "desc" and run the while loop again.
+                if (switchcount == 0 && currentDir == "asc") {
+                    dir = "desc";
                     switching = true;
-                    // Each time a switch is done, increase this count:
-                    switchcount++;
-                } else {
-                    // If no switch has been done AND the direction is "asc", set the direction to "desc" and run the while loop again.
-                    if (switchcount == 0 && currentDir == "asc") {
-                        dir = "desc";
-                        switching = true;
-                    }
                 }
             }
         }
-    </script>
+    }
+</script>
 </body>
 </html>

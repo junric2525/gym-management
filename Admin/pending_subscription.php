@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // =======================================================================
 // PHP SCRIPT START - TIMEZONE CORRECTION
 // =======================================================================
@@ -7,7 +7,6 @@
 // Example: Set the timezone to Manila (Philippines Standard Time)
 date_default_timezone_set('Asia/Manila');
 
-session_start();
 include '../backend/db.php';
 
 // CRITICAL SECURITY CHECK (Keep this)
@@ -272,54 +271,7 @@ $conn->close();
 <title>Pending Subscriptions - Admin</title>
 <link rel="stylesheet" href="../assets/css/pending_subs.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-/* CSS to control dropdown visibility */
-.profile-dropdown {
-    position: relative;
-    display: inline-block;
-}
-.dropdown-menu {
-    display: none; /* Initially hidden */
-    position: absolute;
-    right: 0;
-    z-index: 1000; /* Ensure it stays on top */
-    min-width: 180px;
-    background-color: #fff;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    border-radius: 8px;
-    overflow: hidden;
-    margin-top: 5px;
-    padding: 5px 0;
-}
-.dropdown-menu.show {
-    display: block; /* Shown when 'show' class is present */
-}
-.dropdown-menu a {
-    color: #333;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    font-size: 14px;
-    transition: background-color 0.3s;
-}
-.dropdown-menu a:hover {
-    background-color: #f1f1f1;
-}
-/* Ensure the button has correct styling relative to its container */
-.profile-btn {
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 10px;
-    border-radius: 8px;
-    transition: background-color 0.3s;
-}
-.profile-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-</style>
+
 </head>
 <body>
 
@@ -336,7 +288,8 @@ $conn->close();
                 </button>
                 <div class="dropdown-menu">
                     <a href="Admin.php"><i class="fas fa-home"></i> Home</a>
-                    <a href="../Guest/Index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    <a href="../backend/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+
                 </div>
             </div>
         </div>

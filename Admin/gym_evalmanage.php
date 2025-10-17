@@ -1,8 +1,4 @@
 <?php
-// PHP Configuration and Setup
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 session_start();
 
 // --- Initialization ---
@@ -62,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$db_error) {
                 
                 if ($stmt->execute()) {
                     if ($stmt->affected_rows > 0) {
-                        $message = "Evaluation ID **{$evaluation_id}** successfully deleted. 🗑️";
+                        $message = "Evaluation ID **{$evaluation_id}** successfully deleted.";
                         $messageType = 'success';
                     } else {
                         $message = "Evaluation ID **{$evaluation_id}** not found or already deleted.";
@@ -92,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$db_error) {
             
             if ($conn->query($sql_delete_all)) {
                 $count = $conn->affected_rows;
-                $message = "Successfully deleted **{$count}** evaluations from the system. 🗑️";
+                $message = "Successfully deleted {$count} evaluations from the system.";
                 $messageType = 'success';
             } else {
                 error_log("SQL Delete All Error: " . $conn->error);
@@ -199,7 +195,8 @@ function display_message($msg, $type) {
                 </button>
                 <div class="dropdown-menu">
                     <a href="Admin.php"><i class="fas fa-user"></i> Home</a> 
-                    <a href="../Guest/index.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    <a href="../backend/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+
                 </div>
             </div>
         </div>

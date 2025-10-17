@@ -46,7 +46,7 @@ if ($action === 'get_logs') {
     $sql = "
         SELECT 
             a.log_id,
-            a.members_id AS member_id,
+            -- REMOVED a.members_id AS member_id,
             CONCAT(u.first_name, ' ', u.last_name) AS name,
             DATE_FORMAT(a.time_in, '%h:%i:%s %p') AS time_in,
             DATE_FORMAT(a.time_out, '%h:%i:%s %p') AS time_out,
@@ -57,6 +57,7 @@ if ($action === 'get_logs') {
         WHERE DATE(a.time_in) = CURDATE()
         ORDER BY a.time_in DESC
     ";
+    // The change is in the SELECT clause above: 'a.members_id AS member_id,' has been removed.
 
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {

@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // =======================================================================
 // PHP SCRIPT START - TIMEZONE CORRECTION
 // =======================================================================
@@ -11,7 +11,7 @@ date_default_timezone_set('Asia/Manila');
 // 1. INITIAL SETUP AND SECURITY
 // ===================================================================
 
-session_start();
+
 // Include the database connection file (which sets up the $conn mysqli object)
 include '../backend/db.php'; 
 
@@ -172,7 +172,8 @@ if ($conn) {
                 </button>
                 <div class="dropdown-menu">
                     <a href="Admin.php"><i class="fas fa-user"></i> Home</a> 
-                    <a href="../Guest/index.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    <a href="../backend/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+
                 </div>
             </div>
         </div>

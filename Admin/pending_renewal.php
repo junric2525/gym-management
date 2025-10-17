@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // =======================================================================
 // PHP SCRIPT START - TIMEZONE CORRECTION
 // =======================================================================
@@ -7,7 +7,7 @@
 // Example: Set the timezone to Manila (Philippines Standard Time)
 date_default_timezone_set('Asia/Manila');
 
-session_start();
+
 // Ensure db.php path is correct
 include '../backend/db.php'; 
 
@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 }
                 $stmt_update->close();
                 
-                // 🛑 --- 3. CRITICAL: INSERT INTO 'invoices' TABLE (Invoice Creation) --- 🛑
+                // 🛑 --- 3. CRITICAL: INSERT INTO 'invoices' TABLE (Invoice Creation) --- 
                 $invoice_item_type = "Membership Renewal";
                 $invoice_item_name = "Annual Membership Renewal"; 
                 // Set payment date to the current date/time of approval
@@ -269,7 +269,8 @@ if (isset($conn) && $conn instanceof mysqli && !$conn->connect_error) {
                 </button>
                 <div class="dropdown-menu">
                     <a href="Admin.php"><i class="fas fa-home"></i> Home</a>
-                    <a href="../Guest/index.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    <a href="../backend/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+
                 </div>
             </div>
         </div>

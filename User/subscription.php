@@ -163,7 +163,7 @@ $conn->close();
                 </ul>
 
                 <div class="gcash-details">
-                    <p>GCash Number: <strong>#09515948029</strong></p>
+                    <p>GCash Number: <strong>#09153161742</strong></p>
                     <p>Account Name: <strong>CHARLES GYM ACCOUNT</strong></p>
                 </div>
 

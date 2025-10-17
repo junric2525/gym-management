@@ -1,13 +1,10 @@
 <?php
-// Start the session to access and destroy session data
 session_start();
 
-// 1. Clear all session variables
-// This removes specific user/admin data like 'user_id', 'role', etc.
+// Clear all session variables
 $_SESSION = [];
 
-// 2. Destroy the session cookie (Crucial for complete security)
-// This immediately tells the browser to discard the session identifier.
+// Destroy the session cookie
 if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
     setcookie(session_name(), '', time() - 42000,
@@ -16,12 +13,10 @@ if (ini_get("session.use_cookies")) {
     );
 }
 
-// 3. Destroy the session file on the server
+// Destroy the session file
 session_destroy();
 
-// 4. Redirect to the guest page
-// Using a path relative to the site's root directory is generally the safest method 
-// for redirects from different subfolders (like /Admin and /User).
-header("Location: /gym-management/Guest/index.php");
+// Redirect to guest home
+header("Location: ../Guest/index.php");
 exit();
 ?>

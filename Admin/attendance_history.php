@@ -55,44 +55,36 @@ $has_logs = ($result->num_rows > 0);
             color: white;
             font-size: 0.8em;
         }
-        .btn-edit { background-color: #2196F3; } /* Blue */
-        .btn-delete { background-color: #f44336; } /* Red */
+        .btn-edit { background-color: #2196F3; } /* Blue (Kept for CSS consistency) */
+        .btn-delete { background-color: #f44336; } /* Red (Kept for CSS consistency) */
         .btn-timeout { background-color: #4CAF50; } /* Green */
-
-        /* Modal styling (optional, but good for user interaction) */
-        .modal {
-            display: none; 
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4); 
-            padding-top: 60px;
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto; 
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%; 
-            max-width: 400px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .close-btn {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close-btn:hover,
-        .close-btn:focus {
-            color: #000;
-            text-decoration: none;
+        
+        /* New CSS for Clear All button */
+        .btn-clear-all { 
+            background-color: #FF9800; /* Orange/Amber */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
             cursor: pointer;
+            margin-left: 10px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .btn-clear-all:hover {
+            background-color: #e68900;
+        }
+
+        /* Ensure header children align correctly */
+        .main-content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
         }
     </style>
 </head>
@@ -110,7 +102,7 @@ $has_logs = ($result->num_rows > 0);
                 </button>
                 <div class="dropdown-menu">
                     <a href="Admin.php"><i class="fas fa-user"></i> Home</a> 
-                    <a href="../Guest/index.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    <a href="../backend/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 </div>
             </div>
         </div>
@@ -137,9 +129,14 @@ $has_logs = ($result->num_rows > 0);
         <div class="main-content"> 
             <div class="main-content-header">
                 <h1>Attendance Logs</h1>
-                <a href="../backend/generate_attendance_pdf.php" target="_blank" class="btn-pdf">
-                    <i class="fas fa-file-pdf"></i> Download PDF
-                </a>
+                <div class="header-actions">
+                    <a href="../backend/generate_attendance_pdf.php" target="_blank" class="btn-pdf">
+                        <i class="fas fa-file-pdf"></i> Download PDF
+                    </a>
+                    <button class="btn-clear-all" onclick="clearAllLogsConfirmation()">
+                        <i class="fas fa-broom"></i> Clear All
+                    </button>
+                    </div>
             </div>
         
             <?php if ($has_logs): ?>
@@ -160,8 +157,7 @@ $has_logs = ($result->num_rows > 0);
                         <tbody>
                             <?php while($row = $result->fetch_assoc()): ?>
                             <?php
-                                // Use the PHP function to prepare the date strings for the modal
-                                $time_in_html = format_to_html_datetime($row['time_in']);
+                                $time_in_html = format_to_html_datetime($row['time_in']); 
                                 $time_out_html = format_to_html_datetime($row['time_out']);
                             ?>
                             <tr id="log-row-<?= $row['log_id'] ?>">
@@ -182,13 +178,9 @@ $has_logs = ($result->num_rows > 0);
                                     ?>
                                 </td>
                                 <td class="action-btns">
-                                    <button class="btn-edit" onclick="openEditModal(<?= $row['log_id'] ?>, '<?= $time_in_html ?>', '<?= $time_out_html ?>')"><i class="fas fa-edit"></i> Edit</button>
-                                    
                                     <?php if (empty($row['time_out'])): // Show Time Out button only if time_out is NULL ?>
                                         <button class="btn-timeout" onclick="manualTimeOut(<?= $row['log_id'] ?>)"><i class="fas fa-clock"></i> Time Out</button>
                                     <?php endif; ?>
-                                    
-                                    <button class="btn-delete" onclick="deleteLog(<?= $row['log_id'] ?>)"><i class="fas fa-trash"></i> Delete</button>
                                 </td>
                             </tr>
                             <?php endwhile; ?>
@@ -211,24 +203,6 @@ $has_logs = ($result->num_rows > 0);
         </div>
     </div>
 
-    <div id="logModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h2>Edit Log Entry</h2>
-            <form id="logForm">
-                <input type="hidden" id="modal_log_id" name="log_id">
-                
-                <label for="time_in">Time In:</label>
-                <input type="datetime-local" id="modal_time_in" name="time_in" required><br><br>
-                
-                <label for="time_out">Time Out:</label>
-                <input type="datetime-local" id="modal_time_out" name="time_out"><br><br>
-                
-                <button type="submit" class="btn-edit">Save Changes</button>
-            </form>
-        </div>
-    </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Profile dropdown logic
@@ -243,78 +217,7 @@ $has_logs = ($result->num_rows > 0);
                     profileDropdown.classList.remove('show');
                 }
             });
-
-            // Modal save/submit logic
-            document.getElementById('logForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const logId = document.getElementById('modal_log_id').value;
-                const timeIn = document.getElementById('modal_time_in').value;
-                const timeOut = document.getElementById('modal_time_out').value;
-
-                // Simple AJAX call 
-                fetch('../backend/edit_log.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams({
-                        log_id: logId,
-                        time_in: timeIn,
-                        time_out: timeOut 
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Log updated successfully!');
-                        closeModal();
-                        // Reloading the page ensures the new IN/OUT status is checked correctly
-                        window.location.reload(); 
-                    } else {
-                        alert('Error updating log: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred during the update.');
-                });
-            });
         });
-
-        const logModal = document.getElementById('logModal');
-
-        function closeModal() {
-            logModal.style.display = 'none';
-        }
-
-        function openEditModal(logId, timeInHtml, timeOutHtml) {
-            document.getElementById('modal_log_id').value = logId;
-            document.getElementById('modal_time_in').value = timeInHtml;
-            document.getElementById('modal_time_out').value = timeOutHtml;
-            logModal.style.display = 'block';
-        }
-
-        function deleteLog(logId) {
-            if (confirm(`Are you sure you want to permanently delete log ID ${logId}? This action cannot be undone.`)) {
-                // AJAX call to delete the log 
-                fetch('../backend/delete_log.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams({ log_id: logId })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert(`Log ID ${logId} deleted successfully!`);
-                        document.getElementById(`log-row-${logId}`).remove();
-                    } else {
-                        alert('Error deleting log: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred during the deletion.');
-                });
-            }
-        }
 
         function manualTimeOut(logId) {
             if (confirm(`Are you sure you want to manually set the Time Out for Log ID ${logId} to the current time?`)) {
@@ -335,7 +238,6 @@ $has_logs = ($result->num_rows > 0);
                             row.querySelector('.time-out-cell').textContent = data.time_out;
                             
                             // 2. Update the Status column to 'OUT'
-                            // The Status cell is the one immediately before the Actions cell (assuming standard layout)
                             const statusCell = row.querySelector('.time-out-cell').nextElementSibling;
                             if (statusCell) {
                                 statusCell.textContent = 'OUT';
@@ -356,6 +258,55 @@ $has_logs = ($result->num_rows > 0);
                 });
             }
         }
+        
+        // =======================================================
+        // NEW JAVASCRIPT FUNCTIONS FOR CLEAR ALL LOGS
+        // =======================================================
+
+        function clearAllLogsConfirmation() {
+            const confirmed = confirm(
+                "⚠️ WARNING: CLEARING ALL LOGS IS IRREVERSIBLE.\n\n" +
+                "Have you already downloaded the current attendance log data as a PDF?\n\n" +
+                "Press 'OK' to proceed with clearing all logs.\n" +
+                "Press 'Cancel' to stop and download the PDF first."
+            );
+
+            if (confirmed) {
+                // If the admin confirms, proceed to the actual clear function
+                clearAllLogs();
+            } else {
+                alert("Action cancelled. Please remember to download the PDF before clearing logs.");
+            }
+        }
+
+        function clearAllLogs() {
+            // A final confirmation for safety
+            if (!confirm("FINAL CONFIRMATION: Are you absolutely sure you want to DELETE ALL ATTENDANCE LOGS?")) {
+                return;
+            }
+
+            // AJAX call to a new backend script (e.g., clear_all_logs.php)
+            fetch('../backend/clear_all_logs.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('✅ All attendance logs have been successfully cleared!');
+                    // Reload the page to show the empty state or the cleared table
+                    window.location.reload(); 
+                } else {
+                    alert('❌ Error clearing logs: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred during the clear process.');
+            });
+        }
+        // =======================================================
+        
     </script>
 
 </body>

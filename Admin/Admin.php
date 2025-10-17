@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // =======================================================================
 // PHP SCRIPT START - TIMEZONE CORRECTION
 // =======================================================================
@@ -7,7 +7,7 @@
 // Example: Set the timezone to Manila (Philippines Standard Time)
 date_default_timezone_set('Asia/Manila');
 
-session_start();
+
 include '../backend/db.php'; // <-- FIX IS HERE
 
 // CRITICAL SECURITY CHECK (Keep this)
@@ -46,7 +46,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
             </button>
             <div class="dropdown-menu">
                 <a href="Admin.php"><i class="fas fa-user"></i>Home</a>
-                <a href="../Guest/index.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                <a href="../backend/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </div>
         </div>
 

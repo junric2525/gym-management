@@ -150,7 +150,7 @@ if (isset($conn) && $conn instanceof mysqli && !$conn->connect_error) {
 
                     <div class="gcash-details">
                         <p>Renewal Fee: <strong>₱600.00</strong></p> 
-                        <p>GCash Number: <strong>#09515948029</strong></p>
+                        <p>GCash Number: <strong>#09153161742</strong></p>
                         <p>Account Name: <strong>CHARLES GYM ACCOUNT</strong></p>
                     </div>
                     

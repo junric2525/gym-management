@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 include '../backend/db.php';
@@ -22,6 +21,31 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
       width: 100%;
       max-width: 400px; /* Limit scanner size for better mobile/desktop view */
       margin: 20px auto;
+    }
+
+    /*
+     * ✅ TABLE ALIGNMENT FIX (Inline CSS for high specificity)
+     * This ensures the Time In and Time Out columns are properly centered and aligned.
+     */
+    #attendanceTable {
+        /* CRITICAL: Forces the browser to respect explicit column widths */
+        table-layout: fixed; 
+    }
+
+    /* Set the fixed widths and alignment for Time In (2nd column) and Time Out (3rd column) */
+    #attendanceTable th:nth-child(2),
+    #attendanceTable td:nth-child(2),
+    #attendanceTable th:nth-child(3),
+    #attendanceTable td:nth-child(3) {
+        width: 25%; /* Give both time columns a fixed width */
+        text-align: center !important;
+    }
+
+    /* Ensure Name column (1st column) is left-aligned and takes remaining space */
+    #attendanceTable th:nth-child(1),
+    #attendanceTable td:nth-child(1) {
+        width: auto; 
+        text-align: left !important;
     }
   </style>
 </head>
@@ -51,14 +75,13 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     <table id="attendanceTable">
       <thead>
         <tr>
-          <th>Member ID</th>
           <th>Name</th>
           <th>Time In</th>
           <th>Time Out</th>
         </tr>
       </thead>
       <tbody id="attendanceBody">
-        </tbody>
+      </tbody>
     </table>
   </div>
 

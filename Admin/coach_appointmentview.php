@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // =======================================================================
 // PHP SCRIPT START - TIMEZONE CORRECTION
 // =======================================================================
@@ -7,7 +7,7 @@
 // Example: Set the timezone to Manila (Philippines Standard Time)
 date_default_timezone_set('Asia/Manila');
 
-session_start();
+
 // This script requires admin privileges to view and manage appointments.
 
 // CRITICAL SECURITY CHECK
@@ -99,7 +99,7 @@ $conn->close();
                 </button>
                 <div class="dropdown-menu">
                     <a href="Admin.php"><i class="fas fa-user"></i> Home</a> 
-                    <a href="../Guest/index.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    <a href="../backend/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 </div>
             </div>
         </div>

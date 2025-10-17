@@ -83,6 +83,9 @@ a:hover {
 .profile-dropdown {
     position: relative;
     display: inline-block;
+    background: white;
+    color: black;
+    border-radius: 6px;
 }
 
 .profile-btn {

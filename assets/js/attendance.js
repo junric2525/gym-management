@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const members_id = membersIdInput.value.trim();
 
         if (!members_id) {
-            displayMessage('⚠️ Please enter or scan a Member ID.', false);
+            displayMessage(' Please enter or scan a Member ID.', false);
             membersIdInput.focus();
             return;
         }
@@ -53,46 +53,47 @@ document.addEventListener('DOMContentLoaded', function() {
                 membersIdInput.focus(); 
                 loadAttendanceLogs(); 
             } else {
-                displayMessage('🛑 ' + data.message, false);
+                displayMessage(' ' + data.message, false);
             }
         })
         .catch(err => {
             console.error('Fetch error:', err);
-            displayMessage('🚫 Connection error. Check server logs.', false);
+            displayMessage(' Connection error. Check server logs.', false);
         });
     }
 
     function loadAttendanceLogs() {
-        fetch('../backend/attendance_action.php?action=get_logs')
-        .then(response => response.json())
-        .then(data => {
-            attendanceBody.innerHTML = ''; 
+    fetch('../backend/attendance_action.php?action=get_logs')
+    .then(response => response.json())
+    .then(data => {
+        attendanceBody.innerHTML = ''; 
 
-            if (data.success && data.logs && data.logs.length > 0) {
-                data.logs.forEach(log => {
-                    const row = attendanceBody.insertRow();
-                    
-                    if (!log.time_out || log.time_out === 'N/A') {
-                        row.classList.add('active-log');
-                    }
-
-                    row.insertCell().textContent = log.member_id;
-                    row.insertCell().textContent = log.name; 
-                    row.insertCell().textContent = log.time_in;
-                    row.insertCell().textContent = log.time_out || 'Active'; 
-                });
-            } else {
+        if (data.success && data.logs && data.logs.length > 0) {
+            data.logs.forEach(log => {
                 const row = attendanceBody.insertRow();
-                const cell = row.insertCell();
-                cell.colSpan = 4;
-                cell.textContent = 'No attendance logs recorded for today.';
-                cell.style.textAlign = 'center';
-            }
-        })
-        .catch(error => {
-            console.error('Error loading logs:', error);
-        });
-    }
+
+                if (!log.time_out || log.time_out === 'N/A') {
+                    row.classList.add('active-log');
+                }
+
+                // 👇 Only 3 columns to match the table headers
+                row.insertCell().textContent = log.name; 
+                row.insertCell().textContent = log.time_in;
+                row.insertCell().textContent = log.time_out || 'Active'; 
+            });
+        } else {
+            const row = attendanceBody.insertRow();
+            const cell = row.insertCell();
+            cell.colSpan = 3;
+            cell.textContent = 'No attendance logs recorded for today.';
+            cell.style.textAlign = 'center';
+        }
+    })
+    .catch(error => {
+        console.error('Error loading logs:', error);
+    });
+}
+
     
     // ------------------------------------
     // QR SCANNER LOGIC
@@ -114,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
         qrCodeReader.stop().then(() => {
             // 2. Populate input with the CLEANED NUMERIC ID
             membersIdInput.value = cleanedId;
-            startScannerBtn.textContent = 'Start QR Scanner 📸';
+            startScannerBtn.textContent = 'Start QR Scanner ';
             startScannerBtn.classList.remove('timeout'); 
             startScannerBtn.classList.add('timein'); 
 
@@ -123,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         }).catch((err) => {
             console.error("Failed to stop the scanner after successful scan:", err);
-            displayMessage('🛑 Scan successful but could not stop camera.', false);
+            displayMessage(' Scan successful but could not stop camera.', false);
         });
     };
 

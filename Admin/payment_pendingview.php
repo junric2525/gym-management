@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // =======================================================================
 // PHP SCRIPT START - TIMEZONE CORRECTION
 // =======================================================================
@@ -8,7 +8,7 @@
 date_default_timezone_set('Asia/Manila');
 
 
-session_start();
+
 include '../backend/db.php';
 
 // CRITICAL SECURITY CHECK

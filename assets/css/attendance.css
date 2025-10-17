@@ -186,11 +186,11 @@ body {
     height: 100px;
 
     /* Shape and spacing */
-   /* Makes it circular */
+    /* Makes it circular */
     overflow: hidden;
     
     border: 5px solid #fff;
-   
+    
     display: block;
 }
 
@@ -228,13 +228,16 @@ body {
     border-bottom: 2px solid #f36821;
 }
 
-/* Attendance Table Styling */
+/* --- Attendance Table Styling (FIXED VERSION) --- */
 #attendanceTable {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    /* CRITICAL FIX: Forces table layout to respect explicit column widths */
+    table-layout: fixed; 
 }
 
+/* 1. Header Row Styling (Ensuring consistent visual look) */
 #attendanceTable thead tr {
     background-color: #f8f8f8;
     color: #333;
@@ -242,11 +245,33 @@ body {
     border-bottom: 2px solid #f36821;
 }
 
+/* 2. Standard Cell Styling */
 #attendanceTable th, 
 #attendanceTable td {
     padding: 10px 5px;
-    text-align: left;
     border-bottom: 1px solid #eee; 
+    vertical-align: middle;
+}
+
+/* Column 1: Name (Takes remaining space, aligned LEFT) */
+#attendanceTable th:nth-child(1),
+#attendanceTable td:nth-child(1) {
+    width: 50%; /* Give Name 50% of the table width */
+    text-align: left !important;
+}
+
+/* Column 2: Time In (Fixed width, aligned CENTER) */
+#attendanceTable th:nth-child(2),
+#attendanceTable td:nth-child(2) {
+    width: 25%; 
+    text-align: center !important; 
+}
+
+/* Column 3: Time Out (Fixed width, aligned CENTER) */
+#attendanceTable th:nth-child(3),
+#attendanceTable td:nth-child(3) {
+    width: 25%; 
+    text-align: center !important; 
 }
 
 /* Simulating the simple list-like look of the image */
@@ -254,7 +279,6 @@ body {
     background-color: transparent;
     color: #333;
 }
-
 /* For mobile responsiveness */
 @media (max-width: 1000px) { 
     body {
