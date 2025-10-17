@@ -72,7 +72,8 @@ a {
 .nav-desktop a {
   color: #fff; 
   margin-left: 20px; 
-  font-weight: 500%; 
+  margin-right: 15px;
+  font-weight: bold; 
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -80,9 +81,24 @@ a {
 
 /* Give spacing between About Us and Profile */
 .nav-desktop .profile-dropdown {
-  margin-left: 30px; /* adjust value as you like */
+  margin-left: 5px; /* adjust value as you like */
 }
 
+/* --- CORRECTED CSS BLOCK --- */
+
+/* 1. Define the default hidden state (which is already there, but good to check) */
+.dropdown-menu {
+    display: none;
+    margin-left: 50px;
+    /* ... rest of the dropdown styles (position: absolute; etc.) */
+}
+
+/* 2. CRITICAL FIX: Use the class 'show-dropdown' which the JS is calling,
+      and apply it directly to the .dropdown-menu element */
+.dropdown-menu.show-dropdown {
+    display: flex !important; /* Use !important here to ensure it wins the cascade */
+    flex-direction: column;
+}
 
 .nav-desktop a:hover { color: #ffd580; }
 
@@ -582,72 +598,39 @@ textarea#medicalDetails, textarea#medicationsDetails {
 }
 
 
-/*
- * =========================================
- * FOOTER
- * =========================================
- */
-.footer {
-    background-color: #1a1a1a; /* Darker footer */
-    color: #fff;
-    padding: 50px 0 20px 0; /* More padding */
-    margin-top: auto;
-}
 
-.footer-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px; /* More gap */
-    padding-bottom: 30px;
-    border-bottom: 1px solid #444;
+/*FOOTER*/
+.footer { 
+  background: #111;
+  color: #ccc; 
+  padding: 60px 20px 20px; 
 }
-
-.footer-about h3, .footer-links h4, .footer-contact h4 {
-    
-    margin-bottom: 18px;
-    font-size: 1.3em; /* Larger titles */
-    font-weight: 600;
+.footer-grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+  gap: 25px; 
 }
-
-.footer-about p, .footer-contact p {
-    color: #ccc;
-    font-size: 0.95em;
-    line-height: 1.7;
+.footer h3, 
+.footer h4 { 
+  color: white; 
+  margin-bottom: 15px;
 }
-
-.footer-links a {
-    display: block;
-    color: #ccc;
-    text-decoration: none;
-    margin-bottom: 10px;
-    transition: color 0.3s;
-    font-size: 0.95em;
-    display: flex;
-    align-items: center;
+.footer a { 
+  display: block; 
+  color: #ccc; 
+  margin-bottom: 8px; 
+  transition: 0.3s; 
 }
-
-.footer-links a:hover {
-    
-    transform: translateX(5px);
+.footer a:hover { 
+  color: #f97316; 
 }
-
-.footer-contact p {
-    margin-bottom: 12px;
-}
-
-.footer-contact i {
-    margin-right: 12px;
-   
-    font-size: 1.1em;
-}
-
 .footer-bottom {
-    text-align: center;
-    padding-top: 25px;
-    font-size: 0.88em;
-    color: #a0a0a0;
+  text-align: center; 
+  margin-top: 20px;
+  font-size: 14px; 
+  border-top: 1px solid #333; 
+  padding-top: 15px; 
 }
-
 /*
  * =========================================
  * MEDIA QUERIES (Responsiveness)
@@ -724,13 +707,7 @@ textarea#medicalDetails, textarea#medicationsDetails {
         grid-template-columns: 1fr; /* Stack footer columns on mobile */
         text-align: center;
     }
-    
-    .footer-contact p {
-        text-align: center;
-    }
-    .footer-contact i {
-        margin-right: 5px;
-    }
+   
 
     .modal-content {
         width: 95%;

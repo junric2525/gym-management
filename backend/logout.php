@@ -22,6 +22,6 @@ session_destroy();
 // 4. Redirect to the guest page
 // Using a path relative to the site's root directory is generally the safest method 
 // for redirects from different subfolders (like /Admin and /User).
-header("Location: /gym-management/Guest/index.html");
+header("Location: /gym-management/Guest/index.php");
 exit();
 ?>

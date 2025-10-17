@@ -1,18 +1,22 @@
 <?php
-// FILE: Admin/deleted_subscriptions_view.php
 
-require_once '../backend/db.php';
+// =======================================================================
+// PHP SCRIPT START - TIMEZONE CORRECTION
+// =======================================================================
+
+// Example: Set the timezone to Manila (Philippines Standard Time)
+date_default_timezone_set('Asia/Manila');
+
 session_start();
+include '../backend/db.php'; // <-- FIX IS HERE
 
-// ✅ Security check (Ensure admin is logged in)
+// CRITICAL SECURITY CHECK (Keep this)
 if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
-    header("Location: ../Guest/Index.html");
+    header("Location: ../Guest/index.php");
     exit();
 }
-
 // --- 1. PHP Query to Fetch Deleted Subscriptions ---
 // Joins: deleted_subscriptions -> membership -> users (for member name)
-// LEFT JOIN: users (for admin name, in case admin account is deleted)
 $sql = "
     SELECT
         ds.*,
@@ -51,8 +55,8 @@ $result = $conn->query($sql);
             </button>
             <div class="dropdown-menu">
                 <a href="Admin.php"><i class="fas fa-home"></i> Home</a>
-                <a href="../Guest/Index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            </div>
+                <a href="../Guest/index.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </form>
         </div>
     </div>
 </header>
@@ -61,8 +65,8 @@ $result = $conn->query($sql);
 
     <aside class="sidebar">
         <ul>
-            <li><a href="deleted_members_view.php"><i class="fas fa-history"></i> Deletion History</a></li>
-            <li class="active"><a href="deleted_subscriptions_view.php"><i class="fas fa-history"></i> Subscription History</a></li>
+            <li><a href="deleted_members_view.php"><i class="fas fa-history"></i> Membership Delete History</a></li>
+            <li class="active"><a href="deleted_subscriptions_view.php"><i class="fas fa-history"></i> Subscription Delete History</a></li>
         </ul>
     </aside>
 
@@ -72,6 +76,7 @@ $result = $conn->query($sql);
         </div>
 
         <?php
+        // PHP-based status messages (for page load)
         if (isset($_GET['status'])) {
             $status = $_GET['status'];
             $msg = isset($_GET['msg']) ? htmlspecialchars(urldecode($_GET['msg'])) : '';
@@ -116,13 +121,27 @@ $result = $conn->query($sql);
                                     <td><?php echo htmlspecialchars($row['admin_first_name'] . ' ' . $row['admin_last_name']); ?></td>
                                     <td>
                                         <div class='action-buttons'>
-                                            <form method='POST' action='../backend/process_subscription_restore.php'
-                                                onsubmit='return confirm("Are you sure you want to restore this subscription to the active list?");' style="display:inline;">
-
+                                            <form method='POST' 
+                                                action='../backend/process_subscription_restore.php'
+                                                class="restore-form" 
+                                                style="display:inline;">
+                                                
                                                 <input type='hidden' name='history_id' value='<?php echo htmlspecialchars($row['history_id']); ?>'>
-
+                                                
                                                 <button type='submit' class='action-btn btn-restore' title='Restore'>
                                                     <i class='fas fa-undo'></i> Restore
+                                                </button>
+                                            </form>
+                                            
+                                            <form method='POST' 
+                                                action='../backend/delete_subscription.php'
+                                                class="purge-form" 
+                                                style="display:inline; margin-left: 5px;">
+                                                
+                                                <input type='hidden' name='history_id' value='<?php echo htmlspecialchars($row['history_id']); ?>'>
+                                                
+                                                <button type='submit' class='action-btn btn-delete' title='Permanently Delete'>
+                                                    <i class='fas fa-trash-alt'></i> Delete Permanently
                                                 </button>
                                             </form>
                                         </div>
@@ -148,7 +167,7 @@ $result = $conn->query($sql);
 </div>
 
 <script>
-    // Profile dropdown
+    // Profile dropdown logic
     document.querySelector('.profile-btn').addEventListener('click', function() {
         document.querySelector('.profile-dropdown').classList.toggle('show');
     });
@@ -159,7 +178,7 @@ $result = $conn->query($sql);
         }
     });
 
-  
+    
     document.addEventListener('DOMContentLoaded', () => {
         const table = document.querySelector('table tbody');
         const mainContent = document.querySelector('.main-content');
@@ -181,17 +200,33 @@ $result = $conn->query($sql);
             }, 5000);
         };
 
-        // Event listener for all restore forms
+        // Event listener for all RESTORE and PURGE forms
         table.addEventListener('submit', function(e) {
-            if (e.target.matches('form')) {
+            // Only process forms with the specific class names
+            if (e.target.matches('.restore-form') || e.target.matches('.purge-form')) {
                 e.preventDefault(); // Stop the default form submission (the redirect)
 
                 const form = e.target;
                 const historyId = form.querySelector('input[name="history_id"]').value;
                 const row = form.closest('tr');
+                
+                let confirmationMessage = '';
+                let successMessage = '';
+                let actionType = '';
 
-                if (!confirm('Are you sure you want to restore this subscription to the active list?')) {
-                    return;
+                // Differentiate between RESTORE and PURGE actions
+                if (form.matches('.restore-form')) {
+                    confirmationMessage = 'Are you sure you want to restore this subscription to the active list?';
+                    successMessage = 'Subscription successfully restored to the active list.';
+                    actionType = 'Restore';
+                } else if (form.matches('.purge-form')) {
+                    confirmationMessage = 'WARNING: Are you sure you want to PERMANENTLY DELETE this history record? This action cannot be undone.';
+                    successMessage = 'Subscription history record successfully deleted (purged).';
+                    actionType = 'Purge';
+                }
+
+                if (!confirm(confirmationMessage)) {
+                    return; // User cancelled
                 }
 
                 // Prepare form data for AJAX
@@ -203,7 +238,8 @@ $result = $conn->query($sql);
                 })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Network response was not ok');
+                        // Throw error if HTTP response status is not OK (e.g., 404, 500)
+                        throw new Error(`HTTP Error: ${response.status} - Could not connect to backend.`);
                     }
                     return response.json();
                 })
@@ -211,22 +247,21 @@ $result = $conn->query($sql);
                     if (data.status === 'success') {
                         // 1. Remove the row from the table (UI update)
                         row.remove();
-                        // 2. Display success message
-                        showAlert('Subscription successfully restored to the active list.', 'success');
+                        // 2. Display the correct success message
+                        showAlert(successMessage, 'success');
                         
-                        // 3. Optional: Check if the table is now empty and update the UI
+                        // 3. Optional: Check if the table is now empty and reload the main content
                         if (table.rows.length === 0) {
-                            // You might want to reload the main content section to show the 'No Archived Subscriptions Found' message
                             window.location.reload(); 
                         }
                     } else {
-                        // Display error message
-                        showAlert(`Restoration failed. ${data.message}`, 'error');
+                        // Display error message from the JSON response
+                        showAlert(`${actionType} failed. ${data.message}`, 'error');
                     }
                 })
                 .catch(error => {
                     console.error('Fetch error:', error);
-                    showAlert('An unexpected network error occurred.', 'error');
+                    showAlert(`An unexpected error occurred during ${actionType.toLowerCase()}. Check console for details.`, 'error');
                 });
             }
         });

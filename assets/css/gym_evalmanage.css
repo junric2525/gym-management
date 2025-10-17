@@ -1,0 +1,516 @@
+/*
+ * Color Palette: Clean Light Theme (Using Orange/Dark Accents)
+ * --
+ * Organized and cleaned CSS structure.
+ */
+
+/* =========================================================================
+ * 1. Color Variables & Root Settings
+ * ========================================================================= */
+:root {
+    /* Primary / Accent Colors */
+    --primary-color: #f97316; /* Orange Accent */
+    --primary-hover: #ea580c; /* Darker Orange */
+
+    /* Typography / Background Colors */
+    --secondary-color: #343a40; /* Dark text/headers */
+    --background-color: #f8f9fa; /* Very Light Gray Body BG */
+    --card-background: #ffffff; /* White Card/Content background */
+
+    /* Sidebar Colors */
+    --sidebar-bg: #343a40; /* Dark Sidebar for contrast */
+    --sidebar-link: #ffffff;
+    --sidebar-active: var(--primary-color);
+
+    /* UI / Utility Colors */
+    --border-color: #dee2e6; /* Light gray border */
+    --success-color: #28a745;
+    --error-color: #dc3545;
+    --info-color: #17a2b8; /* Blue for info messages */
+    --archive-color: #dc3545; /* Red for destructive actions */
+}
+
+/* =========================================================================
+ * 2. Base Styles
+ * ========================================================================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    /* Assume 'Inter' or a suitable sans-serif font is linked/available */
+    font-family: 'Inter', sans-serif, Arial;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--secondary-color);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: var(--primary-hover);
+}
+
+/* =========================================================================
+ * 3. Header / Navigation
+ * ========================================================================= */
+.header {
+    background: linear-gradient(90deg, #111, var(--primary-color));
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-content-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 10px 20px;
+}
+
+.header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+}
+
+/* --- Profile Dropdown --- */
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-btn {
+    background: white;
+    border: none;
+    color: black;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+}
+
+.profile-btn:hover {
+    background-color: var(--primary-hover);
+    color: white;
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    background-color: var(--card-background);
+    min-width: 180px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    border-radius: 6px;
+    margin-top: 5px;
+    /* Hidden by default */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    border: 1px solid var(--border-color);
+}
+
+.profile-dropdown:hover .dropdown-menu,
+.profile-dropdown.show .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu a {
+    color: var(--secondary-color);
+    padding: 12px 16px;
+    display: block;
+    white-space: nowrap;
+}
+
+.dropdown-menu a:hover {
+    background-color: var(--background-color);
+    color: var(--primary-color);
+}
+
+.dropdown-menu a i {
+    margin-right: 10px;
+}
+
+/* =========================================================================
+ * 4. Dashboard Layout & Sidebar
+ * ========================================================================= */
+.dashboard-container {
+    display: flex;
+    min-height: calc(100vh - 60px); /* Adjust based on header height */
+}
+
+/* --- Sidebar --- */
+.sidebar {
+    width: 250px;
+    background: linear-gradient(90deg, #111, #f97316);
+    color: var(--sidebar-link);
+    padding: 20px 0;
+    flex-shrink: 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar li a {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: var(--sidebar-link);
+    transition: background-color 0.3s, color 0.3s;
+    border-left: 5px solid transparent;
+}
+
+.sidebar li a i {
+    margin-right: 10px;
+    font-size: 1.1rem;
+}
+
+.sidebar li a:hover {
+    background-color: #212529; /* Slightly lighter dark for hover */
+    color: white;
+}
+
+.sidebar li.active a {
+    background-color: #212529;
+    color: var(--primary-color);
+    border-left-color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* =========================================================================
+ * 5. Main Content Area / Admin Container
+ * ========================================================================= */
+.admin-container {
+    flex-grow: 1;
+    padding: 30px;
+    overflow-x: auto; /* Allow horizontal scroll for content if needed */
+}
+
+.admin-container h1 {
+    font-size: 2rem;
+    color: var(--secondary-color);
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+/* =========================================================================
+ * 6. Button and Toolbar Styles
+ * ========================================================================= */
+
+/* --- General Button Styling --- */
+.action-btn {
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    /* Default to primary dark color for non-specific actions */
+    background-color: var(--secondary-color);
+}
+.action-btn:hover {
+    background-color: var(--primary-hover);
+    color: white;
+}
+
+/* --- Action Bar / Toolbar --- */
+.action-bar {
+    display: flex;
+    justify-content: flex-start; /* Align buttons to the left */
+    gap: 10px; /* Space between buttons */
+    margin-bottom: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color); /* Use color variable */
+}
+
+.action-bar button, .action-bar a {
+    /* **REDUCED PADDING for the smallest button size** */
+    padding: 8px 12px; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: opacity 0.3s, background-color 0.3s;
+    font-size: 0.9rem; /* Reduced font size for smaller buttons */
+    display: inline-flex;
+    align-items: center;
+    gap: 6px; /* Slightly reduced gap */
+}
+.action-bar button:hover, .action-bar a:hover {
+    opacity: 0.9;
+}
+
+/* Action Bar Specific Button Colors */
+.pdf-btn {
+    background-color: var(--secondary-color); /* Dark for Download */
+}
+
+.coach-eval-btn {
+    /* Uses the same background for identical size/color in the image (dark) */
+    background-color: var(--secondary-color);
+    
+}
+
+.coach-eval-btn:hover {
+    background-color: var(--primary-hover);
+    color: white;
+}
+
+.delete-all-btn {
+    background-color: var(--error-color); /* Red for Delete All */
+    margin-left: auto; /* Push the 'Delete All' button to the right */
+}
+.delete-all-btn:hover {
+    background-color: #c82333; /* Darker red on hover */
+    opacity: 1; 
+}
+
+/* --- Specific Delete Button (e.g., for table rows) --- */
+.delete-btn {
+    background-color: var(--error-color); /* Red color for single delete */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 2px 0;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+.delete-btn:hover {
+    background-color: #c82333; /* Darker red */
+}
+
+/* =========================================================================
+ * 7. Alert Messages
+ * ========================================================================= */
+.message-box {
+    padding: 15px;
+    border-radius: 6px;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid transparent;
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+.message-box.success {
+    background-color: #d4edda;
+    color: var(--success-color);
+    border-color: #c3e6cb;
+}
+
+.message-box.error {
+    background-color: #f8d7da;
+    color: var(--error-color);
+    border-color: #f5c6cb;
+}
+
+.message-box.info {
+    background-color: #d1ecf1;
+    color: var(--info-color);
+    border-color: #bee5eb;
+}
+
+.close-message-btn {
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    line-height: 1;
+    margin-left: 15px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.close-message-btn:hover {
+    opacity: 1;
+}
+
+/* =========================================================================
+ * 8. Table Styles - Evaluations Specific
+ * ========================================================================= */
+.eval-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: 900px; /* Ensures table is wide enough for data */
+    background-color: var(--card-background);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.eval-table thead tr {
+    background-color: #e9ecef; /* Light header background */
+    color: var(--secondary-color);
+    text-align: left;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.eval-table th {
+    padding: 15px;
+    border-bottom: 2px solid var(--primary-color);
+    cursor: pointer;
+    position: sticky;
+    top: 0;
+    background-color: #e9ecef;
+}
+
+.eval-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.95rem;
+    color: #495057;
+    vertical-align: top;
+}
+
+.eval-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.eval-table td:last-child,
+.eval-table th:last-child {
+    padding-right: 20px;
+}
+
+.rating-cell {
+    text-align: center;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+/* Opinion column formatting */
+.eval-table td[title] {
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-word;
+}
+
+/* =========================================================================
+ * 9. Media Queries for Responsiveness
+ * ========================================================================= */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 220px;
+    }
+
+    .admin-container {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 0;
+        border-right: none;
+        box-shadow: none;
+    }
+
+    .sidebar ul {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 5px;
+        background-color: var(--sidebar-bg);
+    }
+
+    .sidebar li {
+        flex-shrink: 0;
+    }
+
+    .sidebar li a {
+        padding: 12px 15px;
+        border-left: none !important;
+        font-size: 0.9rem;
+    }
+
+    .logo-text {
+        font-size: 1.3rem;
+    }
+
+    /* Force table scroll on small screens */
+    .admin-container {
+        padding: 15px;
+    }
+
+    .eval-table {
+        min-width: 700px; /* Ensures scrollable area for table */
+    }
+}
+
+/* =========================================================================
+ * 10. Print Styles for PDF Generation
+ * ========================================================================= */
+@media print {
+    /* Hide all elements not in the main content area */
+    body > *:not(.admin-container) {
+        display: none;
+    }
+    .admin-container {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+    /* Hide all interactive/non-essential elements like buttons/toolbars */
+    .action-bar, .delete-btn, .action-btn {
+        display: none !important;
+    }
+    .eval-table {
+        box-shadow: none;
+    }
+}

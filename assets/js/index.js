@@ -25,25 +25,7 @@ window.addEventListener('resize', () => {
   }
 });
 
-// Simulated promo data (this will later come from backend API or DB)
-const promoData = {
-  image: "assets/img/september-promo.jpg", // replace with backend-uploaded path
-  title: "🔥 September Gym Promo: 50% OFF Membership!"
-};
 
-// Function to update promo dynamically
-function updatePromo(promo) {
-  const promoImage = document.getElementById("promoImage");
-  const promoTitle = document.getElementById("promoTitle");
-
-  if (promo.image) promoImage.src = promo.image;
-  if (promo.title) promoTitle.textContent = promo.title;
-}
-
-// Example: Load promo when page loads
-document.addEventListener("DOMContentLoaded", () => {
-  updatePromo(promoData);
-});
 
 
 

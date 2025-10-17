@@ -1,11 +1,15 @@
-/* General body styling */
+/*====================
+  GLOBAL & BASE
+====================*/
 body {
     font-family: Arial, sans-serif;
     background: #f4f4f4;
     margin: 0;
 }
 
-/* Header */
+/*====================
+  HEADER
+====================*/
 .header {
     background: linear-gradient(90deg, #111, #f97316);
     padding: 15px 20px;
@@ -45,25 +49,29 @@ body {
     color: #f97316;
 }
 
-/* Evaluation Container */
+
+/*====================
+  EVALUATION CONTAINER
+====================*/
 .evaluation-container {
     display: flex;
     background: #fff;
     border-radius: 12px;
     overflow: hidden;
-    width: 500px;
-    max-width: 90%;
+    /* Changed fixed width to max-width for better initial flexibility */
+    max-width: 500px;
+    width: 90%;
     margin: 50px auto; /* center with spacing from top */
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Left section */
+/* Left section (Gradient side) */
 .eval-left {
-  flex: 1;
-  background: linear-gradient(90deg, #111, #f97316);
-  color: white;
-  text-align: center;
-  padding: 30px;
+    flex: 1;
+    background: linear-gradient(90deg, #111, #f97316);
+    color: white;
+    text-align: center;
+    padding: 30px;
 }
 
 .eval-left h1 {
@@ -76,13 +84,14 @@ body {
     font-size: 18px;
 }
 
+/* The inner logo (inside the left section) */
 .eval-left .logo {
     width: 80px;
     margin-bottom: 20px;
-    margin-left:60px;
+    margin-left: 60px; /* Needs adjustment for mobile, handled in media query */
 }
 
-/* Right section */
+/* Right section (Buttons side) */
 .eval-right {
     flex: 1;
     display: flex;
@@ -105,7 +114,6 @@ body {
     transition: 0.3s;
 }
 
-
 .coach-btn {
     background-color: #ff7b00;
 }
@@ -122,7 +130,62 @@ body {
     background-color: #333;
 }
 
-/* Footer */
+
+/*====================
+  MOBILE RESPONSIVENESS
+====================*/
+@media (max-width: 600px) {
+    .evaluation-container {
+        /* Stacks the left and right sections vertically */
+        flex-direction: column;
+
+        /* Ensures full width on mobile */
+        width: 100%;
+        max-width: none;
+        margin: 20px auto;
+
+        /* Remove overflow hidden on mobile to prevent clipping if content is tall */
+        overflow: visible;
+
+        /* Remove bottom-left and bottom-right border radius so it looks like one long card */
+        border-radius: 8px;
+    }
+
+    /* Make both sections take full width */
+    .eval-left,
+    .eval-right {
+        flex: none;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Adjust the logo/text centering for the stacked layout */
+    .eval-left {
+        padding: 40px 20px; /* increase vertical padding */
+        border-radius: 8px 8px 0 0; /* Keep top corners rounded */
+    }
+
+    .eval-left .logo {
+        margin: 0 auto 20px; /* Center the logo */
+    }
+
+    /* Ensure the button section is cleanly formatted */
+    .eval-right {
+        padding: 30px 20px;
+        border-radius: 0 0 8px 8px; /* Keep bottom corners rounded */
+    }
+
+    .eval-right button {
+        /* Make buttons take up more width, but don't exceed a reasonable max */
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+
+/*====================
+  FOOTER
+====================*/
 .footer {
     background: #111;
     color: #ccc;

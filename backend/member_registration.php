@@ -1,4 +1,12 @@
 <?php
+
+// =======================================================================
+// PHP SCRIPT START - TIMEZONE CORRECTION
+// =======================================================================
+
+// Example: Set the timezone to Manila (Philippines Standard Time)
+date_default_timezone_set('Asia/Manila');
+
 session_start();
 // Assuming this script is in the 'backend' folder and 'db.php' is also there.
 include __DIR__ . "/db.php"; 
@@ -181,23 +189,26 @@ if (isset($_FILES['validIdUpload']) && $_FILES['validIdUpload']['error'] === UPL
 }
 
 // 7. Insert into membership_temp (pending verification)
-// FIX: Removed first_name, last_name, email, gender, birth_date, address as they belong only in the 'users' table.
-// The membership_temp table only stores the application-specific details.
+// FIX: ADDED birth_date, address, and gender back into the INSERT statement.
 $stmt = $conn->prepare("
     INSERT INTO membership_temp 
     (user_id, contact, 
+     birth_date, address, gender, 
      emergency_name, emergency_number, emergency_relation, 
      medical_conditions, medical_details, medications, medications_details, 
      gcash_reference, validid_path, status, expiration_date, created_at) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', DATE_ADD(NOW(), INTERVAL 1 YEAR), NOW())
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', DATE_ADD(NOW(), INTERVAL 1 YEAR), NOW())
 ");
 
-
 // 8. Bind and Execute
+// FIX: Updated the type string and variable list to include birthDate, address, and gender.
 $stmt->bind_param(
-    "issssssssss", // 1 'i' for userId, 10 's' for strings
+    "isssssssssssss", // 1 'i' for userId, 13 's' for strings (contact through validIdPath)
     $userId,
     $contact,
+    $birthDate,      // <--- ADDED
+    $address,        // <--- ADDED
+    $gender,         // <--- ADDED
     $emergencyName, 
     $emergencyNumber, 
     $emergencyRelation, 
@@ -209,16 +220,28 @@ $stmt->bind_param(
     $validIdPath 
 );
 
+// 9. Execute and Handle Result
 if ($stmt->execute()) {
-    // NOTE: Replace alert() with a custom modal in production environments.
-    echo "<script>alert('✅ Membership application submitted! Waiting for admin verification.'); window.location.href='../User/User.php';</script>";
+    // 9.1. SUCCESS: Set a session variable and redirect to the display page (User.php)
+    $_SESSION['alert_message'] = '✅ Membership application submitted! Please wait for admin verification.';
+    $_SESSION['alert_type'] = 'success';
+    
+    // Redirect to prevent form resubmission and display the message
+    header("Location: ../User/User.php");
+    exit;
 } else {
-    // Log the error for debugging
-    error_log("Membership insert error: " . $stmt->error);
-    // NOTE: Replace alert() with a custom modal in production environments.
-    echo "<script>alert('❌ Error submitting application. Please check your form data or contact support.'); window.history.back();</script>";
-}
+    // 9.2. FAILURE: Log the error, set a session variable, and redirect
+    error_log("Membership insertion failed: " . $stmt->error);
+    
+    // In production, delete the uploaded file if the database insert fails
+    if ($validIdPath && file_exists(__DIR__ . "/" . $validIdPath)) {
+         unlink(__DIR__ . "/" . $validIdPath);
+    }
 
-$stmt->close();
-$conn->close();
-?>
+    $_SESSION['alert_message'] = '❌ System Error: Application could not be saved. Please contact support.';
+    $_SESSION['alert_type'] = 'error';
+
+    // Redirect to display the error message
+    header("Location: ../User/User.php");
+    exit;
+}

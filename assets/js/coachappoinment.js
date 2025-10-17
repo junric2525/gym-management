@@ -1,37 +1,20 @@
 // Get references to form elements
-const form = document.querySelector(".appointment-form");
 const dateInput = document.getElementById("date");
 
-// Prevent past dates from being selected
-const today = new Date().toISOString().split("T")[0];
-dateInput.setAttribute("min", today);
+// --- CORE FUNCTIONALITY: Prevent past dates from being selected ---
+/**
+ * Sets the 'min' attribute of the date input to today's date, 
+ * preventing the user from selecting past dates.
+ */
+function setMinDate() {
+    // Get today's date in YYYY-MM-DD format (required for date input min attribute)
+    const today = new Date().toISOString().split("T")[0];
+    if (dateInput) {
+        dateInput.setAttribute("min", today);
+    }
+}
 
-// Handle form submission
-form.addEventListener("submit", function(e) {
-  e.preventDefault(); // prevent default submission
+// Initialize the date constraint when the script loads
+setMinDate();
 
-  const name = document.getElementById("name").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const coach = document.getElementById("coach").value;
-  const date = document.getElementById("date").value;
-  const time = document.getElementById("time").value;
-
-  // Basic validation
-  if (!name || !email || !coach || !date || !time) {
-    alert("Please fill in all required fields.");
-    return;
-  }
-
-  // Optional: email pattern validation
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailPattern.test(email)) {
-    alert("Please enter a valid email address.");
-    return;
-  }
-
-  // Show confirmation message
-  alert(`Thank you ${name}! Your appointment with ${coach} is booked for ${date} at ${time}.`);
-
-  // Optionally, submit the form to the server
-  form.submit();
-});
+// Note: All form submission logic has been removed to allow the HTML/PHP form to submit directly.

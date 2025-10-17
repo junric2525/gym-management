@@ -6,19 +6,16 @@ body {
     background: #f9fafb;
     margin: 0;
     padding: 0;
-    
-    /* Layout for Header, Content, Footer */
     display: flex;
     flex-direction: column; 
     min-height: 100vh; 
 }
 
-/* Container for the Plan Card to center it within the main area */
 .pricing-container {
     flex-grow: 1; 
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    justify-content: center; 
+    align-items: center; 
     padding: 20px;
 }
 
@@ -26,7 +23,7 @@ body {
 /* Header Styles */
 /* ---------------------------------------------------- */
 .header {
-    background: linear-gradient(90deg, #111, #f97316); /* Orange/Black Gradient */
+    background: linear-gradient(90deg, #111, #f97316);
     padding: 15px;
     color: #fff;
 }
@@ -48,16 +45,14 @@ body {
 }
 
 /* ---------------------------------------------------- */
-/* Plan Card Styles (Width Increased to 550px) */
+/* Plan Card Styles */
 /* ---------------------------------------------------- */
 .plan-card {
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    /* Increased horizontal padding for a roomier feel */
     padding: 40px 50px; 
     text-align: center;
-    /* KEY CHANGE: Increased Width for a wider container */
     width: 550px; 
 }
 
@@ -67,9 +62,8 @@ h3 {
     margin-bottom: 20px;
 }
 
-/* --- Price Display --- */
 #current-price {
-    font-size: 3.5em; /* Slightly larger price for impact */
+    font-size: 3.5em;
     font-weight: 700;
     color: #f97316; 
     margin: 10px 0 5px 0;
@@ -77,11 +71,10 @@ h3 {
 
 .cycle-info {
     color: #555;
-    font-size: 1.2em; /* Slightly larger cycle info */
+    font-size: 1.2em;
     margin-bottom: 30px;
 }
 
-/* --- Features List --- */
 .features {
     list-style: none;
     padding: 0;
@@ -90,7 +83,7 @@ h3 {
 }
 
 .features li {
-    padding: 10px 0; /* Increased vertical padding */
+    padding: 10px 0;
     border-bottom: 1px solid #eee;
     font-size: 1.1em;
     color: #444;
@@ -100,14 +93,13 @@ h3 {
     border-bottom: none;
 }
 
-/* --- Price Options (Radio Buttons) --- */
 .price-options {
     display: flex;
     justify-content: space-around;
     align-items: center;
     background-color: #e9ecef;
     border-radius: 8px;
-    padding: 12px; /* Slightly more padding */
+    padding: 12px;
     margin-bottom: 20px;
 }
 
@@ -126,16 +118,26 @@ h3 {
     text-align: center;
 }
 
-
-
-/* Style for the SELECTED radio button's label (Orange) */
 .price-options input[type="radio"]:checked + label {
     background-color: #f97316; 
     color: white;
     box-shadow: 0 2px 5px rgba(249, 115, 22, 0.3);
 }
 
-/* --- Payment Details / Input --- */
+.gcash-details {
+    margin: 15px 0;
+    padding: 15px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.gcash-details p {
+    margin: 5px 0;
+    font-weight: 600;
+    font-size: 0.95em;
+}
+
 .payment-details {
     margin-top: 30px;
     padding: 15px;
@@ -148,32 +150,43 @@ h3 {
     margin-top: 0;
 }
 
-#gcash-ref {
-    /* Set to 100% minus padding to fill the wider container */
-    width: 100%; 
-    box-sizing: border-box; /* Ensures padding doesn't push it wider than parent */
-    padding: 12px; /* Slightly more padding for better typing experience */
-    margin-top: 10px;
-    border: 2px solid #ccc;
-    border-radius: 5px;
+/* --- GCash Input Field --- */
+#gcash_reference {
+    width: 80%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
     font-size: 1em;
+    text-align: center;
     transition: border-color 0.3s;
 }
 
-#gcash-ref:focus {
-    border-color: #f97316; /* Highlight with Orange on focus */
+/* 🔸 Enhanced Placeholder Styling for GCash Reference Input */
+#gcash_reference::placeholder {
+    letter-spacing: 0.7px;
+    opacity: 1;
+    transition: color 0.3s ease;
+}
+
+/* 🔸 Optional: Change color slightly when input is focused */
+#gcash_reference:focus::placeholder {
+    color: #ec6606;
+}
+
+#gcash_reference:focus {
+    border-color: #f97316;
     outline: none;
 }
 
-/* --- Button (Orange) --- */
+/* --- Submit Button --- */
 .subscribe-button {
     background-color: #f97316;
     color: white;
     border: none;
-    padding: 15px 25px; /* Slightly thicker button */
+    padding: 15px 25px;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 1.2em; /* Slightly larger text */
+    font-size: 1.2em;
     font-weight: 600;
     transition: background-color 0.3s;
     width: 100%;
@@ -183,7 +196,6 @@ h3 {
 .subscribe-button:hover {
     background-color: #ec6606; 
 }
-
 
 /* ---------------------------------------------------- */
 /* Footer Styles */
@@ -203,7 +215,7 @@ h3 {
 .footer h3, .footer h4 { 
     color: white; 
     margin-bottom: 15px;
- }
+}
 
 .footer a { 
     display: block; 
@@ -214,12 +226,13 @@ h3 {
 }
 
 .footer a:hover { 
-    color: #f97316; /* Orange on hover */
+    color: #f97316;
 }
+
 .footer-bottom {
-      text-align: center; 
-      margin-top: 20px;
-      font-size: 14px; 
-      border-top: 1px solid #333; 
-      padding-top: 15px; 
+    text-align: center; 
+    margin-top: 20px;
+    font-size: 14px; 
+    border-top: 1px solid #333; 
+    padding-top: 15px; 
 }

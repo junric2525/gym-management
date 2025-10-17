@@ -1,20 +1,35 @@
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #f9fafb;
-  margin: 0;
-  padding: 0;
+:root {
+    --primary-color: #ff8c00;
+    --secondary-color: #f4f4ff;
+    --dark-color: #333;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --light-bg: #fff;
 }
 
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f9fafb;
+    margin: 0;
+    padding: 0;
+    
+    /* Layout for Header, Content, Footer */
+    display: flex;
+    flex-direction: column; 
+    min-height: 100vh; 
+}
+
+    
 .header {
-  background: linear-gradient(90deg, #111, #f97316);
-  padding: 15px;
-  color: #fff;
+    background: linear-gradient(90deg, #111, #f97316); /* Orange/Black Gradient */
+    padding: 15px;
+    color: #fff;
 }
 
 .header-flex {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .logo { display: flex; align-items: center; }
@@ -22,118 +37,182 @@ body {
 .logo-text { font-size: 20px; font-weight: bold; }
 
 .nav-desktop a {
-  color: #fff;
-  margin-left: 20px;
-  text-decoration: none;
-}
-
-.renew-container {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  text-align: center;
-}
-
-.current-info {
-  margin-bottom: 25px;
-  padding: 15px;
-  border: 1px dashed #ccc;
-  border-radius: 6px;
-  background: #fefefe;
-}
-
-.renew-options h2 {
-  margin-bottom: 15px;
-  color: #f97316;
-}
-
-.btn-renew {
-  background: #f97316;
-  color: #fff;
-  border: none;
-  padding: 12px 18px;
-  margin: 8px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.btn-renew:hover {
-  background: #ea580c;
-}
-
-/* Modal Background */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-  justify-content: center;
-  align-items: center;
-}
-
-/* Modal Content */
-.modal-content {
-  background: #fff;
-  padding: 20px 30px;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  position: relative;
-}
-
-/* Close Button */
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 22px;
-  cursor: pointer;
-}
-
-/* QR Image */
-.qr-img {
-  width: 200px;
-  margin: 15px 0;
-}
-
-/* Input Field */
-#referenceNumber {
-  width: 80%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-/* Submit Button */
-.submit-btn {
-  background-color: #f97316; /* GCash green */
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.submit-btn:hover {
-  background-color: #008e44;
+    color: #fff;
+    margin-left: 20px;
+    text-decoration: none;
 }
 
 
-/* Footer */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+.main-content {
+    flex: 1;
+    padding: 40px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.renewal-card {
+    background: var(--light-bg);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.renewal-card h1 {
+    margin-bottom: 30px;
+    font-size: 2em;
+    font-weight: 700;
+}
+
+.plan-header {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.plan-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+.plan-tabs button {
+    flex: 1;
+    padding: 12px 10px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--dark-color);
+}
+
+.plan-tabs .active-tab {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.price-display {
+    margin-bottom: 10px;
+}
+.price-display .price-large {
+    font-size: 3em;
+    font-weight: 800;
+    color: var(--primary-color);
+}
+.price-display .price-period {
+    font-size: 1em;
+    color: #777;
+    display: block;
+}
+
+.features-list {
+    list-style: none;
+    padding: 0;
+    margin: 30px 0;
+    text-align: left;
+}
+.features-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.features-list i {
+    color: var(--primary-color);
+    margin-right: 15px;
+}
+
+.payment-confirmation {
+    padding: 25px 0;
+    border-top: 1px solid #eee;
+}
+
+.gcash-instructions {
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.gcash-details {
+    margin: 15px 0;
+    padding: 15px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.gcash-details p {
+    margin: 5px 0;
+    font-weight: 600;
+    font-size: 0.95em;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group input {
+    width: 80%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1em;
+    text-align: center;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.btn-submit {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 700;
+    transition: background-color 0.3s, transform 0.1s;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(255, 140, 0, 0.4);
+}
+
+.btn-submit:hover {
+    background-color: #e67e00;
+    transform: translateY(-1px);
+}
+
+.message {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: left;
+}
+.error-message {
+    background-color: #f8d7da;
+    color: var(--danger-color);
+    border: 1px solid #f5c6cb;
+}
+
 .footer { 
     background: #111;
     color: #ccc; 
     padding: 60px 20px 20px; 
-    
 }
 
 .footer-grid { 
@@ -156,11 +235,11 @@ body {
 }
 
 .footer a:hover { 
-    color: #f97316; 
+    color: #f97316; /* Orange on hover */
 }
 .footer-bottom {
-     text-align: center; 
-     margin-top: 20px;
+      text-align: center; 
+      margin-top: 20px;
       font-size: 14px; 
       border-top: 1px solid #333; 
       padding-top: 15px; 

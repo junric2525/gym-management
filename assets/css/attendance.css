@@ -1,0 +1,271 @@
+/* attendance.css - Full Code using Flex Grow and Scrollbar on Logs */
+
+/* Define a Consistent Maximum Width for alignment */
+:root {
+    --max-form-width: 350px;
+    --input-padding-x: 20px;
+}
+
+/* Global Styles and Body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0; 
+    margin: 0;
+    padding: 20px;
+    /* Alignment Fixes: Centers both containers horizontally and aligns their midpoints vertically */
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    min-height: 100vh; 
+    gap: 30px; /* Space between the two main container areas */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background: linear-gradient(90deg, #111, #f97316); 
+    /* background: url("../img/gym1.jpg") no-repeat center center fixed; */
+}
+
+/* Main Content Wrapper - No general max-width set here */
+.container {
+    padding: 0;
+    background-color: transparent;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+/* --- Right Side: Time In/Out Panel (Attendance Time in/out) --- */
+/* The first container: Login/Time In-Out Panel - FIXED WIDTH & WON'T GROW */
+.container:nth-child(1) { 
+    background-color: rgba(255, 255, 255, 1.0); 
+    
+    border-radius: 10px;
+    padding: 30px 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    
+    display: flex;
+    flex-direction: column;
+    
+    align-items: center; 
+    justify-content: center; 
+    
+    min-height: 450px; 
+    max-width: 450px; 
+    /* Ensures this container retains its 450px size and won't shrink */
+    min-width: 450px; 
+    flex-grow: 0; 
+    flex-shrink: 0;
+}
+
+.container:nth-child(1) h1 {
+    /* "Gym Attendance" heading */
+    font-size: 1.8em;
+    color: #f36821;
+    margin-bottom: 15px; 
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Image/Logo Styling */
+.container:nth-child(1) .header-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 20px;
+    border: 5px solid #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background-size: cover;
+    background-color: #eee;
+}
+
+/* ID Input Field - Aligned with consistent max-width */
+#members_id {
+    width: 100%; 
+    max-width: var(--max-form-width); 
+    box-sizing: border-box; 
+    /* NOTE: These margin-left settings intentionally push content right, as per your input */
+    margin-left: 50px; 
+    padding: 15px var(--input-padding-x);
+    margin-bottom: 15px; 
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1.1em;
+    text-align: center;
+}
+
+/* Start Scanner Button - Aligned with consistent max-width */
+#startScannerBtn {
+    width: 100%; 
+    max-width: var(--max-form-width); 
+    margin-left: 50px; 
+    background-color: #f36821;
+    color: white;
+    padding: 15px 30px; 
+    margin-bottom: 25px !important; 
+}
+
+#startScannerBtn:hover {
+    background-color: #e55a13;
+}
+
+/* Time In/Out Button Group - Aligned with consistent max-width and centered vertically */
+.btn-group {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    width: 100%;
+    max-width: var(--max-form-width); 
+    margin-top: 15px; 
+    padding: 0;
+    margin-left: 50px; 
+}
+
+/* General Button Styling */
+.btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    font-weight: bold;
+    flex-grow: 1; 
+    margin: 0 5px; 
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+/* Time In Button */
+.timein {
+    background-color: #f36821; 
+    color: white;
+}
+
+.timein:hover {
+    background-color: #e55a13;
+}
+
+/* Time Out Button */
+.timeout {
+    background-color: #ffc107; 
+    color: #333;
+}
+
+.timeout:hover {
+    background-color: #e0a800;
+}
+
+/* Scanner Reader Container (QR Scanner Feed) */
+#reader {
+    width: 100%;
+    max-width: var(--max-form-width); 
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #333;
+}
+
+/* Message Area */
+#message {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* --- OPTIONAL: Separator Line Simulation --- */
+.container:nth-child(1) form hr {
+    width: var(--max-form-width); 
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 20px auto;
+}
+
+/* Style the actual logo image */
+.logo-img {
+    /* Set fixed size */
+    width: 150px;
+    height: 100px;
+
+    /* Shape and spacing */
+   /* Makes it circular */
+    overflow: hidden;
+    
+    border: 5px solid #fff;
+   
+    display: block;
+}
+
+
+/* --- Left Side: Attendance Logs Panel (Today's Attendance Logs) --- */
+/* The second container: Logs Panel - FILL REMAINING SPACE (Flex Grow) */
+.container:nth-child(2) {
+    background-color: rgba(255, 255, 255, 0.9); 
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    min-height: 400px; 
+    
+    /* --- SCROLLBAR ADDITION --- */
+    max-height: 500px; 
+    overflow-y: auto; 
+    overflow-x: hidden;
+    /* ------------------------- */
+    
+    /* Set a generous max-width to allow expansion, but flex-grow is the key */
+    max-width: 700px; 
+    /* Allows this container to consume all available space */
+    flex-grow: 1; 
+}
+
+.container:nth-child(2) h2 {
+    /* "Today's Attendance Logs" heading */
+    font-size: 1.5em;
+    color: #f36821;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #f36821;
+}
+
+/* Attendance Table Styling */
+#attendanceTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#attendanceTable thead tr {
+    background-color: #f8f8f8;
+    color: #333;
+    font-weight: bold;
+    border-bottom: 2px solid #f36821;
+}
+
+#attendanceTable th, 
+#attendanceTable td {
+    padding: 10px 5px;
+    text-align: left;
+    border-bottom: 1px solid #eee; 
+}
+
+/* Simulating the simple list-like look of the image */
+#attendanceTable tbody tr {
+    background-color: transparent;
+    color: #333;
+}
+
+/* For mobile responsiveness */
+@media (max-width: 1000px) { 
+    body {
+        /* When screen is narrow, stack them */
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    .container {
+        max-width: 90%;
+        /* Remove fixed width when stacked vertically on small screens */
+        min-width: unset; 
+    }
+}

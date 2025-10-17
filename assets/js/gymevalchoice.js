@@ -1,18 +1,31 @@
-  // Wait until the DOM is fully loaded
-document.addEventListener("DOMContentLoaded", () => {
-  const coachBtn = document.querySelector(".coach-btn");
-  const gymBtn = document.querySelector(".gym-btn");
+// Get button elements
+const coachBtn = document.querySelector('.coach-btn');
+const gymBtn = document.querySelector('.gym-btn');
+const footerYear = document.getElementById('footerYear');
 
+// 1. Button Link Handlers
+// ----------------------------------------------------------------------
 
-  // Redirect when Coach Evaluation button is clicked
-  coachBtn.addEventListener("click", () => {
-    window.location.href = "CoachEvaluation.html"; // Update with the correct path
-  });
+// Coach Evaluation Button
+if (coachBtn) {
+    coachBtn.addEventListener('click', () => {
+        // Redirect the user to the coach evaluation page
+        // You'll need to replace 'coach_evaluation.php' with your actual file path
+        window.location.href = 'coach_evaluation.php'; 
+    });
+}
 
-  // Redirect when Gym Evaluation button is clicked
-  gymBtn.addEventListener("click", () => {
-    window.location.href = "GymEvaluation.html"; // Update with the correct path
-  });
+// Gym Evaluation Button
+if (gymBtn) {
+    gymBtn.addEventListener('click', () => {
+        // Redirect the user to the gym evaluation page
+        // You'll need to replace 'gym_evaluation.php' with your actual file path
+        window.location.href = 'gym_evaluation.php';
+    });
+}
 
- 
-});
+// 2. Footer Year Update
+// ----------------------------------------------------------------------
+if (footerYear) {
+    footerYear.textContent = new Date().getFullYear();
+}

@@ -62,6 +62,10 @@ body {
   border-radius: 6px;
   cursor: pointer;
   font-size: 16px;
+  
+  /* 🎯 ADD THIS TO FORCE IT ON TOP 🎯 */
+  position: relative; /* Needs a positioning context */
+  z-index: 100;      /* Give it a high value */
 }
 
 .appointment-form button:hover {

@@ -1,4 +1,11 @@
 <?php
+// =======================================================================
+// PHP SCRIPT START - TIMEZONE CORRECTION
+// =======================================================================
+
+// Example: Set the timezone to Manila (Philippines Standard Time)
+date_default_timezone_set('Asia/Manila');
+
 // subscription.php
 session_start();
 
@@ -58,18 +65,32 @@ if ($is_authenticated) {
 // --- HANDLE FORM SUBMISSION ---
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $can_submit) {
     $billing_cycle = $_POST['billing-cycle'] ?? 'monthly';
-    $gcash_ref = $_POST['gcash-ref'] ?? '';
+    $gcash_ref = $_POST['gcash_reference'] ?? '';
 
     // Amount
     $amount = ($billing_cycle == 'monthly') ? 1000.00 : 130.00;
 
-    // Validate GCash Ref
-    if (empty($gcash_ref) || !preg_match('/^\d{10,}$/', $gcash_ref)) {
-        $message .= "<div class='message error-message'>
-                     Invalid GCash Reference Number. Must be at least 10 digits.
-                     </div>";
-    } else {
+    // --- NEW VALIDATION LOGIC ---
+    $is_valid = true;
+    
+    // REQUIRE GCash Ref ONLY for Monthly
+    if ($billing_cycle === 'monthly') {
+        if (empty($gcash_ref) || strlen($gcash_ref) !== 13 || !ctype_digit($gcash_ref)) {
+            $message .= "<div class='message error-message'>
+                        Invalid GCash Reference Number for Monthly Plan. Must be 13 digits.
+                        </div>";
+            $is_valid = false;
+        }
+    }
+    // Note: Daily subscriptions ($billing_cycle === 'daily') will automatically pass this check 
+    // even if $gcash_ref is empty, which is what you want.
+
+    if ($is_valid) { // Proceed with database insertion
         $status = 'pending_confirmation';
+        // For 'daily' payments, it's possible to set a default $gcash_ref like 'N/A' 
+        // if the database column does not allow NULL. Using the empty string from $gcash_ref
+        // is generally fine if the column allows NULL or an empty string.
+
         $sql = "INSERT INTO temporary_subscription 
                 (members_id, billing_cycle, amount, gcash_reference, status, created_at) 
                 VALUES (?, ?, ?, ?, ?, NOW())";
@@ -81,12 +102,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $can_submit) {
             $message = "<div class='message success-message'>
                         Subscription initiated for Member ID: <strong>$members_id</strong>! 
                         Payment of ₱" . number_format($amount, 2) . " ($billing_cycle) is pending confirmation. 
-                        GCash Ref: <strong>$gcash_ref</strong>.
+                        " . ($billing_cycle === 'monthly' ? "GCash Ref: <strong>$gcash_ref</strong>." : "No GCash reference required for Daily Pass.") . "
                         </div>";
         } else {
             $message .= "<div class='message error-message'>
-                         Error initiating payment. Database error: " . $stmt->error . "
-                         </div>";
+                          Error initiating payment. Database error: " . $stmt->error . "
+                          </div>";
         }
         $stmt->close();
     }
@@ -107,12 +128,12 @@ $conn->close();
     <header class="header">
         <div class="header-flex">
             <div class="logo">
-                <i class="fas fa-running logo-img" style="font-size: 2.2em; margin-right: 10px;"></i> 
+                <img src="../assets/img/logo.png" alt="Logo" class="logo-img" />
                 <h1 class="logo-text">Charles Gym</h1>
             </div>
             <nav class="nav-desktop">
                 <a href="profile.php"><i class="fas fa-user"></i> Profile</a>
-                <a href="../Guest/index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                <a href="../Guest/index.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </nav>
         </div>
     </header>
@@ -129,7 +150,7 @@ $conn->close();
                     <label for="monthly">Monthly Access (₱1000)</label>
 
                     <input type="radio" id="daily" name="billing-cycle" value="daily">
-                    <label for="daily">Daily Pass (₱130)</label>
+                    <label for="daily">Daily Pass/Walk in (₱130)</label>
                 </div>
 
                 <p class="price" id="current-price">₱1000</p>
@@ -141,12 +162,26 @@ $conn->close();
                     <li><i class="fa-solid fa-shower"></i> Full Access to Shower</li>
                 </ul>
 
-                <div class="payment-details">
-                    <h4>Payment Confirmation</h4>
-                    <p>Please send payment via GCash, then enter the 13-digit Reference Number below:</p>
-                    <input type="text" name="gcash-ref" placeholder="e.g., 1234567890" required maxlength="15">
+                <div class="gcash-details">
+                    <p>GCash Number: <strong>#09515948029</strong></p>
+                    <p>Account Name: <strong>CHARLES GYM ACCOUNT</strong></p>
                 </div>
 
+                <div class="payment-details">
+                    <h4>Payment Confirmation</h4>
+                    <h3>If You choose daily plan you don't have to type Gcash Reference</h3>
+                    <p>Please send payment via GCash, then enter the 13-digit Reference Number below:</p>
+                    <input 
+                        type="text" 
+                        id="gcash_reference" 
+                        name="gcash_reference" 
+                        placeholder="Enter your 13-digit GCash Reference Number" 
+                        required 
+                        maxlength="13" 
+                        autocomplete="off"
+                    >
+                </div>
+                
                 <button type="submit" class="subscribe-button">Submit Payment Reference</button>
             <?php else: ?>
                 <div style="padding: 20px; background-color: #f7f7f7; border-radius: 8px; margin-top: 20px;">
@@ -170,14 +205,14 @@ $conn->close();
             </div>
             <div class="footer-contact">
                 <h4>Contact Us</h4>
-                <p>📍 Unit 21, Landsdale Tower, QC</p>
-                <p>📞 (555) 123-4567</p>
-                <p>✉ charlesgym@gmail.com</p>
+                <p><i class="fas fa-map"></i> Unit 21, Landsdale Tower, QC</p>
+                <p><i class="fas fa-phone"></i> (555) 123-4567</p>
+                <p><i class="fa-brands fa-google"></i> charlesgym@gmail.com</p>
             </div>
         </div>
         <div class="footer-bottom">© <span id="footerYear"></span> Charles Gym. All rights reserved.</div>
     </footer>
 
-    <script src="/gym-management/assets/js/subscription.js"></script>
+    <script src="../assets/js/subscription.js" defer></script>
 </body>
 </html>

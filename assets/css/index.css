@@ -77,7 +77,7 @@ a {
   align-items: center;
   gap: 5px;
   padding: 0;
-  font: inherit;
+  font-size: bold;
 }
 
 .nav-desktop a:hover, 

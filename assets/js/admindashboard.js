@@ -1,29 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const userIcon = document.querySelector('.user-profile-icon');
-    const dropdownMenu = document.querySelector('.dropdown-menu');
+    const profileBtn = document.querySelector(".profile-btn");
+  const profileDropdown = document.querySelector(".profile-dropdown");
 
-        userIcon.addEventListener('click', (event) => {
-            event.stopPropagation();
-            console.log("User icon clicked"); // debug
-            dropdownMenu.classList.toggle('show');
-        });
+  if (profileBtn) {
+    profileBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      profileDropdown.classList.toggle("show");
+    });
+  }
 
-        document.addEventListener('click', (event) => {
-            setTimeout(() => {
-                if (!userIcon.contains(event.target)) {
-                    dropdownMenu.classList.remove('show');
-                }
-            }, 50);
-        });
-
-    // Placeholder for tile click handling
+  // Close dropdown if clicked outside
+  document.addEventListener("click", (e) => {
+    if (!profileDropdown.contains(e.target)) {
+      profileDropdown.classList.remove("show");
+    }
+  });
+    // Handle tiles (if they exist)
     const tiles = document.querySelectorAll('.tile');
     tiles.forEach(tile => {
         tile.addEventListener('click', () => {
-            const label = tile.querySelector('.tile-label').textContent;
-            console.log(`Navigating to: ${label} section`);
-            // In a real application, you'd navigate here:
-            // window.location.href = `/admin/${label.toLowerCase().replace(/\s+/g, '-')}`;
+            const label = tile.querySelector('.tile-label')?.textContent.trim();
+            if (label) {
+                console.log(`Navigating to: ${label} section`);
+                // Example navigation:
+                // window.location.href = `/admin/${label.toLowerCase().replace(/\s+/g, '-')}`;
+            }
         });
     });
 });

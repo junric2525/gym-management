@@ -1,13 +1,21 @@
 <?php
-session_start();
-include '../backend/db.php';
 
-// ✅ Verify admin access
+// =======================================================================
+// PHP SCRIPT START - TIMEZONE CORRECTION
+// =======================================================================
+
+// Example: Set the timezone to Manila (Philippines Standard Time)
+date_default_timezone_set('Asia/Manila');
+
+session_start();
+include '../backend/db.php'; 
+
+// CRITICAL SECURITY CHECK (Keep this)
 if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
-    header("Location: ../Guest/Index.html");
+    header("Location: ../Guest/index.php");
     exit();
 }
-
+// ---
 // Fetch all subscriptions from the subscription table, joining for member and user names
 $query = "
     SELECT
@@ -62,23 +70,42 @@ $subscriptions = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 
 <div class="dashboard-container">
 
-    <aside class="sidebar">
-        <ul>
-            <li><a href="Attendance.html"><i class="fas fa-user-check"></i> Attendance Monitoring</a></li>
-            <li><a href="membership_manage.php"><i class="fas fa-users"></i> Membership Management</a></li>
-            <li><a href="payment_pendingview.php"><i class="fas fa-hand-holding-usd"></i> Membership Pending</a></li>
-            <li class="active"><a href="subscriptionview.php"><i class="fas fa-sync-alt"></i> Subscription Management</a></li>
-            <li><a href="pending_subscription.php"><i class="fas fa-hourglass-half"></i> Subscription Pending</a></li>
-            <li><a href="Staff.html"><i class="fas fa-user-tie"></i> Coach Updating</a></li>
-            <li><a href="UpdatingPromo.html"><i class="fas fa-bullhorn"></i> Updating Event/Promo</a></li>
-            <li><a href="PerformanceAnalytics.html"><i class="fas fa-chart-line"></i> Performance Analytics</a></li>
-        </ul>
-    </aside>
+        <aside class="sidebar">
+            <ul>
+                <li><a href="Attendance_monitoring.php"><i class="fas fa-user-check"></i> Attendance Monitoring</a></li>
+                <li><a href="Attendance_history.php"><i class="fas fa-user-check"></i> Attendance Logs</a></li>
+                <li><a href="membership_manage.php"><i class="fas fa-users"></i> Membership Management</a></li>
+                <li><a href="pending_renewal.php"><i class="fas fa-hand-holding-usd"></i> Renewal Pending</a></li>
+                <li><a href="payment_pendingview.php"><i class="fas fa-hourglass-half"></i> Membership Pending</a></li>
+                <li class="active"><a href="subscriptionview.php"><i class="fas fa-sync-alt"></i> Subscription Management</a></li>
+                <li><a href="pending_subscription.php"><i class="fas fa-hourglass-half"></i> Subscription Pending</a></li>
+                <li><a href="coach_update.php"><i class="fas fa-user-tie"></i> Coach Updating</a></li>
+                <li><a href="coach_appointmentview.php"><i class="fas fa-chalkboard-teacher"></i> Coach Appointments</a></li>
+                <li><a href="promo_event.php"><i class="fas fa-bullhorn"></i> Updating Promo</a></li>
+                <li><a href="coach_evalmanage.php"><i class="fas fa-chart-line"></i> Evaluations </a></li>
+            </ul>
+        </aside>
+
 
     <main class="main-content">
         <div class="main-content-header">
             <h1>All Subscriptions</h1>
         </div>
+        <div class="table-header">
+                    <div class="search-bar">
+                        <input type="text" id="searchInput" placeholder="Search by Member ID..." onkeyup="searchMember()">
+                        <button onclick="searchMember()"><i class="fas fa-search"></i></button>
+                    </div>
+                    
+                    <a href="../backend/generate_subscription_report.php" class="btn-history-link pdf-btn" title="Download Subscription Report">
+                        <i class="fas fa-file-pdf"></i> Download PDF
+                    </a>
+                    
+                    <a href="deleted_subscription_view.php" class="btn-history-link" title="View archived subscriptions">
+                        <i class="fas fa-trash"></i> Deletion History
+                    </a>
+                </div>
+
 
             <?php 
             if (isset($_GET['status']) && $_GET['status'] === 'archived_sub_success'): ?>
@@ -96,20 +123,7 @@ $subscriptions = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 
         <?php if (count($subscriptions) > 0): ?>
             <div class="content-card">
-                <div class="table-header">
-                    <!-- SEARCH BAR -->
-                    <div class="search-bar">
-                        <input type="text" id="searchInput" placeholder="Search by Member ID..." onkeyup="searchMember()">
-                        <button onclick="searchMember()"><i class="fas fa-search"></i></button>
-                    </div>
-                    
-                    <!-- NEW ARCHIVAL HISTORY BUTTON -->
-                    <a href="deleted_subscription_view.php" class="btn-history-link" title="View archived subscriptions">
-                        <i class="fas fa-trash"></i> Deletion History
-                    </a>
-                    <!-- END NEW BUTTON -->
-                </div>
-
+                
                 <div class="table-responsive">
                     <table>
                         <thead>
@@ -143,7 +157,6 @@ $subscriptions = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
                                     <td>
                                         <div class="action-buttons-group">
                                             
-                                            <!-- Archive Button -->
                                             <form method="POST"
                                                 action="../backend/process_subscription_archival.php"
                                                 onsubmit="return confirm('Are you sure you want to archive this subscription? (This will move it to the history list)');">

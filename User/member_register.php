@@ -1,4 +1,11 @@
 <?php
+// =======================================================================
+// PHP SCRIPT START - TIMEZONE CORRECTION
+// =======================================================================
+
+// Example: Set the timezone to Manila (Philippines Standard Time)
+date_default_timezone_set('Asia/Manila');
+
 session_start();
 // IMPORTANT: Adjust the path to db.php based on your actual file structure.
 // This path assumes member_registration.php is in 'User/' and db.php is in 'backend/'.
@@ -6,7 +13,7 @@ include "../backend/db.php";
 
 // 1. Authentication Check
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../Guest/Index.html");
+    header("Location: ../Guest/index.php");
     exit;
 }
 
@@ -36,6 +43,9 @@ if (isset($conn) && $conn->connect_error) {
         $userData['email'] = htmlspecialchars($row['email']);
     }
     $stmt->close();
+    // Close connection here if it was opened successfully
+    // NOTE: Ensure you don't close the connection if other parts of the script need it. 
+    // Since the PHP logic ends here, closing is fine.
     $conn->close(); 
 }
 
@@ -63,7 +73,7 @@ if (isset($conn) && $conn->connect_error) {
             <nav class="nav-desktop">
                 <a href="user.php#home"><i class="fas fa-home"></i> Home</a>
                 <a href="user.php#services"><i class="fas fa-dumbbell"></i> Services</a>
-                <a href="member_registration.php"><i class="fas fa-id-card"></i> Membership Registration</a>
+                <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>"><i class="fas fa-id-card"></i> Membership Registration</a>
                 <a href="user.php#about"><i class="fas fa-info-circle"></i> About Us</a>
 
                 <div class="profile-dropdown">
@@ -86,10 +96,10 @@ if (isset($conn) && $conn->connect_error) {
         <div id="mobileMenu" class="nav-mobile">
             <a href="user.php#home"><i class="fas fa-home"></i> Home</a>
             <a href="user.php#services"><i class="fas fa-dumbbell"></i> Services</a>
-            <a href="member_registration.php"><i class="fas fa-id-card"></i> Membership Registration</a>
+            <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>"><i class="fas fa-id-card"></i> Membership Registration</a>
             <a href="user.php#about"><i class="fas fa-info-circle"></i> About Us</a>
             <a href="profile.php"><i class="fas fa-user"></i> Profile</a>
-            <a href="../Guest/index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <a href="../Guest/index.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </header>
 
@@ -114,10 +124,12 @@ if (isset($conn) && $conn->connect_error) {
                                value="<?php echo $userData['last_name']; ?>" 
                                required readonly />
                     </div>
+                    
                     <div class="form-group">
-                        <label for="birthDate">Date of Birth</label>
+                        <label for="birthDate">Date of Birth <span id="ageDisplay" class="age-placeholder">(Age: Not set)</span></label>
                         <input name="birthDate" id="birthDate" type="date" required />
                     </div>
+                    
                     <div class="form-group">
                         <label>Gender</label>
                         <div class="radio-group-flex">
@@ -169,7 +181,7 @@ if (isset($conn) && $conn->connect_error) {
                     <label>Do you have any medical conditions?</label>
                     <div class="radio-group-flex">
                         <label><input type="radio" name="medicalConditions" value="yes" /> Yes</label>
-                        <label><input type="radio" name="medicalConditions" value="no" checked /> No</label>
+                        <label><input type="radio" name="medicalConditions" value="no"  /> No</label>
                     </div>
                     <textarea 
                         id="medicalDetails" 
@@ -184,7 +196,7 @@ if (isset($conn) && $conn->connect_error) {
                     <label>Are you taking any medications?</label>
                     <div class="radio-group-flex">
                         <label><input type="radio" name="medications" value="yes" /> Yes</label>
-                        <label><input type="radio" name="medications" value="no" checked /> No</label>
+                        <label><input type="radio" name="medications" value="no"  /> No</label>
                     </div>
                     <textarea 
                         id="medicationsDetails" 
@@ -197,12 +209,13 @@ if (isset($conn) && $conn->connect_error) {
             </fieldset>
                     
             <fieldset class="form-section payment-section fade-in">
-                <legend class="section-title"><i class="fas fa-dollar-sign"></i> 4. Payment & Verification</legend>
+                <legend class="section-title"><i class="fa-solid fa-peso-sign"></i> 4. Payment & Verification</legend>
                     
                 
                 
                 <div class="form-group">
-                    <label for="gcashReference"><h3>GCash Number: #09314813756</h3></label>             
+                    <label for="gcashReference"><h3>GCash Number: #09515948029</h3></label> 
+                    <label for="gcashReference"><h3>Payment: ₱600.00 </h3></label> 
                     <label for="gcashReference">GCash Reference Number (13 Digits)</label>
                     <input name="gcashReference" id="gcashReference" type="text" placeholder="Enter GCash Reference Number" pattern="\d{13}" maxlength="13" inputmode="numeric" required />
                 </div>
@@ -210,7 +223,7 @@ if (isset($conn) && $conn->connect_error) {
                 <div class="form-group file-upload-group">
                     <label for="validIdUpload">Upload Valid ID (For Verification)
                         <i class="fas fa-info-circle info-icon" 
-                            title="Accepted IDs: Driver’s License, Passport, National ID, PhilHealth, SSS, Voter’s ID, UMID, Postal ID"></i>
+                            title="Accepted IDs: Drivers License, Passport, National ID, PhilHealth, SSS, Voter’s ID, UMID, Postal ID"></i>
                     </label>
                     <input type="file" id="validIdUpload" name="validIdUpload" accept="image/*,.pdf" required />
                     <small>Accepted file types: JPG, PNG, PDF. Max size: 5MB.</small>
@@ -220,7 +233,7 @@ if (isset($conn) && $conn->connect_error) {
             <div class="form-group checkbox fade-in">
                 <label>
                     <input name="agree" type="checkbox" required />
-                    I agree to the <a href="#" id="termscondition">terms and conditions</a>.
+                    I agree to the  <a href="#" id="termscondition"> terms and conditions</a>.
                 </label>
             </div>
 
@@ -246,27 +259,86 @@ if (isset($conn) && $conn->connect_error) {
         </div>
     </div>
 
-    <footer class="footer">
-        <div class="container footer-grid">
-            <div class="footer-about">
-                <h3>CHARLES GYM</h3>
-                <p>World-class fitness training in a supportive and motivating environment.</p>
-            </div>
-            <div class="footer-links">
-                <h4>Quick Links</h4>
-                <a href="User.php#home">Home</a>
-                <a href="User.php#about">About Us</a>
-                <a href="User.php#services">Services</a>
-            </div>
-            <div class="footer-contact">
-                <h4>Contact Us</h4>
-                <p> <i class="fas fa-map"></i> Unit 21, Landsdale Tower, QC</p>
-                <p><i class="fas fa-phone"></i> (555) 123-4567</p>
-                <p><i class="fa-brands fa-google"></i> charlesgym@gmail.com</p>
-            </div>
-        </div>
-        <div class="footer-bottom">© <span id="footerYear"></span> Charles Gym. All rights reserved.</div>
-    </footer>
+   <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-about">
+        <h3>CHARLES GYM</h3>
+        <p>World-class fitness training in a supportive and motivating environment.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <a href="#home">Home</a>
+        <a href="#about">About Us</a>
+        <a href="#services">Services</a>
+        <a href="faq.html">FAQ</a>
+      <a href="terms_condition.html">Terms</a>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact Us</h4>
+        <p><i class="fas fa-map"></i> Unit 21, Landsdale Tower, QC</p>
+        <p><i class="fas fa-phone"></i> (555) 123-4567</p>
+        <p><i class="fa-brands fa-google"></i> charlesgym@gmail.com</p>
+      </div>
+    </div>
+    <div class="footer-bottom">© <span id="footerYear"></span> Charles Gym. All rights reserved.</div>
+  </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const birthDateInput = document.getElementById('birthDate');
+            const ageDisplay = document.getElementById('ageDisplay');
+
+            // 1. Set max date to today's date (prevents selecting future dates)
+            const todayString = new Date().toISOString().split('T')[0];
+            birthDateInput.setAttribute('max', todayString);
+
+            /**
+             * Calculates the age based on a birth date string.
+             * @param {string} birthDateString - The date string from the input (YYYY-MM-DD).
+             * @returns {number|null} The calculated age in years, or null if invalid.
+             */
+            function calculateAge(birthDateString) {
+                if (!birthDateString) {
+                    return null;
+                }
+
+                const today = new Date();
+                const birthDate = new Date(birthDateString);
+                
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const monthDifference = today.getMonth() - birthDate.getMonth();
+
+                // Adjust age if the birthday hasn't happened yet this year
+                if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+                return age;
+            }
+
+            /**
+             * Updates the age display element.
+             */
+            function updateAgeDisplay() {
+                const age = calculateAge(birthDateInput.value);
+                
+                // Only display if the result is a valid, non-negative number
+                if (age !== null && !isNaN(age) && age >= 0) {
+                    ageDisplay.textContent = `(Age: ${age} years)`;
+                    ageDisplay.style.color = '#007bff'; // Highlight the age
+                } else {
+                    ageDisplay.textContent = '(Age: Not set)';
+                    ageDisplay.style.color = '#6c757d'; // Default color
+                }
+            }
+
+            // Attach event listener to update age when date changes
+            birthDateInput.addEventListener('change', updateAgeDisplay);
+            birthDateInput.addEventListener('input', updateAgeDisplay);
+            
+            // Initial call in case there's pre-filled data or to set max date
+            updateAgeDisplay();
+        });
+    </script>
 
     <script src="../assets/js/memberregister.js"></script>
 </body>

@@ -1,0 +1,487 @@
+/*
+ * Stylesheet for pending_renewal.php
+ * Clean Light Theme with Teal/Blue Accents
+ */
+
+/* Color Palette: Clean Light Theme (Using Teal/Blue Accents) */
+:root {
+    --primary-color: #f97316; /* Cyan/Teal Accent */
+    --primary-hover: orange;
+    --secondary-color: #343a40; /* Dark text/headers */
+    --background-color: #e9ecef; /* Very Light Blue-Gray Body BG */
+    --card-background: #ffffff; /* White Card/Content background */
+    --sidebar-bg: #343a40; /* Dark Sidebar for contrast */
+    --sidebar-link: #ffffff;
+    --sidebar-active: var(--primary-color); 
+    --border-color: #dee2e6; /* Light gray border */
+    --success-color: #28a745;
+    --error-color: #dc3545;
+    --archive-color: #dc3545; /* Red for destructive actions (Reject button) */
+    --shadow-sm: 0 1px 10px rgba(0, 0, 0, 0.08);
+    --radius: 6px;
+}
+
+/* Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif, Arial;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--secondary-color);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: var(--primary-hover);
+}
+
+/* === Header/Navigation === */
+.header {
+    background: linear-gradient(90deg, #111, #f97316); 
+    box-shadow: var(--shadow-sm);
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px; /* Ensuring content centering */
+    margin: 0 auto;
+    padding: 10px 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Use gap for spacing */
+}
+
+.logo-img {
+    height: 40px;
+    /* You might need to adjust filter/color if the logo is dark on white background */
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    color:white;
+    font-weight: 700;
+}
+
+/* Profile Dropdown */
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-btn {
+    background: white;
+    border: none;
+    color: black;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+}
+
+.profile-btn:hover {
+    background-color: orange;
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    background-color: var(--card-background);
+    min-width: 180px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    border-radius: var(--radius);
+    margin-top: 5px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    border: 1px solid var(--border-color);
+}
+
+/* Using hover for visibility since no JS toggle is in PHP */
+.profile-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu a {
+    color: var(--secondary-color);
+    padding: 12px 16px;
+    display: block;
+}
+
+.dropdown-menu a:hover {
+    background-color: var(--background-color);
+    color: var(--primary-color);
+}
+
+.dropdown-menu a i {
+    margin-right: 10px;
+}
+
+/* === Dashboard Layout === */
+.dashboard-container {
+    display: flex;
+    min-height: calc(100vh - 60px); /* Adjusting based on 60px header height */
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background: linear-gradient(90deg, #111, #f97316);
+    color: var(--sidebar-link);
+    padding: 20px 0;
+    flex-shrink: 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar li a {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: #e9ecef; /* Ensure text is light on dark sidebar */
+    transition: background-color 0.3s, color 0.3s;
+    border-left: 5px solid transparent;
+}
+
+.sidebar li a i {
+    margin-right: 10px;
+    font-size: 1.1rem;
+}
+
+.sidebar li a:hover {
+    background-color: black;
+    color: var(--card-background);
+}
+
+.sidebar li.active a {
+    background-color: black; 
+    color: var(--primary-color);
+    border-left-color: var(--primary-color);
+    font-weight: bold;
+}
+
+
+/* Main Content */
+.main-content {
+    flex-grow: 1;
+    padding: 30px;
+    overflow-x: hidden; 
+}
+
+.main-content-header {
+    margin-bottom: 25px;
+}
+
+.main-content-header h1 {
+    font-size: 2rem;
+    color: var(--secondary-color);
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 10px;
+    margin-bottom: 5px; /* Adjust spacing */
+}
+
+.subtext {
+    color: #6c757d; /* Muted color for subtext */
+    font-size: 0.95rem;
+}
+
+/* === Alert Messages (Renamed to match PHP classes) === */
+.msg { 
+    padding: 15px;
+    border-radius: var(--radius);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    border: 1px solid transparent;
+    margin-bottom: 20px; 
+}
+
+.msg i {
+    margin-right: 10px; 
+    font-size: 1.1rem;
+}
+
+.msg.success { 
+    background-color: #d4edda;
+    color: var(--success-color);
+    border-color: #c3e6cb;
+}
+
+.msg.error { 
+    background-color: #f8d7da;
+    color: var(--error-color);
+    border-color: #f5c6cb;
+}
+
+/* === Table Header & Search === */
+.table-header {
+    display: flex;
+    justify-content: flex-end; /* Pushing search bar to the right */
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.search-bar {
+    display: flex;
+    max-width: 400px;
+}
+
+.search-bar input[type="text"] {
+    padding: 10px 15px;
+    border: 1px solid var(--border-color);
+    border-right: none;
+    border-radius: var(--radius) 0 0 var(--radius);
+    font-size: 1rem;
+    width: 100%;
+    outline-color: var(--primary-color);
+}
+
+.search-bar button {
+    background-color: var(--primary-color);
+    color: white;
+    border: 1px solid var(--primary-color);
+    padding: 10px 15px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-bar button:hover {
+    background-color: var(--primary-hover);
+}
+
+/* === Table Styles === */
+.content-card {
+    background-color: var(--card-background);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: 900px; /* Ensure better minimum width for the data */
+}
+
+table thead tr {
+    background-color: #f1f1f1;
+    color: var(--secondary-color);
+    text-align: left;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+table th, table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    white-space: nowrap;
+}
+
+table thead th {
+    border-top: 2px solid var(--primary-color);
+    font-weight: 600;
+    color: #6c757d;
+}
+
+table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Custom table cell colors from PHP */
+td[style*="font-weight:bold;"] { font-weight: 700 !important; }
+td[style*="color:#f97316;"] { color: #f97316 !important; } /* GCash Ref # (Orange) */
+td[style*="color:blue;"] { color: #007bff !important; } /* Expiration Date (Blue) */
+
+
+/* Action Buttons */
+.action-buttons-group {
+    display: flex;        /* Makes the container a flexible box */
+    align-items: center;  /* Vertically centers the buttons (good practice) */
+    gap: 8px;             /* Adds 8px of space between all child elements (modern approach) */
+}
+
+.action-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.2s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Approve Button (.btn-view) */
+.btn-view {
+    background-color: var(--success-color); 
+    color: white;
+}
+
+.btn-view:hover {
+    background-color: #1e7e34; /* Darker success color */
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Reject Button (.reject-btn) */
+.reject-btn {
+    background-color: var(--archive-color); 
+    color: white;
+}
+
+.reject-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+
+/* === Empty State === */
+.empty-state-container {
+    text-align: center;
+    padding: 60px 20px;
+    background-color: var(--card-background);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    margin-top: 30px;
+}
+
+.empty-state-icon {
+    font-size: 4rem;
+    color: var(--border-color);
+    margin-bottom: 15px;
+}
+
+.empty-state-title {
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+
+.empty-state-text {
+    color: #6c757d;
+    margin-bottom: 20px;
+}
+
+.btn-pending-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 25px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: var(--radius);
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 3px 6px rgba(0, 188, 212, 0.3);
+}
+
+.btn-pending-link:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.btn-pending-link i {
+    margin-right: 8px;
+}
+
+/* === Media Queries for Responsiveness === */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 200px; /* Slightly narrower sidebar */
+    }
+    
+    .main-content {
+        padding: 20px;
+        overflow-x: hidden; 
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar ul {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 5px;
+        background-color: var(--sidebar-bg);
+    }
+    
+    .sidebar li {
+        flex-shrink: 0;
+        margin-bottom: 0;
+    }
+
+    .sidebar li a {
+        padding: 12px 15px;
+        border-left: none !important;
+        font-size: 0.85rem;
+    }
+    
+    .main-content {
+        padding: 15px;
+    }
+    
+    .main-content-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .table-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search-bar {
+        max-width: 100%;
+    }
+    
+    .action-buttons-group {
+        flex-direction: row;
+        gap: 5px;
+        justify-content: flex-start;
+    }
+}

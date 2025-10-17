@@ -1,17 +1,25 @@
 <?php
-session_start();
 
-// Check if the admin is logged in
-if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_email'])) {
-    // If not logged in, redirect them to the login page
-    // Adjust the path to your actual login page (e.g., index.html or login.php)
-    header("Location: /gym-management/login.html");
+// =======================================================================
+// PHP SCRIPT START - TIMEZONE CORRECTION
+// =======================================================================
+
+// Example: Set the timezone to Manila (Philippines Standard Time)
+date_default_timezone_set('Asia/Manila');
+
+session_start();
+include '../backend/db.php'; // <-- FIX IS HERE
+
+// CRITICAL SECURITY CHECK (Keep this)
+if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+    header("Location: ../Guest/index.php");
     exit();
 }
-
 // If the admin is logged in, continue to display the dashboard HTML below.
 
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,8 +45,8 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_email'])) {
                 <i class="fas fa-user"></i> <i class="fas fa-caret-down"></i>
             </button>
             <div class="dropdown-menu">
-                <a href="AdminDashboard.html"><i class="fas fa-user"></i>Home</a>
-                <a href="../Guest/Index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                <a href="Admin.php"><i class="fas fa-user"></i>Home</a>
+                <a href="../Guest/index.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </div>
         </div>
 
@@ -56,8 +64,15 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_email'])) {
         <a href="membership_manage.php" class="dashboard-card-new admin-focus">
             <i class="fa fa-id-card fa-3x card-icon"></i>
             <span class="card-title">Membership Management</span>
-            <p class="card-description">View, edit, and manage all active gym members.</p>
+            <p class="card-description">View and manage all active gym members.</p>
         </a>
+         
+        <a href="pending_renewal.php" class="dashboard-card-new">
+            <i class="fa fa-user-clock fa-3x card-icon"></i>
+            <span class="card-title">Pending Renewal</span>
+            <p class="card-description">View and manage the pending Renewal members.</p>
+        </a>
+
         <a href="payment_pendingview.php" class="dashboard-card-new admin-attention">
             <i class="fa fa-user-clock fa-3x card-icon"></i>
             <span class="card-title">Pending Membership</span>
@@ -75,27 +90,43 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_email'])) {
             <p class="card-description">Process and verify pending subscription renewals.</p>
         </a>
         
-        <a href="Attendance.html" class="dashboard-card-new">
+        <a href="attendance_monitoring.php" class="dashboard-card-new">
             <i class="fa fa-check-circle fa-3x card-icon"></i>
             <span class="card-title">Attendance Monitoring</span>
             <p class="card-description">Track member check-ins and attendance records.</p>
         </a>
-        <a href="Staff.html" class="dashboard-card-new">
+        <a href="attendance_history.php" class="dashboard-card-new">
+            <i class="fa fa-check-circle fa-3x card-icon"></i>
+            <span class="card-title">Attendance History</span>
+            <p class="card-description">Track member check-ins and attendance records.</p>
+        </a>
+        <a href="coach_update.php" class="dashboard-card-new">
             <i class="fa fa-user-shield fa-3x card-icon"></i>
-            <span class="card-title">Staff Management</span>
-            <p class="card-description">Manage staff profiles, roles, and access permissions.</p>
+            <span class="card-title">Adding Coach</span>
+            <p class="card-description">adding coach information.</p>
+        </a>
+
+         <a href="coach_appointmentview.php" class="dashboard-card-new">
+            <i class="fa fa-user-shield fa-3x card-icon"></i>
+            <span class="card-title">Coach Appointment List</span>
+            <p class="card-description">Appointment List.</p>
         </a>
         
-        <a href="UpdatingPromo.html" class="dashboard-card-new admin-focus">
+        
+        <a href="promo_event.php" class="dashboard-card-new admin-focus">
             <i class="fa fa-bullhorn fa-3x card-icon"></i>
             <span class="card-title">Updating Event/Promo</span>
             <p class="card-description">Create and modify current marketing events and promotions.</p>
         </a>
-        <a href="PerformanceAnalytics.html" class="dashboard-card-new">
+        <a href="coach_evalmanage.php" class="dashboard-card-new">
             <i class="fa fa-chart-line fa-3x card-icon"></i>
-            <span class="card-title">Performance Analytics</span>
-            <p class="card-description">View key gym performance metrics and data trends.</p>
+            <span class="card-title">Evaluation</span>
+            <p class="card-description">Gym and Coach Evaluations.</p>
         </a>
+
+       
+    
+    
     </div>
 </main>
 <footer class="footer">
@@ -114,14 +145,14 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_email'])) {
             </div>
             <div class="footer-contact">
                 <h4>Contact Us</h4>
-                <p>📍 Unit 21, Landsdale Tower, QC</p>
-                <p>📞 (555) 123-4567</p>
-                <p>✉ charlesgym@gmail.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> Unit 21, Landsdale Tower, QC</p>
+                <p><i class="fas fa-phone"></i> (555) 123-4567</p>
+                <p><i class="fa-brands fa-google"></i> charlesgym@gmail.com</p>
             </div>
         </div>
         <div class="footer-bottom">© <span id="footerYear"></span> Charles Gym. All rights reserved.</div>
     </footer>
 
-    <script src="../assets/js/admindashboard.js"></script>
+    <script src="../assets/js/admindashboard.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,354 @@
+/* Color Palette: Clean Light Theme (Using Teal/Blue Accents) - From Base CSS */
+:root {
+    --primary-color: #f97316; /* Orange Accent */
+    --primary-hover: orange;
+    --secondary-color: #343a40; /* Dark text/headers */
+    --background-color: #e9ecef; /* Very Light Blue-Gray Body BG */
+    --card-background: #ffffff; /* White Card/Content background */
+    --sidebar-bg: #343a40; /* Dark Sidebar for contrast */
+    --sidebar-link: #ffffff;
+    --sidebar-active: var(--primary-color); 
+    --border-color: #dee2e6; /* Light gray border */
+    --success-color: #28a745;
+    --error-color: #dc3545;
+    --warning-color: #ffc107; /* Added for warnings */
+    --archive-color: #dc3545; /* Red for destructive actions */
+}
+
+/* Base Styles (Already in your request, included for completeness) */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif, Arial;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--secondary-color);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: var(--primary-hover);
+}
+
+/* === Header/Navigation === */
+.header {
+    background: linear-gradient(90deg, #111, var(--primary-color)); 
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-content-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 10px 20px;
+}
+
+.header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color:white;
+}
+
+/* Profile Dropdown (Simplified version, assumes JS handles the 'show' class) */
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-btn {
+    background: white;
+    border: none;
+    color: black;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+}
+
+.profile-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    background-color: var(--card-background);
+    min-width: 180px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    border-radius: 6px;
+    margin-top: 5px;
+    /* Styles for visibility based on your HTML/JS setup */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    border: 1px solid var(--border-color);
+}
+
+/* You need JS to toggle a class like 'show' on .profile-dropdown for this to work */
+.profile-dropdown:hover .dropdown-menu,
+.profile-dropdown.show .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu a {
+    color: var(--secondary-color);
+    padding: 12px 16px;
+    display: block;
+}
+
+.dropdown-menu a:hover {
+    background-color: var(--background-color);
+    color: var(--primary-color);
+}
+
+.dropdown-menu a i {
+    margin-right: 10px;
+}
+
+/* === Dashboard Layout === */
+.dashboard-container {
+    display: flex;
+    /* Adjusted height calculation for full viewport height */
+    min-height: calc(100vh - 60px); 
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background: linear-gradient(90deg, #111, var(--primary-color)); 
+    color: var(--sidebar-link);
+    padding: 20px 0;
+    flex-shrink: 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar li a {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: white;
+    transition: background-color 0.3s, color 0.3s;
+    border-left: 5px solid transparent;
+}
+
+.sidebar li a i {
+    margin-right: 10px;
+    font-size: 1.1rem;
+}
+
+.sidebar li a:hover {
+    background-color: black;
+    color: rgb(243, 240, 237);
+}
+
+.sidebar li.active a {
+    background-color: black; 
+    color: var(--primary-color);
+    border-left-color: var(--primary-color);
+    font-weight: bold;
+}
+.sidebar li a {
+    color: #e9ecef; /* Ensure text is light on dark sidebar */
+}
+
+/* === FORM CONTENT STYLES === */
+.form-container {
+    flex-grow: 1;
+    padding: 30px;
+    max-width: 800px; /* Constrain width for better form reading */
+    margin: 30px auto; /* Center the form in the main area */
+    background-color: var(--card-background);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.form-container h2 {
+    font-size: 2rem;
+    color: var(--secondary-color);
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+/* === Message/Alert Styles === */
+.message {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    border: 1px solid transparent;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: var(--success-color);
+    border-color: #c3e6cb;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: var(--error-color);
+    border-color: #f5c6cb;
+}
+
+.message.warning {
+    background-color: #fff3cd;
+    color: #856404; /* Darker text for warning */
+    border-color: #ffeeba;
+}
+
+/* === Form Element Styling === */
+.form-container form {
+    display: grid;
+    gap: 20px;
+}
+
+.form-container label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--secondary-color);
+}
+
+.form-container input[type="text"],
+.form-container select,
+.form-container input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: #f8f9fa;
+}
+
+.form-container input[type="text"]:focus,
+.form-container select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb, 249, 115, 22), 0.25);
+    outline: none;
+    background-color: var(--card-background);
+}
+
+/* Specific style for file input */
+.form-container input[type="file"] {
+    padding: 10px;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.form-container small {
+    display: block;
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-top: -15px; /* Pull it closer to the file input */
+}
+
+.form-container input[type="submit"] {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+}
+
+.form-container input[type="submit"]:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* === Media Queries for Responsiveness (from base CSS) === */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 220px;
+    }
+    
+    .form-container {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 0;
+        border-right: none;
+        box-shadow: none;
+    }
+
+    .sidebar ul {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 5px;
+        background-color: var(--sidebar-bg); /* ensure background is dark */
+    }
+    
+    .sidebar li {
+        flex-shrink: 0;
+    }
+
+    .sidebar li a {
+        padding: 12px 15px;
+        border-left: none !important;
+        font-size: 0.9rem;
+    }
+    
+    .logo-text {
+        font-size: 1.3rem;
+    }
+
+    .form-container {
+        margin: 20px;
+        width: auto;
+    }
+}

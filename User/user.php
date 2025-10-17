@@ -4,12 +4,16 @@ session_start();
 require_once '../backend/db.php'; 
 
 $username = "Member"; // Default name if not logged in or name not found
+// Initialize FALLBACK PROMO PATH (Used if DB query fails or no image is set)
+$promo_image_path = 'assets/img/default-promo.jpg'; 
 
+// ---------------------------------------------
+// 1. FETCH USER DATA
+// ---------------------------------------------
 if (isset($_SESSION['user_id'])) {
     $target_user_id = $_SESSION['user_id'];
     
     // Fetch user's first name for a personalized greeting
-    // NOTE: This assumes your 'users' table has a 'first_name' column.
     $sql = "SELECT first_name FROM users WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $target_user_id);
@@ -17,15 +21,46 @@ if (isset($_SESSION['user_id'])) {
     $result = $stmt->get_result();
     $user_data = $result->fetch_assoc();
     $stmt->close();
-    $conn->close();
 
     if ($user_data && isset($user_data['first_name'])) {
         $username = htmlspecialchars($user_data['first_name']);
     }
+    // NOTE: We don't close the connection here, as we need it for the promo query below.
 } else {
     // Optional: Redirect non-logged-in users back to the index/login page
     // header("Location: ../Guest/Index.html");
     // exit;
+}
+
+// CHECK FOR AND DISPLAY SESSION ALERTS
+$alert_message = '';
+$alert_type = '';
+
+if (isset($_SESSION['alert_message'])) {
+    $alert_message = $_SESSION['alert_message'];
+    $alert_type = $_SESSION['alert_type'] ?? 'info'; // Default type if not set
+    unset($_SESSION['alert_message']); // Clear message after reading
+    unset($_SESSION['alert_type']); // Clear type after reading
+}
+
+// ---------------------------------------------
+// 2. NEW: FETCH PROMO IMAGE PATH
+// ---------------------------------------------
+// This assumes $conn is open from the user fetch above.
+if ($conn->ping()) {
+    $sql_promo = "SELECT promo_image_path FROM promotions WHERE id = 1 LIMIT 1";
+    if ($result_promo = $conn->query($sql_promo)) {
+        if ($row_promo = $result_promo->fetch_assoc()) {
+            // Overwrite the fallback path with the database path
+            $promo_image_path = htmlspecialchars($row_promo['promo_image_path']);
+        }
+        $result_promo->close();
+    }
+    // Close the database connection after all operations
+    $conn->close();
+} else {
+    // If connection failed earlier, log a message or handle the error
+    error_log("Database connection failed for promo image fetch.");
 }
 ?>
 <!DOCTYPE html>
@@ -38,6 +73,14 @@ if (isset($_SESSION['user_id'])) {
     <title>Charles Gym - User</title>
 </head>
 <body>
+
+<body>
+
+    <?php if ($alert_message): ?>
+        <div class="session-alert session-alert-<?php echo htmlspecialchars($alert_type); ?>">
+            <p><i class="fas fa-info-circle"></i> <?php echo htmlspecialchars($alert_message); ?></p>
+        </div>
+    <?php endif; ?>
 
     <header class="header">
         <div class="container header-flex">
@@ -76,7 +119,7 @@ if (isset($_SESSION['user_id'])) {
             <a href="member_register.php"><i class="fas fa-id-card"></i> Membership Registration</a>
             <a href="#about"><i class="fas fa-info-circle"></i> About Us</a>
             <a href="profile.php"><i class="fas fa-user"></i> Profile</a>
-            <a href="../Guest/index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <a href="../Guest/index.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </header>
 
@@ -112,8 +155,8 @@ if (isset($_SESSION['user_id'])) {
 
             <div class="promo-box text-center">
                 <h2 class="section-title"><i class="fas fa-bullhorn"></i> Latest Promo</h2>
-                <img id="promoImage" src="assets/img/default-promo.jpg" alt="Promo Event">
-                <h3 id="promoTitle">Special Gym Promo Coming Soon!</h3>
+                <img id="promoImage" src="../../<?php echo htmlspecialchars($promo_image_path); ?>" alt="Promo Event">
+                <h3 id="promoTitle">Promo of Gym</h3>
             </div>
 
         </div>
@@ -123,7 +166,7 @@ if (isset($_SESSION['user_id'])) {
         <div class="container">
             <h2 class="section-title text-center"><i class="fas fa-dumbbell"></i> Our Services</h2>
             <div class="grid">
-                <div class="service-card">   
+                <div class="service-card">  
                     <i class="fas fa-dumbbell"></i>
                     <h3>Strength Training</h3>
                     <p>Professional weightlifting equipment and personal coaching sessions.</p>
@@ -136,7 +179,7 @@ if (isset($_SESSION['user_id'])) {
                 <div class="service-card">
                     <i class="fas fa-spa"></i>
                     <h3>Wellness & Recovery</h3>
-                    <p>Sauna, massage therapy, and yoga sessions to relax your body and mind.</p>
+                    <p>yoga sessions to relax your body and mind.</p>
                 </div>
             </div>
         </div>

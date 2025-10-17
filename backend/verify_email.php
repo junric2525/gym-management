@@ -1,4 +1,11 @@
 <?php
+// =======================================================================
+// PHP SCRIPT START - TIMEZONE CORRECTION
+// =======================================================================
+
+// Example: Set the timezone to Manila (Philippines Standard Time)
+date_default_timezone_set('Asia/Manila');
+
 session_start(); // Start the session at the very top of the script
 
 // Show errors while testing (remove in production)

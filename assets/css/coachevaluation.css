@@ -1,11 +1,29 @@
-/* General body styling */
-body {
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    margin: 0;
+/* -------------------------------------- */
+/* Global Styles & Layout */
+/* -------------------------------------- */
+:root {
+    --primary-color: #ff8c00; /* Deep Orange, similar to the submit button */
+    --secondary-color: #333;
+    --background-light: #f4f4f4;
+    --card-background: #ffffff;
+    --star-color-active: #ff7b00; /* Adjusted to match new star rating color */
+    --star-color-inactive: #ccc;
+    --font-family: 'Arial', sans-serif;
 }
 
-/* Header */
+body {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-light);
+    color: var(--secondary-color);
+    min-height: 100vh;
+}
+
+
+/*====================
+  HEADER
+====================*/
 .header {
     background: linear-gradient(90deg, #111, #f97316);
     padding: 15px 20px;
@@ -45,145 +63,213 @@ body {
     color: #f97316;
 }
 
-/* Center the form container between header and footer */
+/* -------------------------------------- */
+/* Main Form Layout & Container (UPDATED) */
+/* -------------------------------------- */
+
 .main-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: calc(100vh - 140px); /* adjust based on header + footer height */
-    margin-top: 30px;
-    margin-bottom: 20px;
+    padding: 40px 20px;
+    flex-grow: 1; /* Allows it to fill space between header and footer */
 }
 
-/* Form container */
 .form-container {
-    position: relative;
-    background: #fff;
+    background-color: var(--card-background);
     padding: 30px;
     border-radius: 12px;
-    width: 400px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    position: relative;
 }
 
-/* Close button */
+.form-container h2 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
 .close-btn {
     position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
+    top: 15px;
+    right: 20px;
+    font-size: 1.5rem;
     cursor: pointer;
-    transition: 0.3s;
+    color: #999;
+    transition: color 0.2s;
 }
 
 .close-btn:hover {
-    color: #ff7b00;
+    color: var(--secondary-color);
 }
 
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
+/* -------------------------------------- */
+/* Form Elements (UPDATED) */
+/* -------------------------------------- */
 
-label {
+.form-container label {
     display: block;
     margin-top: 15px;
     margin-bottom: 5px;
     font-weight: bold;
+    color: #555;
 }
 
-input[type="text"],
-textarea {
+.form-container input[type="text"],
+.form-container select,
+.form-container textarea {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd; /* Re-adding the border that was removed */
     border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 14px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-textarea {
+.form-container input[type="text"]:focus,
+.form-container select:focus,
+.form-container textarea:focus {
+    /* Kept box-shadow style from your request */
+    box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2);
+    outline: none;
+    border-color: var(--primary-color); /* Added focus border for visibility */
+}
+
+.form-container textarea {
     resize: vertical;
+    min-height: 100px;
 }
 
-button {
+.form-container button[type="submit"] {
     width: 100%;
-    padding: 12px 0;
-    margin-top: 20px;
-    background-color: #ff7b00;
+    padding: 15px;
+    background-color: var(--primary-color); /* Re-added background color */
+    color: white;
     border: none;
     border-radius: 8px;
-    font-size: 16px;
-    color: #fff;
+    font-size: 1.1rem;
     font-weight: bold;
     cursor: pointer;
-    transition: 0.3s;
+    margin-top: 20px;
+    transition: background-color 0.3s, transform 0.1s;
+    box-shadow: 0 4px 6px rgba(255, 140, 0, 0.3);
 }
 
-button:hover {
-    background-color: #e06600;
+.form-container button[type="submit"]:hover {
+    background-color: #e07b00; /* Slightly darker orange */
+    transform: translateY(-1px);
 }
 
-/* Star rating */
+/* -------------------------------------- */
+/* Star Rating Styles (UPDATED) */
+/* -------------------------------------- */
+
 .star-rating {
     display: flex;
     flex-direction: row-reverse;
-    justify-content: flex-end;
-    gap: 5px;
+    justify-content: flex-end; /* Changed from flex-start to flex-end to align stars right-to-left */
+    font-size: 2rem;
+    margin: 10px 0 20px;
+    overflow: hidden;
+    gap: 5px; /* Added gap from your suggested styles */
 }
 
 .star-rating input {
-    display: none;
+    display: none; /* Hide the actual radio button */
 }
 
 .star-rating label {
-    font-size: 24px;
-    color: #ccc;
     cursor: pointer;
-    transition: 0.3s;
+    color: var(--star-color-inactive);
+    margin: 0; /* Removed margin */
+    transition: color 0.3s;
+    padding: 0;
+    display: inline-block;
+    font-weight: normal;
+    font-size: 24px; /* Set specific font size */
 }
 
-.star-rating input:checked ~ label,
+/* Base style for star on hover */
 .star-rating label:hover,
 .star-rating label:hover ~ label {
-    color: #ff7b00;
+    color: var(--star-color-active);
 }
+
+/* Style for selected star and all stars before it */
+.star-rating input:checked ~ label {
+    color: var(--star-color-active);
+}
+
+/* -------------------------------------- */
+/* Footer Styles (Keeping original Canvas versions for consistency) */
+/* -------------------------------------- */
 
 /* Footer */
 .footer {
-    background: #111;
-    color: #ccc;
-    padding: 60px 20px 20px;
+  background: #111;
+  color: #ccc;
+  padding: 60px 20px 20px;
 }
 
 .footer-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 25px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 25px;
 }
 
 .footer h3,
 .footer h4 {
-    color: #fff;
-    margin-bottom: 15px;
+  color: #fff;
+  margin-bottom: 15px;
 }
 
 .footer a {
-    display: block;
-    color: #ccc;
-    margin-bottom: 8px;
-    transition: 0.3s;
-    text-decoration: none;
+  display: block;
+  color: #ccc;
+  margin-bottom: 8px;
+  transition: 0.3s;
+  text-decoration: none;
 }
 
 .footer a:hover {
-    color: #f97316;
+  color: #f97316;
 }
 
 .footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  border-top: 1px solid #333;
+  padding-top: 15px;
+}
+/* -------------------------------------- */
+/* Message Styles (from PHP code) */
+/* -------------------------------------- */
+
+.message {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
     text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
-    border-top: 1px solid #333;
-    padding-top: 15px;
+    font-weight: bold;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
 }
