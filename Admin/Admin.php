@@ -124,34 +124,10 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
             <p class="card-description">Gym and Coach Evaluations.</p>
         </a>
 
-       
-    
     
     </div>
 </main>
-<footer class="footer">
-        <div class="container footer-grid">
-            <div class="footer-about">
-                <h3>CHARLES GYM</h3>
-                <p>
-                    World-class fitness training in a supportive and motivating environment.
-                </p>
-            </div>
-            <div class="footer-links">
-                <h4>Quick Links</h4>
-                <a href="#home">Home</a>
-                <a href="#about">About Us</a>
-                <a href="#services">Services</a>
-            </div>
-            <div class="footer-contact">
-                <h4>Contact Us</h4>
-                <p><i class="fas fa-map-marker-alt"></i> Unit 21, Landsdale Tower, QC</p>
-                <p><i class="fas fa-phone"></i> (555) 123-4567</p>
-                <p><i class="fa-brands fa-google"></i> charlesgym@gmail.com</p>
-            </div>
-        </div>
-        <div class="footer-bottom">© <span id="footerYear"></span> Charles Gym. All rights reserved.</div>
-    </footer>
+
 
     <script src="../assets/js/admindashboard.js" defer></script>
 </body>

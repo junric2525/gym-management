@@ -218,6 +218,8 @@ if ($conn->ping()) {
                 <a href="#home">Home</a>
                 <a href="#about">About Us</a>
                 <a href="#services">Services</a>
+                <a href="faq.html">FAQ</a>
+                <a href="terms_condition.html">Terms</a>
             </div>
             <div class="footer-contact">
                 <h4>Contact Us</h4>

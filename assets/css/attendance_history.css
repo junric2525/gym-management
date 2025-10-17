@@ -199,7 +199,7 @@ a:hover {
 
 /* New CSS for PDF Download Button */
 .btn-pdf {
-    background-color: #f44336; /* Red color, common for PDF */
+    background-color: #343a40; /* Red color, common for PDF */
     color: white;
     padding: 10px 15px;
     border-radius: 6px;
@@ -213,7 +213,7 @@ a:hover {
 }
 
 .btn-pdf:hover {
-    background-color: #da190b;
+    background-color: #f97316;
 }
 
 /* Ensure the header flex property is active to align the title and button */

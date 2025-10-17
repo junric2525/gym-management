@@ -204,6 +204,8 @@ $conn->close();
                 <a href="#">Home</a>
                 <a href="#">About Us</a>
                 <a href="#">Services</a>
+                <a href="faq.html">FAQ</a>
+                <a href="terms_condition.html">Terms</a>
             </div>
             <div class="footer-contact">
                 <h4>Contact Us</h4>

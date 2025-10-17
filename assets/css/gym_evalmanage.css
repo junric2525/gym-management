@@ -285,12 +285,15 @@ a:hover {
 /* Action Bar Specific Button Colors */
 .pdf-btn {
     background-color: var(--secondary-color); /* Dark for Download */
+    
 }
 
 .coach-eval-btn {
     /* Uses the same background for identical size/color in the image (dark) */
     background-color: var(--secondary-color);
+ 
     
+
 }
 
 .coach-eval-btn:hover {

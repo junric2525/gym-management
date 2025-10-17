@@ -525,7 +525,7 @@ $message = isset($_GET['message']) ? $_GET['message'] : '';
                     <a href="subscription.php"><i class="fas fa-credit-card"></i> View Subscriptions</a>
                     <a href="renewal.php"><i class="fas fa-sync-alt"></i> Renew Membership</a>
                     <a href="coach_appointment.php"><i class="fas fa-calendar-alt"></i> Coach Appointment</a> 
-                    <a href="gym_evalchoice.php"><i class="fas fa-dumbbell"></i> Gym Evaluation</a>
+                    <a href="gym_evalchoice.php"><i class="fas fa-dumbbell"></i> Evaluation</a>
                     <a href="invoice.php"><i class="fas fa-file-invoice"></i> View Invoices</a>
                 </nav>
             </div>
@@ -688,6 +688,8 @@ $message = isset($_GET['message']) ? $_GET['message'] : '';
                 <a href="User.php#home">Home</a>
                 <a href="User.php#about">About Us</a>
                 <a href="User.php#services">Services</a>
+                <a href="faq.html">FAQ</a>
+                <a href="terms_condition.html">Terms</a>
             </div>
             <div class="footer-contact">
                 <h4>Contact Us</h4>

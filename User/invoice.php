@@ -313,6 +313,8 @@ $conn->close();
                 <a href="user.php#home">Home</a>
                 <a href="user.php#about">About Us</a>
                 <a href="user.php#services">Services</a>
+                <a href="faq.html">FAQ</a>
+                <a href="terms_condition.html">Terms</a>
             </div>
             <div class="footer-contact">
                 <h4>Contact Us</h4>

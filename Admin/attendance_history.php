@@ -28,11 +28,11 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
 
 // Fetch all attendance logs
 $result = $conn->query("
-    SELECT a.log_id, m.user_id, m.gender, m.address, a.time_in, a.time_out, a.scan_type
+    SELECT a.log_id, m.members_id, m.gender, m.address, a.time_in, a.time_out, a.scan_type
     FROM attendance_logs a
     JOIN membership m ON a.members_id = m.members_id
     ORDER BY a.time_in DESC
-");
+"); // <<< MODIFICATION: Changed m.user_id to m.members_id
 
 // Check if there are results for the main table
 $has_logs = ($result->num_rows > 0);
@@ -149,8 +149,7 @@ $has_logs = ($result->num_rows > 0);
                         <thead>
                             <tr>
                                 <th>Log ID</th>
-                                <th>Member ID</th>
-                                <th>Gender</th>
+                                <th>Member ID</th> <th>Gender</th>
                                 <th>Address</th>
                                 <th>Time In</th>
                                 <th>Time Out</th>
@@ -167,8 +166,7 @@ $has_logs = ($result->num_rows > 0);
                             ?>
                             <tr id="log-row-<?= $row['log_id'] ?>">
                                 <td><?= $row['log_id'] ?></td>
-                                <td><?= htmlspecialchars($row['user_id']) ?></td>
-                                <td><?= htmlspecialchars($row['gender']) ?></td>
+                                <td><?= htmlspecialchars($row['members_id']) ?></td> <td><?= htmlspecialchars($row['gender']) ?></td>
                                 <td><?= htmlspecialchars($row['address']) ?></td>
                                 <td><?= $row['time_in'] ?></td>
                                 <td class="time-out-cell"><?= $row['time_out'] ?: '-' ?></td>
